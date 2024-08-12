@@ -1,19 +1,16 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import logo from "../assets/images/svg/logo.svg";
 import LanguageDropdown from "../components/Dropdown";
-
-import { toast } from "react-toastify";
 import request from "../server/request";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { AuthContext } from "../context/AuthContext";
 
 const LoginPage: React.FC = () => {
-  const { setIsAuthenticated } = useContext(AuthContext) || {
-    setIsAuthenticated: () => {},
-  };
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [captchaVal, setCaptchaVal] = useState<string | null>(null);
   const { t } = useTranslation();
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? "";
@@ -31,7 +28,7 @@ const LoginPage: React.FC = () => {
   };
 
   const handleAuth = async () => {
-    const user: { username: string; password: string } = {
+    const user = {
       username: login,
       password: password,
     };
@@ -39,18 +36,18 @@ const LoginPage: React.FC = () => {
       const { data } = await request.post("/auth/login/", user);
       localStorage.setItem("token", JSON.stringify(data));
       setIsAuthenticated(true);
-      toast.success("Logged In Successfully");
-      navigate("/");
+      toast.success(t("login_success"));
+      navigate("/dashboard");
     } catch (error) {
-      console.log(error);
-      toast.error("Login failed. Please try again.");
+      console.error(error);
+      toast.error(t("login_failed"));
     }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!captchaVal) {
-      toast.error("Please complete the captcha.");
+      toast.error(t("captcha_required"));
       return;
     }
     handleAuth();
@@ -59,7 +56,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center w-full h-screen">
       <div className="flex flex-col items-center gap-5 sm:gap-12">
-        <img className="h-[28px] sm:w-auto" src={logo} alt="Logo Image" />
+        <img className="h-[28px] sm:w-auto" src={logo} alt="Logo" />
         <form
           className="bg-white p-5 sm:p-8 rounded-xl flex flex-col"
           onSubmit={handleSubmit}
@@ -105,7 +102,7 @@ const LoginPage: React.FC = () => {
             onChange={handleCaptchaChange}
           />
           <button
-            aria-label="Submit form"
+            aria-label={t("submit")}
             className={`bg-[#2E5BFF] w-full h-[50px] mt-6 rounded-md font-medium text-white ${
               !login || !password || !captchaVal
                 ? "opacity-50 cursor-not-allowed"

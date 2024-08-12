@@ -1,9 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import AdminPage from "./pages/AdminPage";
 import { useContext } from "react";
-import PageNotFound from "./pages/PageNotFound";
 import { AuthContext } from "./context/AuthContext";
+import AdminLayout from "./components/Layout/AdminLayout";
+import DashboardPage from "./pages/DashboardPage";
+import SponsorsPage from "./pages/SponsorsPage";
+import Students from "./pages/Students";
+import PageNotFound from "./pages/PageNotFound";
+import SingleSponsor from "./pages/SingleSponsor";
 
 const App = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -13,8 +17,27 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <AdminPage /> : <LoginPage />}
+          element={
+            isAuthenticated ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
+
+        <Route path="/login" element={<LoginPage />} />
+
+        {isAuthenticated && (
+          <>
+            <Route path="/" element={<AdminLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/sponsors" element={<SponsorsPage />} />
+              <Route path="/students" element={<Students />} />
+            </Route>
+            <Route path="/sponsors-single/:id" element={<SingleSponsor />} />
+          </>
+        )}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

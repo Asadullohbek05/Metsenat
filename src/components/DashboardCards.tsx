@@ -1,4 +1,33 @@
+import { useEffect, useState } from "react";
+import request from "../server/request";
+import formatNumberWithSpaces from "../utils";
+// import Loading from "./Loading";
+
 const DashboardCards = () => {
+  const [dashboardData, setDashboardData] = useState({});
+  // const [loading, setLoading] = useState(false);
+
+  const getData = async () => {
+    try {
+      // setLoading(true);
+      const { data } = await request.get("/dashboard");
+      console.log(data);
+      setDashboardData(data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
   return (
     <div className="max-w-7xl mx-auto  px-10 mt-12 mb-7 flex justify-between">
       <div className="bg-white w-96 h-24 rounded-lg p-6 flex gap-4">
@@ -10,7 +39,9 @@ const DashboardCards = () => {
             Jami to'langan summa
           </span>
           <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            1 684 325 000 <span className="text-[#B2B7C1]">UZS</span>
+            {dashboardData.total_paid &&
+              formatNumberWithSpaces(dashboardData.total_paid)}
+            <span className="text-[#B2B7C1]"> UZS</span>
           </h2>
         </div>
       </div>
@@ -23,7 +54,9 @@ const DashboardCards = () => {
             Jami so'ralgan summa
           </span>
           <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            1 684 325 000 <span className="text-[#B2B7C1]">UZS</span>
+            {dashboardData.total_need &&
+              formatNumberWithSpaces(dashboardData.total_need)}
+            <span className="text-[#B2B7C1]"> UZS</span>
           </h2>
         </div>
       </div>
@@ -36,7 +69,9 @@ const DashboardCards = () => {
             To'lanishi kerak summa
           </span>
           <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            1 684 325 000 <span className="text-[#B2B7C1]">UZS</span>
+            {dashboardData.total_must_pay &&
+              formatNumberWithSpaces(dashboardData.total_must_pay)}
+            <span className="text-[#B2B7C1]"> UZS</span>
           </h2>
         </div>
       </div>

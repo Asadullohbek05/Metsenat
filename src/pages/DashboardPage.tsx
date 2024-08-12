@@ -1,5 +1,11 @@
+import DashboardCards from "../components/DashboardCards";
+
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <div>
+      <DashboardCards />
+    </div>
+  );
 };
 
 export default DashboardPage;

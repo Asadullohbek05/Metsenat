@@ -47,3 +47,33 @@ body {
   font-weight: 700;
   src: url("./assets/fonts/rubik-v28-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
+.active {
+  background-color: #3366ff;
+  color: #ffffff !important;
+}
+
+.pagination {
+  display: flex;
+}
+.pagination li {
+  margin-left: 8px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.pagination a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 32px;
+  height: 32px;
+  font-family: Sf-Pro-Display;
+  font-weight: 500;
+  border: 1px solid #dfe3e8;
+}
+.pagination .active a {
+  color: #3366ff;
+  border: 1px solid #3366ff;
+}

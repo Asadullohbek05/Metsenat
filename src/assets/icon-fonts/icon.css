@@ -62,7 +62,7 @@
 }
 .icon-search-2:before {
   content: "\e908";
-  color: #B1B1B8;
+  color: #b1b1b8;
 }
 .icon-Vector:before {
   content: "\e909";
@@ -70,5 +70,5 @@
 }
 .icon-Vector2:before {
   content: "\e90a";
-  color: #c4cdd5;
+  color: #979797;
 }

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import logo from "../assets/images/svg/admin-page-logo.svg";
@@ -14,11 +14,6 @@ const Navbar = () => {
     navigate("/");
     setIsAuthenticated(false);
     toast.info("Logged Out Successfully");
-  };
-
-  const [activeTab, setActiveTab] = useState("dashboard");
-  const handleTab = (active: string) => {
-    setActiveTab(active);
   };
 
   return (
@@ -45,36 +40,36 @@ const Navbar = () => {
       </div>
       <div className="h-20 max-w-7xl mx-auto py-4 px-10 flex justify-between  items-center">
         <div>
-          <button
-            onClick={() => handleTab("dashboard")}
-            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] border-r-0 rounded-l-md ${
-              activeTab === "dashboard"
-                ? " bg-[#3366FF] text-white"
-                : "text-[#3366FF99]"
-            }`}
+          <NavLink
+            to={"/dashboard"}
+            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs py-[14px] px-[60px] border-2 border-[#E0E7FF] border-r-0 rounded-l-md`}
           >
             Dashboard
-          </button>
-          <button
-            onClick={() => handleTab("homiylar")}
-            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] border-r-0  ${
-              activeTab === "homiylar"
-                ? " bg-[#3366FF] text-white"
-                : "text-[#3366FF99]"
-            }`}
+          </NavLink>
+          <NavLink
+            to={"/sponsors"}
+            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs py-[14px] px-[60px] border-2 border-[#E0E7FF] border-r-0`}
           >
             Homiylar
-          </button>
-          <button
-            onClick={() => handleTab("talabalar")}
-            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] rounded-r-md ${
-              activeTab === "talabalar"
-                ? " bg-[#3366FF] text-white"
-                : "text-[#3366FF99]"
-            }`}
+          </NavLink>
+          <NavLink
+            to={"/students"}
+            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs py-[14px] px-[60px] border-2 border-[#E0E7FF] rounded-r-md`}
           >
             Talabalar
-          </button>
+          </NavLink>
+          {/* <NavLink
+            to={"/"}
+            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] border-r-0 `}
+          >
+            Homiylar
+          </NavLink>
+          <NavLink
+            to={"/"}
+            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] rounded-r-md`}
+          >
+            Talabalar
+          </NavLink> */}
         </div>
         <div className="flex items-center gap-5">
           <div className="w-72 border h-10 bg-[#E8E8E8] rounded-md flex items-center">
