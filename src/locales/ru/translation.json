@@ -2,5 +2,11 @@
   "enter": "ВОЙТИ",
   "login": "ЛОГИН",
   "password": "ПАРОЛЬ",
-  "submit": "Войти"
+  "submit": "Войти",
+  "sponsors": "Спонсоры",
+  "students": "Студенты",
+  "total_paid": "Общая сумма выплачена",
+  "total_need": "Общая запрошенная сумма",
+  "total_must_pay": "Сумма к оплате",
+  "search": "поиск"
 }

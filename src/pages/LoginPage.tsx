@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,14 @@ import request from "../server/request";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginPage: React.FC = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthContextProvider");
+  }
+  const { setIsAuthenticated } = authContext;
+
   const [captchaVal, setCaptchaVal] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? "";
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,6 +27,14 @@ const LoginPage: React.FC = () => {
   if (!siteKey) {
     console.warn("ReCAPTCHA site key is not set.");
   }
+
+  useEffect(() => {
+    const storedLang = localStorage.getItem("selectedLanguage");
+    if (storedLang) {
+      const { locale } = JSON.parse(storedLang);
+      i18n.changeLanguage(locale);
+    }
+  }, [i18n]);
 
   const handleCaptchaChange = (value: string | null) => {
     setCaptchaVal(value);

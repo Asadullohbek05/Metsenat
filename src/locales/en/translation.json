@@ -2,5 +2,11 @@
   "enter": "LOGIN",
   "login": "LOGIN",
   "password": "PASSWORD",
-  "submit": "Login"
+  "submit": "Login",
+  "sponsors": "Sponsors",
+  "students": "Students",
+  "total_paid": "Total amount paid",
+  "total_need": "Total amount requested",
+  "total_must_pay": "Amount to be paid",
+  "search": "search"
 }

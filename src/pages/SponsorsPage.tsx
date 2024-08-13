@@ -1,46 +1,78 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SponsorCard from "../components/SponsorCard";
 import request from "../server/request";
 import ReactPaginate from "react-paginate";
 import ArrowLeft from "../components/ArrowLeft";
 import ArrowRight from "../components/ArrowRight";
+import { useQuery } from "@tanstack/react-query";
 
-const SponsorsPage = () => {
-  const [sponsorData, setSponsorData] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
+interface Sponsor {
+  id: string;
+  full_name: string;
+  phone: string;
+  sum: string;
+  firm?: string;
+  get_status_display: string;
+}
 
-  const pageCount = Math.ceil(total / itemsPerPage);
+interface SponsorsResponse {
+  count: number;
+  results: Sponsor[];
+}
 
-  const getData = async (page = 1, page_size = 10) => {
-    try {
-      const params = {
-        page_size,
-        page,
-      };
-      const { data } = await request.get("/sponsor-list/", { params });
-      console.log(data);
-      setSponsorData(data.results);
-      setTotal(data.count);
-    } catch (err) {
-      console.error(err);
-    }
+const fetchSponsors = async ({
+  queryKey,
+}: {
+  queryKey: [string, number, number];
+}): Promise<SponsorsResponse> => {
+  const [, page, pageSize] = queryKey;
+  try {
+    const { data } = await request.get<SponsorsResponse>("/sponsor-list/", {
+      params: { page_size: pageSize, page },
+    });
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to fetch sponsors");
+  }
+};
+
+const SponsorsPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(
+    parseInt(searchParams.get("page_size") || "10", 10)
+  );
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["sponsors", page, itemsPerPage],
+    queryFn: fetchSponsors,
+    keepPreviousData: true,
+  });
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newPage = event.selected + 1;
+    setSearchParams({ page: newPage, page_size: itemsPerPage });
+  };
+
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newItemsPerPage = Number(event.target.value);
+    setItemsPerPage(newItemsPerPage);
+    setSearchParams({ page: 1, page_size: newItemsPerPage });
   };
 
   useEffect(() => {
-    getData(currentPage, itemsPerPage);
-  }, [currentPage, itemsPerPage]);
+    setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
+  }, [searchParams]);
 
-  const handlePageClick = async (event) => {
-    const newPage = event.selected + 1;
-    setCurrentPage(newPage);
-  };
+  if (isLoading) return <p>Loading...</p>;
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
+  const total = data?.count || 0;
+  const pageCount = Math.ceil(total / itemsPerPage);
+  const displayedItemsCount = Math.min(page * itemsPerPage, total);
 
   return (
     <div className="max-w-7xl mx-auto px-10 mt-12 pb-28">
@@ -71,18 +103,18 @@ const SponsorsPage = () => {
         </span>
       </div>
       <div className="mb-6">
-        {sponsorData.map((item, i) => (
+        {data?.results.map((item, i) => (
           <SponsorCard
             key={item.id}
-            order={(currentPage - 1) * itemsPerPage + i + 1}
+            order={(page - 1) * itemsPerPage + i + 1}
             sponsor={item}
           />
         ))}
       </div>
       <div className="flex justify-between items-center">
         <p className="text-[#1D1D1F] font-SfProDisplay">
-          {total} tadan {1 + (currentPage - 1) * itemsPerPage}-
-          {Math.min(currentPage * itemsPerPage, total)} ko'rsatilmoqda
+          {total} tadan {1 + (page - 1) * itemsPerPage}-{displayedItemsCount}{" "}
+          ko'rsatilmoqda
         </p>
         <div className="flex items-center">
           <span className="text-[#1D1D1F] font-Rubik font-normal">
@@ -109,6 +141,7 @@ const SponsorsPage = () => {
             previousLabel={<ArrowLeft />}
             containerClassName="pagination"
             activeClassName="active"
+            forcePage={page - 1}
           />
         </div>
       </div>
@@ -119,9 +152,36 @@ const SponsorsPage = () => {
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
+            <h3 className="font-SfProDisplay text-2xl">Filter</h3>
+            <hr className="my-7" />
+            <div className="mb-7">
+              <label
+                htmlFor=""
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+              >
+                Ariza holati
+              </label>
+              <select
+                // value={status}
+                // onChange={(e) => setStatus(e.target.value)}
+                className="select select-bordered  w-full mt-2 text-[#2E384D] font-SfProDisplay"
+              >
+                <option value="Barchasi">Barchasi</option>
+                <option value="Tasdiqlangan">Tasdiqlangan</option>
+                <option value="Yangi">Yangi</option>
+                <option value="Taqiqlangan">Taqiqlangan</option>
+                <option value="Moderatsiyada">Moderatsiyada</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor=""
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+              >
+                Homiylik summasi
+              </label>
+            </div>
           </form>
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
         </div>
       </dialog>
     </div>

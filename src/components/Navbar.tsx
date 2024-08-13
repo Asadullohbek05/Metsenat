@@ -1,10 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import logo from "../assets/images/svg/admin-page-logo.svg";
+import LanguageDropdown from "./Dropdown";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
@@ -16,6 +19,14 @@ const Navbar = () => {
     toast.info("Logged Out Successfully");
   };
 
+  useEffect(() => {
+    const storedLang = localStorage.getItem("selectedLanguage");
+    if (storedLang) {
+      const { locale } = JSON.parse(storedLang);
+      i18n.changeLanguage(locale);
+    }
+  }, [i18n]);
+
   return (
     <div className="bg-white">
       <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
@@ -24,6 +35,7 @@ const Navbar = () => {
             <img src={logo} alt="Logo image" />
           </Link>
           <div className="flex gap-10">
+            <LanguageDropdown />
             <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
               <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
                 Shohrux
@@ -50,13 +62,13 @@ const Navbar = () => {
             to={"/sponsors"}
             className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs py-[14px] px-[60px] border-2 border-[#E0E7FF] border-r-0`}
           >
-            Homiylar
+            {t("sponsors")}
           </NavLink>
           <NavLink
             to={"/students"}
             className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs py-[14px] px-[60px] border-2 border-[#E0E7FF] rounded-r-md`}
           >
-            Talabalar
+            {t("students")}
           </NavLink>
         </div>
         <div className="flex items-center gap-5">
@@ -65,7 +77,7 @@ const Navbar = () => {
             <input
               className="outline-none w-full bg-transparent px-2  h-full border"
               type="text"
-              placeholder="Izlash"
+              placeholder={t("search")}
             />
           </div>
           <button

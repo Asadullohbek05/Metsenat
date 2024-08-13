@@ -11,10 +11,11 @@ type Language = {
 function LanguageDropdown() {
   const { i18n } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>({
-    code: "ENG",
-    name: "ENG",
-    locale: "en",
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(() => {
+    const storedLang = localStorage.getItem("selectedLanguage");
+    return storedLang
+      ? JSON.parse(storedLang)
+      : { code: "ENG", name: "ENG", locale: "en" };
   });
 
   const languages: Language[] = [
@@ -33,7 +34,7 @@ function LanguageDropdown() {
     i18n.changeLanguage(lang.locale);
     setSelectedLanguage(lang);
     setIsDropdownOpen(false);
-    console.log(lang.name);
+    localStorage.setItem("selectedLanguage", JSON.stringify(lang));
     toast.success(`Language changed to ${lang.name}`, {});
   };
 
@@ -48,22 +49,23 @@ function LanguageDropdown() {
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
+    i18n.changeLanguage(selectedLanguage.locale);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [selectedLanguage.locale, i18n]);
 
   return (
     <div
-      className="language-dropdown relative inline-block  border rounded-md"
+      className="language-dropdown flex relative bg-[#F1F1F3]  border rounded-md"
       ref={dropdownRef}
     >
       <button
         onClick={toggleDropdown}
         aria-haspopup="true"
         aria-expanded={isDropdownOpen}
-        className="p-[5px] border-none flex items-center bg-transparent focus:outline-none"
+        className="px-[10px] border-none flex items-center bg-transparent focus:outline-none"
       >
         {selectedLanguage.code}
         <span className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[6px] border-t-black border-l-transparent border-r-transparent transition-all duration-300 ml-[10px]"></span>

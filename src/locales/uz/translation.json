@@ -2,5 +2,11 @@
   "enter": "KIRISH",
   "login": "LOGIN",
   "password": "PAROL",
-  "submit": "Kirish"
+  "submit": "Kirish",
+  "sponsors": "Homiylar",
+  "students": "Talabalar",
+  "total_paid": "Jami to'langan summa",
+  "total_need": "Jami so'ralgan summa",
+  "total_must_pay": "To'lanishi kerak summa",
+  "search": "izlash"
 }

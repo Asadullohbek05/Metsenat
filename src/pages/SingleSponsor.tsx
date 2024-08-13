@@ -11,49 +11,60 @@ import saveIcon from "../assets/images/svg/save-icon.svg";
 import request from "../server/request";
 import formatNumberWithSpaces from "../utils";
 
-const SingleSponsor = () => {
-  const [singleSponsorData, setSingleSponsorData] = useState({});
-  const [isVisible, setIsvisible] = useState(false);
-  const [fullName, setFullname] = useState("");
+interface SponsorData {
+  id: string;
+  full_name: string;
+  phone: string;
+  sum: string;
+  firm?: string;
+  get_status_display: string;
+}
+
+const SingleSponsor: React.FC = () => {
+  const [singleSponsorData, setSingleSponsorData] =
+    useState<SponsorData | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sponsorSum, setSponsorSum] = useState("");
   const [firm, setFirm] = useState("");
 
-  window.scrollTo(0, 0);
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
-  const logOut = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    setIsAuthenticated(false);
-    toast.info("Logged Out Successfully");
-  };
+  const [refresh, setRefresh] = useState(true);
 
-  const { id } = useParams();
-
-  const [sing, setSign] = useState(true);
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await request.get(`/sponsor-detail/${id}`);
-        console.log(data);
-        setFullname(data.full_name);
+        const { data } = await request.get<SponsorData>(
+          `/sponsor-detail/${id}`
+        );
+        setFullName(data.full_name);
         setPhoneNumber(data.phone);
         setSponsorSum(data.sum);
-        setFirm(data.firm);
+        setFirm(data.firm || "");
         setSingleSponsorData(data);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching sponsor data:", err);
       }
     };
 
     getData();
-  }, [id, sing]);
+  }, [id, refresh]);
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    toast.info("Logged Out Successfully");
+    navigate("/");
+  };
 
   const editSponsor = () => {
-    document.getElementById("my_modal_3").showModal();
+    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    modal.showModal();
   };
 
   const handleSubmit = async () => {
@@ -64,26 +75,21 @@ const SingleSponsor = () => {
       firm: firm,
     };
     try {
-      const { data } = await request.put(
-        `sponsor-update/${id}/`,
-        updatedSponsor
-      );
-      console.log(data);
-      setSign(!sing);
+      await request.put(`/sponsor-update/${id}/`, updatedSponsor);
+      setRefresh(!refresh);
       toast.success("Sponsor Updated");
     } catch (err) {
-      console.log(err);
+      console.error("Error updating sponsor:", err);
     }
-
-    console.log(updatedSponsor);
   };
 
   const handleTab = (tab: string) => {
-    if (tab === "yuridik") {
-      setIsvisible(true);
-    } else if (tab === "jismoniy") {
-      setIsvisible(false);
-    }
+    setIsVisible(tab === "yuridik");
+  };
+
+  const formatSum = (sum: string): string => {
+    const num = parseFloat(sum.replace(/,/g, ""));
+    return isNaN(num) ? sum : formatNumberWithSpaces(num);
   };
 
   return (
@@ -91,8 +97,8 @@ const SingleSponsor = () => {
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
           <div className="max-w-7xl mx-auto py-4 px-10 flex justify-between items-center">
-            <Link to={"/"}>
-              <img src={adminLogo} alt="Logo image" />
+            <Link to="/">
+              <img src={adminLogo} alt="Logo" />
             </Link>
             <div className="flex gap-10">
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
@@ -100,34 +106,34 @@ const SingleSponsor = () => {
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
-                  <i className="icon-icons8-user8-1 text-2xl leading-none"></i>
+                  <i className="icon-user-icon text-2xl leading-none"></i>
                 </div>
               </div>
               <button className="flex items-center" onClick={logOut}>
-                <i className="icon-log-out-1 text-[32px]"></i>
+                <i className="icon-log-out text-[32px]"></i>
               </button>
             </div>
           </div>
         </div>
         <div className="h-20 max-w-7xl mx-auto py-4 px-10 flex items-center">
-          <Link to={"/sponsors"}>
-            <img src={arrow} alt="Arrow Image" />
+          <Link to="/sponsors">
+            <img src={arrow} alt="Back" />
           </Link>
           <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
-            {singleSponsorData ? singleSponsorData.full_name : null}
+            {singleSponsorData?.full_name || "Loading..."}
           </h3>
           <span
             className={`${
-              singleSponsorData.get_status_display === "Yangi"
+              singleSponsorData?.get_status_display === "Yangi"
                 ? "text-[#5BABF2]"
-                : singleSponsorData.get_status_display === "Moderatsiyada"
+                : singleSponsorData?.get_status_display === "Moderatsiyada"
                 ? "text-[#FFA445]"
-                : singleSponsorData.get_status_display === "Tasdiqlangan"
+                : singleSponsorData?.get_status_display === "Tasdiqlangan"
                 ? "text-[#00CF83]"
-                : null
+                : ""
             } flex items-center justify-center font-normal font-SfProDisplay w-24 h-6 bg-[#DDFFF2] rounded-md text-xs`}
           >
-            {singleSponsorData ? singleSponsorData.get_status_display : null}
+            {singleSponsorData?.get_status_display || ""}
           </span>
         </div>
       </div>
@@ -146,10 +152,10 @@ const SingleSponsor = () => {
           </div>
           <div className="mt-8 flex gap-5 items-center">
             <div className="w-16 h-16 flex items-center justify-center bg-[#E0E7FF] rounded-md">
-              <img src={sponsorIcon} alt="" />
+              <img src={sponsorIcon} alt="Sponsor Icon" />
             </div>
             <h2 className="max-w-40 font-SfProDisplay text-[#212121] font-semibold text-[16px] tracking-[-1%]">
-              {singleSponsorData ? singleSponsorData.full_name : null}
+              {singleSponsorData?.full_name || ""}
             </h2>
           </div>
           <div className="flex gap-56">
@@ -158,7 +164,7 @@ const SingleSponsor = () => {
                 telefon raqam
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
-                {singleSponsorData ? singleSponsorData.phone : null}
+                {singleSponsorData?.phone || ""}
               </h3>
             </div>
             <div className="mt-6">
@@ -166,10 +172,7 @@ const SingleSponsor = () => {
                 Homiylik summasi
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
-                {singleSponsorData
-                  ? formatNumberWithSpaces(singleSponsorData.sum)
-                  : null}{" "}
-                UZS
+                {singleSponsorData ? formatSum(singleSponsorData.sum) : ""} UZS
               </h3>
             </div>
           </div>
@@ -189,121 +192,95 @@ const SingleSponsor = () => {
               <button
                 onClick={() => handleTab("jismoniy")}
                 type="button"
-                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 border-r-0 border-[#E0E7FF] ${
-                  !isVisible ? "activeTab" : null
-                } h-10 w-1/2  rounded-l-md`}
+                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-md w-32 h-10 ${
+                  !isVisible
+                    ? "border-[#3365FC] bg-[#E5E9FF] text-[#3365FC]"
+                    : "border-[#E5E9FF] text-[#B5B5C3]"
+                }`}
               >
                 Jismoniy shaxs
               </button>
               <button
                 onClick={() => handleTab("yuridik")}
                 type="button"
-                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px]  h-10 w-1/2 rounded-r-md border-2 border-[#E0E7FF] ${
-                  isVisible ? "activeTab" : null
+                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-md w-32 h-10 ${
+                  isVisible
+                    ? "border-[#3365FC] bg-[#E5E9FF] text-[#3365FC]"
+                    : "border-[#E5E9FF] text-[#B5B5C3]"
                 }`}
               >
                 Yuridik shaxs
               </button>
             </div>
-            <div className="flex flex-col mb-7">
+            <div className="mb-6">
               <label
-                htmlFor="full_name"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                htmlFor="fullName"
+                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
               >
-                F.I.Sh. (Familiya Ism Sharifingiz)
+                F.I.SH
               </label>
               <input
-                value={fullName}
-                onChange={(e) => setFullname(e.target.value)}
-                className="border mt-2 h-11 outline-none border-[#D2D4D7] rounded-md pl-4"
                 type="text"
-                id="full_name"
+                id="fullName"
+                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
               />
             </div>
-            <div className="flex flex-col mb-7">
+            <div className="mb-6">
               <label
-                htmlFor="phone_number"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                htmlFor="phoneNumber"
+                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
               >
-                Telefon raqam
+                Telefon raqami
               </label>
               <input
+                type="text"
+                id="phoneNumber"
+                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="border mt-2 h-11 outline-none border-[#D2D4D7] rounded-md pl-4"
-                type="text"
-                id="phone_number"
               />
             </div>
-            {/* <div className="flex flex-col mb-7">
+            <div className="mb-6">
               <label
-                htmlFor="phone_number"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                Holati
-              </label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="select select-bordered  w-full mt-2 text-[#2E384D] font-SfProDisplay"
-              >
-                <option value="Tasdiqlangan">Tasdiqlangan</option>
-                <option value="Yangi">Yangi</option>
-                <option value="Taqiqlangan">Taqiqlangan</option>
-                <option value="Moderatsiyada">Moderatsiyada</option>
-              </select>
-            </div> */}
-            <div className="flex flex-col mb-7">
-              <label
-                htmlFor="phone_number"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                htmlFor="sponsorSum"
+                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
               >
                 Homiylik summasi
               </label>
               <input
+                type="text"
+                id="sponsorSum"
+                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                 value={sponsorSum}
                 onChange={(e) => setSponsorSum(e.target.value)}
-                className="border mt-2 h-11 outline-none border-[#D2D4D7] rounded-md pl-4"
-                type="text"
-                id="phone_number"
               />
             </div>
-            {/* <div className="flex flex-col mb-7">
-              <label
-                htmlFor="phone_number"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                To'lov turi
-              </label>
-              <select className="select select-bordered  w-full mt-2 text-[#2E384D] font-SfProDisplay">
-                <option>Naqd pul</option>
-                <option>Plastik karta</option>
-                <option>Pul ko'chirish</option>
-              </select>
-            </div> */}
-            {isVisible ? (
-              <div className="flex flex-col mb-7">
+            {isVisible && (
+              <div className="mb-6">
                 <label
-                  htmlFor="name_of_company"
-                  className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                  htmlFor="firm"
+                  className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
                 >
                   Tashkilot nomi
                 </label>
                 <input
+                  type="text"
+                  id="firm"
+                  className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                   value={firm}
                   onChange={(e) => setFirm(e.target.value)}
-                  className="border mt-2 h-11 outline-none border-[#D2D4D7] rounded-md pl-4"
-                  type="text"
-                  id="name_of_company"
                 />
               </div>
-            ) : null}
-            <div className="flex justify-end">
+            )}
+            <div className="flex justify-end mt-10">
               <button
+                type="button"
                 onClick={handleSubmit}
-                className="bg-[#3366FF] flex justify-center items-center gap-[10px] w-[150px] h-11 text-white rounded-md"
+                className="flex items-center justify-center w-36 h-11 bg-[#3365FC] text-white font-SfProDisplay text-[14px] font-semibold tracking-[1px] rounded-md"
               >
-                <img src={saveIcon} alt="" /> Saqlash
+                <img src={saveIcon} alt="Save Icon" /> Saqlash
               </button>
             </div>
           </form>
