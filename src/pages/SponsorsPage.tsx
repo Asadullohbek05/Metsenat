@@ -7,16 +7,16 @@ import ArrowRight from "../components/ArrowRight";
 
 const SponsorsPage = () => {
   const [sponsorData, setSponsorData] = useState([]);
-  const [total, setTotal] = useState(null);
+  const [total, setTotal] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageCount = Math.ceil(total / itemsPerPage);
 
-  const getData = async (page = 1, limit = 10) => {
+  const getData = async (page = 1, page_size = 10) => {
     try {
       const params = {
-        limit,
+        page_size,
         page,
       };
       const { data } = await request.get("/sponsor-list/", { params });
@@ -72,12 +72,16 @@ const SponsorsPage = () => {
       </div>
       <div className="mb-6">
         {sponsorData.map((item, i) => (
-          <SponsorCard key={item.id} order={i + 1} sponsor={item} />
+          <SponsorCard
+            key={item.id}
+            order={(currentPage - 1) * itemsPerPage + i + 1}
+            sponsor={item}
+          />
         ))}
       </div>
       <div className="flex justify-between items-center">
         <p className="text-[#1D1D1F] font-SfProDisplay">
-          {total} tadan {1 + (currentPage - 1) * itemsPerPage}
+          {total} tadan {1 + (currentPage - 1) * itemsPerPage}-
           {Math.min(currentPage * itemsPerPage, total)} ko'rsatilmoqda
         </p>
         <div className="flex items-center">
@@ -92,6 +96,9 @@ const SponsorsPage = () => {
             <option value="10">10</option>
             <option value="12">12</option>
             <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
           </select>
           <ReactPaginate
             breakLabel="..."
@@ -105,6 +112,18 @@ const SponsorsPage = () => {
           />
         </div>
       </div>
+
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+        </div>
+      </dialog>
     </div>
   );
 };

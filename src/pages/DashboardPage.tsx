@@ -1,9 +1,11 @@
+import ChartComponent from "../components/ChartComponent";
 import DashboardCards from "../components/DashboardCards";
 
 const DashboardPage = () => {
   return (
-    <div>
+    <div className="h-screen">
       <DashboardCards />
+      <ChartComponent />
     </div>
   );
 };

@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import request from "../server/request";
-import formatNumberWithSpaces from "../utils";
-// import Loading from "./Loading";
+import DashboardCard from "./DashboardCard";
 
 const DashboardCards = () => {
-  const [dashboardData, setDashboardData] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState({
+    total_paid: 0,
+    total_need: 0,
+    total_must_pay: 0,
+  });
+  const [error, setError] = useState("");
 
   const getData = async () => {
     try {
-      // setLoading(true);
       const { data } = await request.get("/dashboard");
-      console.log(data);
       setDashboardData(data);
     } catch (err) {
-      console.log(err);
-    } finally {
-      // setLoading(false);
+      console.error("Failed to fetch dashboard data:", err);
+      setError("Could not load dashboard data.");
     }
   };
 
@@ -24,57 +24,32 @@ const DashboardCards = () => {
     getData();
   }, []);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  const { total_paid, total_need, total_must_pay } = dashboardData;
+
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
 
   return (
-    <div className="max-w-7xl mx-auto  px-10 mt-12 mb-7 flex justify-between">
-      <div className="bg-white w-96 h-24 rounded-lg p-6 flex gap-4">
-        <div className="w-12 h-12 rounded-xl bg-[#4C6FFF1A] flex justify-center items-center">
-          <i className="icon-Group-20073 text-3xl"></i>
-        </div>
-        <div>
-          <span className="text-[#7A7A9D]  font-SfProDisplay text-[14px]  font-normal">
-            Jami to'langan summa
-          </span>
-          <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            {dashboardData.total_paid &&
-              formatNumberWithSpaces(dashboardData.total_paid)}
-            <span className="text-[#B2B7C1]"> UZS</span>
-          </h2>
-        </div>
-      </div>
-      <div className="bg-white w-96 h-24 rounded-lg p-6 flex gap-4">
-        <div className="w-12 h-12 rounded-xl bg-[#4C6FFF1A] flex justify-center items-center">
-          <i className="icon-Group-20073-1 text-3xl"></i>
-        </div>
-        <div>
-          <span className="text-[#7A7A9D]  font-SfProDisplay text-[14px]  font-normal">
-            Jami so'ralgan summa
-          </span>
-          <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            {dashboardData.total_need &&
-              formatNumberWithSpaces(dashboardData.total_need)}
-            <span className="text-[#B2B7C1]"> UZS</span>
-          </h2>
-        </div>
-      </div>
-      <div className="bg-white w-96 h-24 rounded-lg p-6 flex gap-4">
-        <div className="w-12 h-12 rounded-xl bg-[#4C6FFF1A] flex justify-center items-center">
-          <i className="icon-Group-20073-2 text-3xl"></i>
-        </div>
-        <div>
-          <span className="text-[#7A7A9D]  font-SfProDisplay text-[14px]  font-normal">
-            To'lanishi kerak summa
-          </span>
-          <h2 className="font-SfProDisplay font-bold text-[#2E384D] text-xl">
-            {dashboardData.total_must_pay &&
-              formatNumberWithSpaces(dashboardData.total_must_pay)}
-            <span className="text-[#B2B7C1]"> UZS</span>
-          </h2>
-        </div>
-      </div>
+    <div className="max-w-7xl mx-auto px-10 mt-12 mb-7 flex justify-between">
+      <DashboardCard
+        iconClass="icon-flag-icon-2"
+        title="Jami to'langan summa"
+        value={total_paid}
+        currency="UZS"
+      />
+      <DashboardCard
+        iconClass="icon-flag-icon-1"
+        title="Jami so'ralgan summa"
+        value={total_need}
+        currency="UZS"
+      />
+      <DashboardCard
+        iconClass="icon-flag-icon-3"
+        title="To'lanishi kerak summa"
+        value={total_must_pay}
+        currency="UZS"
+      />
     </div>
   );
 };

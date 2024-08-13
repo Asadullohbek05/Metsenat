@@ -29,11 +29,11 @@ const Navbar = () => {
                 Shohrux
               </span>
               <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
-                <i className="icon-icons8-user8-1 text-2xl leading-none"></i>
+                <i className="icon-user-icon text-2xl leading-none"></i>
               </div>
             </div>
             <button className="flex items-center" onClick={logOut}>
-              <i className="icon-log-out-1 text-[32px]"></i>
+              <i className="icon-log-out text-[32px]"></i>
             </button>
           </div>
         </div>
@@ -58,30 +58,21 @@ const Navbar = () => {
           >
             Talabalar
           </NavLink>
-          {/* <NavLink
-            to={"/"}
-            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] border-r-0 `}
-          >
-            Homiylar
-          </NavLink>
-          <NavLink
-            to={"/"}
-            className={`font-SfProDisplay font-medium uppercase tracking-[1.13px] text-xs h-10 w-48 border-2 border-[#E0E7FF] rounded-r-md`}
-          >
-            Talabalar
-          </NavLink> */}
         </div>
         <div className="flex items-center gap-5">
           <div className="w-72 border h-10 bg-[#E8E8E8] rounded-md flex items-center">
-            <i className="icon-search-2 ml-[10px] text-xl"></i>
+            <i className="icon-search ml-[10px] text-xl"></i>
             <input
               className="outline-none w-full bg-transparent px-2  h-full border"
               type="text"
               placeholder="Izlash"
             />
           </div>
-          <button className="bg-[#EDF1FD] h-10 px-8 flex gap-[10px] items-center text-[#3365FC] text-[14px] font-SfProDisplay font-medium rounded-md">
-            <i className="icon-filter-1 text-[16px]"></i>
+          <button
+            onClick={() => document.getElementById("my_modal_3").showModal()}
+            className="bg-[#EDF1FD] h-10 px-8 flex gap-[10px] items-center text-[#3365FC] text-[14px] font-SfProDisplay font-medium rounded-md"
+          >
+            <i className="icon-filter-icon text-[16px]"></i>
             Filter
           </button>
         </div>

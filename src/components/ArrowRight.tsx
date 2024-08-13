@@ -1,5 +1,5 @@
 const ArrowRight = () => {
-  return <i className="icon-Vector2 text-xs"></i>;
+  return <i className="icon-arrow-right text-xs"></i>;
 };
 
 export default ArrowRight;

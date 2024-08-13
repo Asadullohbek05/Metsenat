@@ -53,6 +53,11 @@ body {
   color: #ffffff !important;
 }
 
+.activeTab {
+  color: white;
+  background-color: #3366ff;
+}
+
 .pagination {
   display: flex;
 }
