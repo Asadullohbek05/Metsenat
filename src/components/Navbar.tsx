@@ -85,7 +85,7 @@ const Navbar = () => {
             className="bg-[#EDF1FD] h-10 px-8 flex gap-[10px] items-center text-[#3365FC] text-[14px] font-SfProDisplay font-medium rounded-md"
           >
             <i className="icon-filter-icon text-[16px]"></i>
-            Filter
+            {t("filter")}
           </button>
         </div>
       </div>

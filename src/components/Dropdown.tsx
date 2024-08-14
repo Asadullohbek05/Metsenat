@@ -31,11 +31,16 @@ function LanguageDropdown() {
   };
 
   const selectLanguage = (lang: Language) => {
-    i18n.changeLanguage(lang.locale);
-    setSelectedLanguage(lang);
+    const storedLangStr = localStorage.getItem("selectedLanguage");
+    const storedLang = storedLangStr ? JSON.parse(storedLangStr) : null;
+    if (lang.name != storedLang.code) {
+      i18n.changeLanguage(lang.locale);
+      setSelectedLanguage(lang);
+      localStorage.setItem("selectedLanguage", JSON.stringify(lang));
+      toast.success(`Language changed to ${lang.name}`, {});
+    }
     setIsDropdownOpen(false);
-    localStorage.setItem("selectedLanguage", JSON.stringify(lang));
-    toast.success(`Language changed to ${lang.name}`, {});
+    console.log(lang.locale);
   };
 
   const handleClickOutside = (event: MouseEvent) => {

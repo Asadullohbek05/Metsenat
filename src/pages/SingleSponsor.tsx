@@ -10,6 +10,9 @@ import sponsorIcon from "../assets/images/svg/sponsor-icon.svg";
 import saveIcon from "../assets/images/svg/save-icon.svg";
 import request from "../server/request";
 import formatNumberWithSpaces from "../utils";
+import Loading from "../components/Loading";
+import { useTranslation } from "react-i18next";
+import LanguageDropdown from "../components/Dropdown";
 
 interface SponsorData {
   id: string;
@@ -29,6 +32,15 @@ const SingleSponsor: React.FC = () => {
   const [sponsorSum, setSponsorSum] = useState("");
   const [firm, setFirm] = useState("");
 
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    const storedLang = localStorage.getItem("selectedLanguage");
+    if (storedLang) {
+      const { locale } = JSON.parse(storedLang);
+      i18n.changeLanguage(locale);
+    }
+  }, [i18n]);
+
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { setIsAuthenticated } = useContext(AuthContext) || {
@@ -37,6 +49,7 @@ const SingleSponsor: React.FC = () => {
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getData = async () => {
       try {
         const { data } = await request.get<SponsorData>(
@@ -87,10 +100,15 @@ const SingleSponsor: React.FC = () => {
     setIsVisible(tab === "yuridik");
   };
 
-  const formatSum = (sum: string): string => {
-    const num = parseFloat(sum.replace(/,/g, ""));
-    return isNaN(num) ? sum : formatNumberWithSpaces(num);
+  const formatSum = (sum: string | number): string => {
+    const sumStr = typeof sum === "number" ? sum.toString() : sum;
+    const num = parseFloat(sumStr.replace(/,/g, ""));
+    return isNaN(num) ? sumStr : formatNumberWithSpaces(num);
   };
+
+  if (!singleSponsorData) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -101,6 +119,7 @@ const SingleSponsor: React.FC = () => {
               <img src={adminLogo} alt="Logo" />
             </Link>
             <div className="flex gap-10">
+              <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
                 <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
                   Shohrux
@@ -141,13 +160,13 @@ const SingleSponsor: React.FC = () => {
         <div className="mt-10 bg-white w-[793px] mx-auto rounded-xl p-8">
           <div className="flex justify-between items-center">
             <h1 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
-              Homiy haqida
+              {t("aboutSponsor")}
             </h1>
             <button
               onClick={editSponsor}
-              className="flex justify-center items-center gap-[10px] w-40 h-11 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-semibold tracking-[1px] rounded-md"
+              className="flex justify-center items-center gap-[10px] px-8 h-11 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-semibold tracking-[1px] rounded-md"
             >
-              <img src={editIcon} alt="Edit Icon" /> Tahrirlash
+              <img src={editIcon} alt="Edit Icon" /> {t("edit")}
             </button>
           </div>
           <div className="mt-8 flex gap-5 items-center">
@@ -161,7 +180,7 @@ const SingleSponsor: React.FC = () => {
           <div className="flex gap-56">
             <div className="mt-6">
               <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
-                telefon raqam
+                {t("phoneNumber")}
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
                 {singleSponsorData?.phone || ""}
@@ -169,7 +188,7 @@ const SingleSponsor: React.FC = () => {
             </div>
             <div className="mt-6">
               <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
-                Homiylik summasi
+                {t("SponsorshipAmount")}
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
                 {singleSponsorData ? formatSum(singleSponsorData.sum) : ""} UZS
@@ -192,10 +211,10 @@ const SingleSponsor: React.FC = () => {
               <button
                 onClick={() => handleTab("jismoniy")}
                 type="button"
-                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-md w-32 h-10 ${
+                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-l-md w-1/2 h-10 ${
                   !isVisible
-                    ? "border-[#3365FC] bg-[#E5E9FF] text-[#3365FC]"
-                    : "border-[#E5E9FF] text-[#B5B5C3]"
+                    ? "border-[#3365FC] bg-[#3365FC] text-white"
+                    : "border-[#E5E9FF] text-[#3366FF99]"
                 }`}
               >
                 Jismoniy shaxs
@@ -203,10 +222,10 @@ const SingleSponsor: React.FC = () => {
               <button
                 onClick={() => handleTab("yuridik")}
                 type="button"
-                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-md w-32 h-10 ${
+                className={`text-xs uppercase font-SfProDisplay tracking-[1.13px] border-2 rounded-r-md w-1/2 h-10 ${
                   isVisible
-                    ? "border-[#3365FC] bg-[#E5E9FF] text-[#3365FC]"
-                    : "border-[#E5E9FF] text-[#B5B5C3]"
+                    ? "border-[#3365FC] bg-[#3365FC] text-white"
+                    : "border-[#E5E9FF] text-[#3366FF99]"
                 }`}
               >
                 Yuridik shaxs
@@ -215,14 +234,14 @@ const SingleSponsor: React.FC = () => {
             <div className="mb-6">
               <label
                 htmlFor="fullName"
-                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
-                F.I.SH
+                F.I.Sh. (Familiya Ism Sharifingiz)
               </label>
               <input
                 type="text"
                 id="fullName"
-                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                className="border pl-4 outline-none border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
               />
@@ -230,14 +249,14 @@ const SingleSponsor: React.FC = () => {
             <div className="mb-6">
               <label
                 htmlFor="phoneNumber"
-                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
                 Telefon raqami
               </label>
               <input
                 type="text"
                 id="phoneNumber"
-                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                className="border pl-4 outline-none border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
@@ -245,14 +264,14 @@ const SingleSponsor: React.FC = () => {
             <div className="mb-6">
               <label
                 htmlFor="sponsorSum"
-                className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
                 Homiylik summasi
               </label>
               <input
                 type="text"
                 id="sponsorSum"
-                className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                className="border pl-4 outline-none border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                 value={sponsorSum}
                 onChange={(e) => setSponsorSum(e.target.value)}
               />
@@ -261,14 +280,14 @@ const SingleSponsor: React.FC = () => {
               <div className="mb-6">
                 <label
                   htmlFor="firm"
-                  className="text-xs font-SfProDisplay text-[#6C6C6C] tracking-[1.13px]"
+                  className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
                 >
                   Tashkilot nomi
                 </label>
                 <input
                   type="text"
                   id="firm"
-                  className="border border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                  className="border pl-4 outline-none border-[#E0E7FF] rounded-md w-full h-12 mt-2"
                   value={firm}
                   onChange={(e) => setFirm(e.target.value)}
                 />
@@ -276,9 +295,9 @@ const SingleSponsor: React.FC = () => {
             )}
             <div className="flex justify-end mt-10">
               <button
-                type="button"
+                type="submit"
                 onClick={handleSubmit}
-                className="flex items-center justify-center w-36 h-11 bg-[#3365FC] text-white font-SfProDisplay text-[14px] font-semibold tracking-[1px] rounded-md"
+                className="flex items-center  gap-[10px] justify-center w-36 h-11 bg-[#3365FC] text-white font-SfProDisplay text-[14px] font-semibold tracking-[1px] rounded-md"
               >
                 <img src={saveIcon} alt="Save Icon" /> Saqlash
               </button>

@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts"; // Import ApexOptions type
+import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next";
 
 const ChartComponent = () => {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    const storedLang = localStorage.getItem("selectedLanguage");
+    if (storedLang) {
+      const { locale } = JSON.parse(storedLang);
+      i18n.changeLanguage(locale);
+    }
+  }, [i18n]);
+
   const [series] = useState([
     {
-      name: "Talabalar",
+      name: t("students"),
       data: [303, 403, 4500, 30000, 40000, 45000, 40000, 30000],
     },
     {
-      name: "Homiylar",
+      name: t("sponsors"),
       data: [22000, 30, 35000, 20000, 18000, 17000, 60, 40000],
     },
   ]);
@@ -42,7 +52,7 @@ const ChartComponent = () => {
       curve: "smooth",
     },
     title: {
-      text: "Homiylar va talabalar soni",
+      text: t("NumberOfStudentsAndSponsors"),
       align: "left",
     },
     grid: {

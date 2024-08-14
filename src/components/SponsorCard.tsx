@@ -37,7 +37,9 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
       <h3 className="font-SfProDisplay text-[#1D1D1F] font-medium ml-[33px] text-[16px] w-[222px]">
         {sponsor.full_name}
       </h3>
-      <h3 className=" mx-8 w-[150px] text-center">{sponsor.phone}</h3>
+      <h3 className=" mx-8 w-[150px] text-[#1D1D1F] text-center">
+        {sponsor.phone}
+      </h3>
       <h3 className=" font-SfProDisplay font-medium w-[132px] text-center">
         {formatNumberWithSpaces(sponsor.sum)}
         <span className="text-[#b2b7c1]"> UZS</span>

@@ -8,6 +8,8 @@ import SponsorsPage from "./pages/SponsorsPage";
 import Students from "./pages/Students";
 import PageNotFound from "./pages/PageNotFound";
 import SingleSponsor from "./pages/SingleSponsor";
+import SingleStudent from "./pages/SingleStudent";
+import AddStudentPage from "./pages/AddStudentPage";
 
 const App = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -36,6 +38,8 @@ const App = () => {
               <Route path="/students" element={<Students />} />
             </Route>
             <Route path="/sponsors-single/:id" element={<SingleSponsor />} />
+            <Route path="/student-single/:id" element={<SingleStudent />} />
+            <Route path="add-student" element={<AddStudentPage />} />
           </>
         )}
         <Route path="*" element={<PageNotFound />} />
