@@ -33,5 +33,10 @@
   "bachelor": "Бакалавр",
   "masterDegree": "магистра",
   "phd": "Phd",
-  "add": "Добавить"
+  "add": "Добавить",
+  "addSponsor": "Добавить спонсора",
+  "aboutStudent": "О студенте",
+  "mainInfo": "Основная информация",
+  "infoAboutOTM": "Информация о месте обучения",
+  "StudentSponsors": "Студенческие спонсоры"
 }

@@ -33,5 +33,10 @@
   "bachelor": "Bachelor",
   "masterDegree": "Master's Degree",
   "phd": "Phd",
-  "add": "Add"
+  "add": "Add",
+  "addSponsor": "Add Sponsor",
+  "aboutStudent": "About Student",
+  "mainInfo": "Main Info",
+  "infoAboutOTM": "Information about the place of study",
+  "StudentSponsors": "Student sponsors"
 }

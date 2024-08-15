@@ -33,5 +33,10 @@
   "bachelor": "Bakalavr",
   "masterDegree": "Magistratura",
   "phd": "Phd",
-  "add": "Qo'shish"
+  "add": "Qo'shish",
+  "addSponsor": "Homiy Qo'shish",
+  "aboutStudent": "Talaba Haqida",
+  "mainInfo": "Asosiy ma'lumotlar",
+  "infoAboutOTM": "O'qish joyi haqida ma'lumot",
+  "StudentSponsors": "Talabaga homiylar"
 }
