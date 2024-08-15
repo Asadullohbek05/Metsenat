@@ -13,7 +13,7 @@ import { store } from "./redux/store.ts";
 createRoot(document.getElementById("root")!).render(
   <AuthContextProvider>
     <Provider store={store}>
-      <ToastContainer position="top-left" autoClose="1800" />
+      <ToastContainer position="top-left" autoClose={1800} />
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>

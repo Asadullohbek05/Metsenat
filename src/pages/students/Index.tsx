@@ -7,7 +7,7 @@ import ReactPaginate from "react-paginate";
 import Loading from "../../components/Loading";
 import { fetchStudents } from "../../redux/studentsSlice";
 import StudentCard from "../../components/Cards/StudentCard";
-import { Student } from "../../types";
+import { Student } from "../../types/students";
 
 const Students = () => {
   const showSelect = ["10", "12", "14", "16", "18", "20"];

@@ -7,7 +7,7 @@ import { fetchSponsors } from "../../redux/sponsorsSlice";
 import { RootState, AppDispatch } from "../../redux/store";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
-import { Sponsor } from "../../types/sponsor";
+import { Sponsor } from "../../types/sponsors";
 
 const SponsorsPage: React.FC = () => {
   const [showSelect] = useState<string[]>(["10", "12", "14", "16", "18", "20"]);
