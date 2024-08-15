@@ -31,16 +31,13 @@ function LanguageDropdown() {
   };
 
   const selectLanguage = (lang: Language) => {
-    const storedLangStr = localStorage.getItem("selectedLanguage");
-    const storedLang = storedLangStr ? JSON.parse(storedLangStr) : null;
-    if (lang.name != storedLang.code) {
+    if (lang.code !== selectedLanguage.code) {
       i18n.changeLanguage(lang.locale);
       setSelectedLanguage(lang);
       localStorage.setItem("selectedLanguage", JSON.stringify(lang));
       toast.success(`Language changed to ${lang.name}`, {});
     }
     setIsDropdownOpen(false);
-    console.log(lang.locale);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -54,12 +51,13 @@ function LanguageDropdown() {
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
+    // Set the language initially
     i18n.changeLanguage(selectedLanguage.locale);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [selectedLanguage.locale, i18n]);
+  }, [i18n, selectedLanguage.locale]);
 
   return (
     <div
