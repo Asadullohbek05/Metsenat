@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../server/request";
-import DashboardCard from "./DashboardCard";
+import DashboardCard from "./Cards/DashboardCard";
 import { useTranslation } from "react-i18next";
-import Loading from "./Loading";
 
 const DashboardCards = () => {
   const { t, i18n } = useTranslation();

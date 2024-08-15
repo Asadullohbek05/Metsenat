@@ -39,5 +39,8 @@
   "mainInfo": "Основная информация",
   "infoAboutOTM": "Информация о месте обучения",
   "StudentSponsors": "Студенческие спонсоры",
-  "Save": "Сохранить"
+  "Save": "Сохранить",
+  "NameOrganization": "Название организации",
+  "LegalEntity": "Юридическое лицо",
+  "physicalPerson": "физическое лицо"
 }

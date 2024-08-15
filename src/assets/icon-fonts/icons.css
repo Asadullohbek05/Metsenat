@@ -1,10 +1,10 @@
 @font-face {
   font-family: "icomoon";
-  src: url("fonts/icomoon.eot?c1vdr7");
-  src: url("fonts/icomoon.eot?c1vdr7#iefix") format("embedded-opentype"),
-    url("fonts/icomoon.ttf?c1vdr7") format("truetype"),
-    url("fonts/icomoon.woff?c1vdr7") format("woff"),
-    url("fonts/icomoon.svg?c1vdr7#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?qdk51");
+  src: url("fonts/icomoon.eot?qdk51#iefix") format("embedded-opentype"),
+    url("fonts/icomoon.ttf?qdk51") format("truetype"),
+    url("fonts/icomoon.woff?qdk51") format("woff"),
+    url("fonts/icomoon.svg?qdk51#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -12,7 +12,6 @@
 
 [class^="icon-"],
 [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "icomoon" !important;
   speak-as: never;
   font-style: normal;
@@ -20,89 +19,10 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-big-left1:before {
-  content: "\e903";
-}
-.icon-arrow-left1:before {
-  content: "\e904";
-  color: #979797;
-}
-.icon-arrow-right1:before {
-  content: "\e907";
-  color: #c4cdd5;
-}
-.icon-clean:before {
-  content: "\e90e";
-  color: #b2b7c1;
-}
-.icon-edit:before {
-  content: "\e912";
-  color: #3365fc;
-}
-.icon-eye1 .path1:before {
-  content: "\e914";
-  color: rgb(51, 102, 255);
-  opacity: 0.4;
-}
-.icon-eye1 .path2:before {
-  content: "\e915";
-  margin-left: -1em;
-  color: rgb(51, 102, 255);
-}
-.icon-filter-icon1:before {
-  content: "\e917";
-  color: #3365fc;
-}
-.icon-flag-icon-11:before {
-  content: "\e918";
-  color: #edc700;
-}
-.icon-flag-icon-21:before {
-  content: "\e919";
-  color: #4c6fff;
-}
-.icon-flag-icon-31:before {
-  content: "\e91a";
-  color: #ed7200;
-}
-.icon-log-out1:before {
-  content: "\e91b";
-  color: #b1b1b8;
-}
-.icon-plus1:before {
-  content: "\e91c";
-}
-.icon-save:before {
-  content: "\e91d";
-  color: #fff;
-}
-.icon-search1:before {
-  content: "\e91e";
-}
-.icon-sponsor1 .path1:before {
-  content: "\e91f";
-  color: rgb(46, 91, 255);
-  opacity: 0.4;
-}
-.icon-sponsor1 .path2:before {
-  content: "\e920";
-  margin-left: -0.875em;
-  color: rgb(46, 91, 255);
-}
-.icon-trash:before {
-  content: "\e921";
-  color: #ff4945;
-}
-.icon-user-icon1:before {
-  content: "\e922";
-  color: #f1f1f3;
-}
 .icon-arrow-big-left:before {
   content: "\e900";
 }
@@ -114,53 +34,73 @@
   content: "\e902";
   color: #c4cdd5;
 }
-.icon-eye .path1:before {
+.icon-clean:before {
+  content: "\e903";
+  color: #b2b7c1;
+}
+.icon-close:before {
+  content: "\e904";
+  color: black;
+}
+.icon-edit:before {
   content: "\e905";
+  color: #3365fc;
+}
+.icon-eye .path1:before {
+  content: "\e906";
   color: rgb(51, 102, 255);
   opacity: 0.4;
 }
 .icon-eye .path2:before {
-  content: "\e906";
+  content: "\e907";
   margin-left: -1em;
   color: rgb(51, 102, 255);
 }
 .icon-filter-icon:before {
-  content: "\e908";
+  content: "\e909";
   color: #3365fc;
 }
 .icon-flag-icon-1:before {
-  content: "\e909";
+  content: "\e90a";
   color: #edc700;
 }
 .icon-flag-icon-2:before {
-  content: "\e90a";
+  content: "\e90b";
   color: #4c6fff;
 }
 .icon-flag-icon-3:before {
-  content: "\e90b";
+  content: "\e90c";
   color: #ed7200;
 }
 .icon-log-out:before {
-  content: "\e90c";
+  content: "\e90d";
   color: #b1b1b8;
 }
 .icon-plus:before {
-  content: "\e90d";
+  content: "\e90e";
+}
+.icon-save:before {
+  content: "\e90f";
+  color: #fff;
 }
 .icon-search:before {
-  content: "\e90f";
+  content: "\e910";
 }
 .icon-sponsor .path1:before {
-  content: "\e910";
+  content: "\e911";
   color: rgb(46, 91, 255);
   opacity: 0.4;
 }
 .icon-sponsor .path2:before {
-  content: "\e911";
+  content: "\e912";
   margin-left: -0.875em;
   color: rgb(46, 91, 255);
 }
-.icon-user-icon:before {
+.icon-trash:before {
   content: "\e913";
+  color: #ff4945;
+}
+.icon-user-icon:before {
+  content: "\e914";
   color: #f1f1f3;
 }

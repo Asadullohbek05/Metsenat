@@ -39,5 +39,8 @@
   "mainInfo": "Main Info",
   "infoAboutOTM": "Information about the place of study",
   "StudentSponsors": "Student sponsors",
-  "Save": "Save"
+  "Save": "Save",
+  "NameOrganization": "Name of the organization",
+  "LegalEntity": "Legal entity",
+  "physicalPerson": "Physical Person"
 }

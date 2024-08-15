@@ -15,6 +15,7 @@ import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
 
 interface Institute {
   name: string;
+  id: number;
 }
 interface StudentDetails {
   full_name: string;
@@ -31,14 +32,19 @@ interface StudentSponsors {
   type?: number;
   given: number;
   contract: number;
+  length: number;
+  id: number;
+  sponsor: {
+    full_name: string;
+  };
+  summa: number;
 }
 
 const SingleStudent = () => {
   const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(
     null
   );
-  const [studentSponsors, setStudentSponsors] =
-    useState<StudentSponsors | null>(null);
+  const [studentSponsors, setStudentSponsors] = useState<StudentSponsors[]>([]);
 
   const [refresh, SetRefresh] = useState(true);
 
@@ -121,6 +127,11 @@ const SingleStudent = () => {
     modal.showModal();
   };
 
+  const addSponsor = () => {
+    const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
+    modal.showModal();
+  };
+
   const handleEditStudent = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -179,7 +190,10 @@ const SingleStudent = () => {
               {studentDetails?.full_name}
             </h3>
           </div>
-          <button className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md my-7 flex items-center gap-[10px]">
+          <button
+            onClick={addSponsor}
+            className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md my-7 flex items-center gap-[10px]"
+          >
             <i className="icon-plus text-2xl"></i>
             {t("addSponsor")}
           </button>
@@ -276,7 +290,10 @@ const SingleStudent = () => {
             <h2 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
               {t("StudentSponsors")}
             </h2>
-            <button className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md  flex items-center gap-[10px]">
+            <button
+              onClick={addSponsor}
+              className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md  flex items-center gap-[10px]"
+            >
               <i className="icon-plus text-2xl"></i>
               {t("addSponsor")}
             </button>
@@ -297,7 +314,7 @@ const SingleStudent = () => {
               </span>
             </div>
           ) : null}
-          {studentSponsors?.map((item, i) => {
+          {studentSponsors?.map((item, i: number) => {
             return <StudentSponsorCard order={i + 1} key={i} sponsor={item} />;
           })}
         </div>
@@ -315,10 +332,10 @@ const SingleStudent = () => {
               }}
               className="btn text-[#B2B7C1] hover:text-black btn-md btn-circle text-2xl btn-ghost absolute right-3 top-3"
             >
-              ✕
+              <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
-              Tahrirlash
+              {t("edit")}
             </h3>
             <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
             <div className="mb-6">
@@ -410,13 +427,13 @@ const SingleStudent = () => {
               type="button"
               onClick={() => {
                 const modal = document.getElementById(
-                  "my_modal_1"
+                  "my_modal_2"
                 ) as HTMLDialogElement;
                 modal.close();
               }}
-              className="btn text-[#B2B7C1] hover:text-black btn-md btn-circle text-2xl btn-ghost absolute right-3 top-3"
+              className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3"
             >
-              ✕
+              <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
               Tahrirlash

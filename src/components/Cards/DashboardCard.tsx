@@ -1,5 +1,5 @@
 import React from "react";
-import formatNumberWithSpaces from "../utils";
+import formatNumberWithSpaces from "../../utils";
 
 interface DashboardCardProps {
   iconClass: string;

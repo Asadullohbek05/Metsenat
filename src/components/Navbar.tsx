@@ -27,6 +27,11 @@ const Navbar = () => {
     }
   }, [i18n]);
 
+  const handleFilter = () => {
+    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    modal.showModal();
+  };
+
   return (
     <div className="bg-white">
       <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
@@ -81,7 +86,7 @@ const Navbar = () => {
             />
           </div>
           <button
-            onClick={() => document.getElementById("my_modal_3").showModal()}
+            onClick={handleFilter}
             className="bg-[#EDF1FD] h-10 px-8 flex gap-[10px] items-center text-[#3365FC] text-[14px] font-SfProDisplay font-medium rounded-md"
           >
             <i className="icon-filter-icon text-[16px]"></i>

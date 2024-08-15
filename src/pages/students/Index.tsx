@@ -137,8 +137,8 @@ const Students = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
+            <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
+              <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="font-SfProDisplay text-2xl">Filter</h3>
             <hr className="my-7" />

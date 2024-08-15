@@ -89,7 +89,7 @@ const SingleSponsor: React.FC = () => {
     try {
       await request.put(`/sponsor-update/${id}/`, updatedSponsor);
       setRefresh(!refresh);
-      toast.success("Sponsor Updated");
+      toast.success("Sponsor Updated Successfully");
     } catch (err) {
       console.error("Error updating sponsor:", err);
     }
@@ -200,11 +200,11 @@ const SingleSponsor: React.FC = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn text-[#B2B7C1] hover:text-black btn-md btn-circle text-2xl btn-ghost absolute right-3 top-3">
-              ✕
+            <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
+              <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
-              Tahrirlash
+              {t("edit")}
             </h3>
             <hr className="h-0.5 bg-[#F5F5F7] border-none mt-7" />
             <div className="mt-7 mb-8">
@@ -217,7 +217,7 @@ const SingleSponsor: React.FC = () => {
                     : "border-[#E5E9FF] text-[#3366FF99]"
                 }`}
               >
-                Jismoniy shaxs
+                {t("physicalPerson")}
               </button>
               <button
                 onClick={() => handleTab("yuridik")}
@@ -228,7 +228,7 @@ const SingleSponsor: React.FC = () => {
                     : "border-[#E5E9FF] text-[#3366FF99]"
                 }`}
               >
-                Yuridik shaxs
+                {t("LegalEntity")}
               </button>
             </div>
             <div className="mb-6">
@@ -236,7 +236,7 @@ const SingleSponsor: React.FC = () => {
                 htmlFor="fullName"
                 className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
-                F.I.Sh. (Familiya Ism Sharifingiz)
+                {t("fullName")}
               </label>
               <input
                 type="text"
@@ -251,7 +251,7 @@ const SingleSponsor: React.FC = () => {
                 htmlFor="phoneNumber"
                 className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
-                Telefon raqami
+                {t("phoneNumber")}
               </label>
               <input
                 type="text"
@@ -266,7 +266,7 @@ const SingleSponsor: React.FC = () => {
                 htmlFor="sponsorSum"
                 className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
               >
-                Homiylik summasi
+                {t("SponsorshipAmount")}
               </label>
               <input
                 type="text"
@@ -282,7 +282,7 @@ const SingleSponsor: React.FC = () => {
                   htmlFor="firm"
                   className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
                 >
-                  Tashkilot nomi
+                  {t("NameOrganization")}
                 </label>
                 <input
                   type="text"
@@ -299,7 +299,7 @@ const SingleSponsor: React.FC = () => {
                 onClick={handleSubmit}
                 className="flex items-center  gap-[10px] justify-center w-36 h-11 bg-[#3365FC] text-white font-SfProDisplay text-[14px] font-semibold tracking-[1px] rounded-md"
               >
-                <img src={saveIcon} alt="Save Icon" /> Saqlash
+                <img src={saveIcon} alt="Save Icon" /> {t("Save")}
               </button>
             </div>
           </form>

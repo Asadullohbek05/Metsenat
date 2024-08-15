@@ -39,5 +39,8 @@
   "mainInfo": "Asosiy ma'lumotlar",
   "infoAboutOTM": "O'qish joyi haqida ma'lumot",
   "StudentSponsors": "Talabaga homiylar",
-  "Save": "Saqlash"
+  "Save": "Saqlash",
+  "NameOrganization": "Tashkilot nomi",
+  "LegalEntity": "Yuridik shaxs",
+  "physicalPerson": "Jismoniy Shaxs"
 }

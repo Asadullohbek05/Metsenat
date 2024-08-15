@@ -11,9 +11,14 @@ interface StudentCardProps {
     sum: number;
     spent: number;
     name: string;
-    institute: object;
+    institute: {
+      name: string;
+    };
     get_status_display: string;
     created_at: string;
+    type: number;
+    given: number;
+    contract: number;
   };
 }
 
