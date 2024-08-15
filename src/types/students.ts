@@ -11,4 +11,6 @@ export interface Student {
   type: number;
   given: number;
   contract: number;
+  count: number;
+  results: [];
 }

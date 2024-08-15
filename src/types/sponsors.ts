@@ -6,4 +6,6 @@ export interface Sponsor {
   spent: number;
   get_status_display: string;
   created_at: string;
+  count: number;
+  results: [];
 }
