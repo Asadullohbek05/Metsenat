@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "../server/request";
-import { SponsorsResponse } from "../types";
+import { Student } from "../types/students";
 
 export const fetchStudents = createAsyncThunk(
   "students/fetchStudents",
@@ -9,7 +9,7 @@ export const fetchStudents = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const { data } = await request.get<SponsorsResponse>("/student-list/", {
+      const { data } = await request.get<Student>("/student-list/", {
         params: { page_size: pageSize, page },
       });
       return data;
@@ -21,7 +21,7 @@ export const fetchStudents = createAsyncThunk(
 );
 
 interface StudentState {
-  students: SponsorsResponse | null;
+  students: Student | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
