@@ -4,11 +4,11 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import AdminLayout from "./components/Layout/AdminLayout";
 import DashboardPage from "./pages/DashboardPage";
-import SponsorsPage from "./pages/SponsorsPage";
-import Students from "./pages/Students";
+import SponsorsPage from "./pages/sponsors/Index";
+import Students from "./pages/students/Index";
 import PageNotFound from "./pages/PageNotFound";
-import SingleSponsor from "./pages/SingleSponsor";
-import SingleStudent from "./pages/SingleStudent";
+import SingleSponsor from "./pages/sponsors/Sponsor";
+import SingleStudent from "./pages/students/Student";
 import AddStudentPage from "./pages/AddStudentPage";
 
 const App = () => {

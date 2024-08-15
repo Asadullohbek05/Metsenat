@@ -1,18 +1,18 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import adminLogo from "../assets/images/svg/admin-page-logo.svg";
+import adminLogo from "../../assets/images/svg/admin-page-logo.svg";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
-import arrow from "../assets/images/svg/arrow-left.svg";
-import editIcon from "../assets/images/svg/edit-icon.svg";
-import sponsorIcon from "../assets/images/svg/sponsor-icon.svg";
-import saveIcon from "../assets/images/svg/save-icon.svg";
-import request from "../server/request";
-import formatNumberWithSpaces from "../utils";
-import Loading from "../components/Loading";
+import arrow from "../../assets/images/svg/arrow-left.svg";
+import editIcon from "../../assets/images/svg/edit-icon.svg";
+import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
+import saveIcon from "../../assets/images/svg/save-icon.svg";
+import request from "../../server/request";
+import formatNumberWithSpaces from "../../utils";
+import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
-import LanguageDropdown from "../components/Dropdown";
+import LanguageDropdown from "../../components/Dropdown";
 
 interface SponsorData {
   id: string;

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import Loading from "../components/Loading";
-import ReactPaginate from "react-paginate";
-import ArrowRight from "../components/ArrowRight";
-import ArrowLeft from "../components/ArrowLeft";
 import { Link, useSearchParams } from "react-router-dom";
-import { fetchStudents } from "../redux/studentsSlice";
-import StudentCard from "../components/StudentCard";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useTranslation } from "react-i18next";
+import ReactPaginate from "react-paginate";
+import Loading from "../../components/Loading";
+import { fetchStudents } from "../../redux/studentsSlice";
+import StudentCard from "../../components/StudentCard";
 
 const Students = () => {
+  const [showSelect] = useState(["10", "12", "14", "16", "18", "20"]);
   const { t, i18n } = useTranslation();
   useEffect(() => {
     const storedLang = localStorage.getItem("selectedLanguage");
@@ -30,8 +29,6 @@ const Students = () => {
   const { students, status } = useSelector(
     (state: RootState) => state.students
   );
-
-  console.log(students);
 
   useEffect(() => {
     dispatch(fetchStudents({ page, pageSize: itemsPerPage }));
@@ -119,20 +116,21 @@ const Students = () => {
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
           >
-            <option value="10">10</option>
-            <option value="12">12</option>
-            <option value="14">14</option>
-            <option value="16">16</option>
-            <option value="18">18</option>
-            <option value="20">20</option>
+            {showSelect.map((option, i) => {
+              return (
+                <option key={i} value={option}>
+                  {option}
+                </option>
+              );
+            })}
           </select>
           <ReactPaginate
             breakLabel="..."
-            nextLabel={<ArrowRight />}
+            nextLabel={<i className="icon-arrow-right text-xs"></i>}
             onPageChange={handlePageClick}
             pageRangeDisplayed={1}
             pageCount={pageCount}
-            previousLabel={<ArrowLeft />}
+            previousLabel={<i className="icon-arrow-left text-xs "></i>}
             containerClassName="pagination"
             activeClassName="active"
             forcePage={page - 1}
@@ -147,33 +145,6 @@ const Students = () => {
             </button>
             <h3 className="font-SfProDisplay text-2xl">Filter</h3>
             <hr className="my-7" />
-            {/* <div className="mb-7">
-              <label
-                htmlFor=""
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                Ariza holati
-              </label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="select select-bordered  w-full mt-2 text-[#2E384D] font-SfProDisplay"
-              >
-                <option value="Barchasi">Barchasi</option>
-                <option value="Tasdiqlangan">Tasdiqlangan</option>
-                <option value="Yangi">Yangi</option>
-                <option value="Taqiqlangan">Taqiqlangan</option>
-                <option value="Moderatsiyada">Moderatsiyada</option>
-              </select>
-            </div> */}
-            {/* <div>
-              <label
-                htmlFor=""
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                Homiylik summasi
-              </label>
-            </div> */}
             <h1 className="text-3xl">Coming Soon...</h1>
           </form>
         </div>
