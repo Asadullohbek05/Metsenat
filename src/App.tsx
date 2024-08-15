@@ -1,6 +1,6 @@
+import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import AdminLayout from "./components/Layout/AdminLayout";
 import DashboardPage from "./pages/DashboardPage";
@@ -12,7 +12,13 @@ import SingleStudent from "./pages/students/Student";
 import AddStudentPage from "./pages/AddStudentPage";
 
 const App = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    return <div>Loading...</div>;
+  }
+
+  const { isAuthenticated } = authContext;
 
   return (
     <BrowserRouter>
@@ -42,6 +48,7 @@ const App = () => {
             <Route path="add-student" element={<AddStudentPage />} />
           </>
         )}
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
