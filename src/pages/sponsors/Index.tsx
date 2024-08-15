@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SponsorCard from "../../components/SponsorCard";
+import SponsorCard from "../../components/Cards/SponsorCard";
 import ReactPaginate from "react-paginate";
 import { fetchSponsors } from "../../redux/sponsorsSlice";
 import { RootState, AppDispatch } from "../../redux/store";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
+import { Sponsor } from "../../types/sponsor";
 
 const SponsorsPage: React.FC = () => {
-  const [showSelect] = useState(["10", "12", "14", "16", "18", "20"]);
+  const [showSelect] = useState<string[]>(["10", "12", "14", "16", "18", "20"]);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const [itemsPerPage, setItemsPerPage] = useState<number>(
@@ -22,21 +23,23 @@ const SponsorsPage: React.FC = () => {
   );
 
   const { t, i18n } = useTranslation();
+
   useEffect(() => {
     const storedLang = localStorage.getItem("selectedLanguage");
     if (storedLang) {
       const { locale } = JSON.parse(storedLang);
       i18n.changeLanguage(locale);
     }
-  }, [i18n]);
-
-  useEffect(() => {
     dispatch(fetchSponsors({ page, pageSize: itemsPerPage }));
-  }, [dispatch, page, itemsPerPage]);
+    setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
+  }, [dispatch, page, itemsPerPage, searchParams, i18n]);
 
   const handlePageClick = (event: { selected: number }) => {
     const newPage = event.selected + 1;
-    setSearchParams({ page: newPage, page_size: itemsPerPage });
+    setSearchParams({
+      page: newPage.toString(),
+      page_size: itemsPerPage.toString(),
+    });
   };
 
   const handleItemsPerPageChange = (
@@ -44,15 +47,11 @@ const SponsorsPage: React.FC = () => {
   ) => {
     const newItemsPerPage = Number(event.target.value);
     setItemsPerPage(newItemsPerPage);
-    setSearchParams({ page: 1, page_size: newItemsPerPage });
+    setSearchParams({ page: "1", page_size: newItemsPerPage.toString() });
   };
 
-  useEffect(() => {
-    setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
-  }, [searchParams]);
-
   if (status === "loading") return <Loading />;
-  if (status === "failed") return <p>Error loading sponsors</p>;
+  if (status === "failed") return <p>{t("ErrorLoadingSponsors")}</p>;
 
   const total = sponsors?.count || 0;
   const pageCount = Math.ceil(total / itemsPerPage);
@@ -87,7 +86,7 @@ const SponsorsPage: React.FC = () => {
         </span>
       </div>
       <div className="mb-6">
-        {sponsors?.results.map((item, i) => (
+        {sponsors?.results.map((item: Sponsor, i: number) => (
           <SponsorCard
             key={item.id}
             order={(page - 1) * itemsPerPage + i + 1}
@@ -110,13 +109,11 @@ const SponsorsPage: React.FC = () => {
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
           >
-            {showSelect.map((option, i) => {
-              return (
-                <option key={i} value={option}>
-                  {option}
-                </option>
-              );
-            })}
+            {showSelect.map((option, i) => (
+              <option key={i} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
           <ReactPaginate
             breakLabel="..."
@@ -124,7 +121,7 @@ const SponsorsPage: React.FC = () => {
             onPageChange={handlePageClick}
             pageRangeDisplayed={1}
             pageCount={pageCount}
-            previousLabel={<i className="icon-arrow-left text-xs "></i>}
+            previousLabel={<i className="icon-arrow-left text-xs"></i>}
             containerClassName="pagination"
             activeClassName="active"
             forcePage={page - 1}

@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 import arrow from "../../assets/images/svg/arrow-left.svg";
-import editIcon from "../../assets/images/svg/edit-icon.svg";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import saveIcon from "../../assets/images/svg/save-icon.svg";
 import request from "../../server/request";
@@ -166,7 +165,8 @@ const SingleSponsor: React.FC = () => {
               onClick={editSponsor}
               className="flex justify-center items-center gap-[10px] px-8 h-11 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-semibold tracking-[1px] rounded-md"
             >
-              <img src={editIcon} alt="Edit Icon" /> {t("edit")}
+              <i className="icon-edit text-2xl"></i>
+              {t("edit")}
             </button>
           </div>
           <div className="mt-8 flex gap-5 items-center">

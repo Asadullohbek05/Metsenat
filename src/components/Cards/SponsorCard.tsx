@@ -1,6 +1,6 @@
 import React from "react";
-import eye from "../assets/images/svg/eye.svg";
-import formatNumberWithSpaces from "../utils";
+import eye from "../../assets/images/svg/eye.svg";
+import formatNumberWithSpaces from "../../utils";
 import { Link } from "react-router-dom";
 
 interface SponsorCardProps {
@@ -17,13 +17,26 @@ interface SponsorCardProps {
 }
 
 const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
-  const formatDate = (sana: string | Date): string => {
-    const date = new Date(sana);
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
     return date.toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
+  };
+
+  const statusClassName = () => {
+    switch (sponsor.get_status_display) {
+      case "Yangi":
+        return "text-[#5BABF2]";
+      case "Moderatsiyada":
+        return "text-[#FFA445]";
+      case "Tasdiqlangan":
+        return "text-[#00CF83]";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -37,31 +50,21 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
       <h3 className="font-SfProDisplay text-[#1D1D1F] font-medium ml-[33px] text-[16px] w-[222px]">
         {sponsor.full_name}
       </h3>
-      <h3 className=" mx-8 w-[150px] text-[#1D1D1F] text-center">
+      <h3 className="mx-8 w-[150px] text-[#1D1D1F] text-center">
         {sponsor.phone}
       </h3>
-      <h3 className=" font-SfProDisplay font-medium w-[132px] text-center">
+      <h3 className="font-SfProDisplay font-medium w-[132px] text-center">
         {formatNumberWithSpaces(sponsor.sum)}
         <span className="text-[#b2b7c1]"> UZS</span>
       </h3>
-      <h3 className="font-SfProDisplay font-medium  ml-8 w-[140px] text-center">
+      <h3 className="font-SfProDisplay font-medium ml-8 w-[140px] text-center">
         {formatNumberWithSpaces(sponsor.spent)}
         <span className="text-[#b2b7c1]"> UZS</span>
       </h3>
       <h3 className="ml-5 font-SfProDisplay font-medium w-20">
         {formatDate(sponsor.created_at)}
       </h3>
-      <h3
-        className={`ml-9 w-[140px] text-center ${
-          sponsor.get_status_display === "Yangi"
-            ? "text-[#5BABF2]"
-            : sponsor.get_status_display === "Moderatsiyada"
-            ? "text-[#FFA445]"
-            : sponsor.get_status_display === "Tasdiqlangan"
-            ? "text-[#00CF83]"
-            : null
-        }`}
-      >
+      <h3 className={`ml-9 w-[140px] text-center ${statusClassName()}`}>
         {sponsor.get_status_display}
       </h3>
       <button className="ml-9 w-8 flex justify-center">
