@@ -1,4 +1,4 @@
-import formatNumberWithSpaces from "../../utils";
+import { formatNumberWithSpaces } from "../../utils";
 
 interface StudentSponsorCardProps {
   sponsor: {

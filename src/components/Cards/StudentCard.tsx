@@ -1,5 +1,5 @@
 import eye from "../../assets/images/svg/eye.svg";
-import formatNumberWithSpaces from "../../utils";
+import { formatNumberWithSpaces } from "../../utils";
 import { Link } from "react-router-dom";
 
 interface StudentCardProps {

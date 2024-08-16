@@ -10,7 +10,7 @@ import logo from "../../assets/images/svg/admin-page-logo.svg";
 import editIcon from "../../assets/images/svg/edit-icon.svg";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import request from "../../server/request";
-import formatNumberWithSpaces from "../../utils";
+import { formatNumberWithSpaces } from "../../utils";
 import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
 
 interface Institute {

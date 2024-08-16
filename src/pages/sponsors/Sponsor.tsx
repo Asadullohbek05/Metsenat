@@ -8,10 +8,10 @@ import arrow from "../../assets/images/svg/arrow-left.svg";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import saveIcon from "../../assets/images/svg/save-icon.svg";
 import request from "../../server/request";
-import formatNumberWithSpaces from "../../utils";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "../../components/Dropdown";
+import { formatSum } from "../../utils";
 
 interface SponsorData {
   id: string;
@@ -97,12 +97,6 @@ const SingleSponsor: React.FC = () => {
 
   const handleTab = (tab: string) => {
     setIsVisible(tab === "yuridik");
-  };
-
-  const formatSum = (sum: string | number): string => {
-    const sumStr = typeof sum === "number" ? sum.toString() : sum;
-    const num = parseFloat(sumStr.replace(/,/g, ""));
-    return isNaN(num) ? sumStr : formatNumberWithSpaces(num);
   };
 
   if (!singleSponsorData) {

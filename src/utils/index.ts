@@ -5,4 +5,10 @@ const formatNumberWithSpaces = (num: number | undefined | null): string => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
-export default formatNumberWithSpaces;
+const formatSum = (sum: string | number): string => {
+  const sumStr = typeof sum === "number" ? sum.toString() : sum;
+  const num = parseFloat(sumStr.replace(/,/g, ""));
+  return isNaN(num) ? sumStr : formatNumberWithSpaces(num);
+};
+
+export { formatNumberWithSpaces, formatSum };

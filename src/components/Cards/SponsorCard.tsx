@@ -1,7 +1,7 @@
 import React from "react";
 import eye from "../../assets/images/svg/eye.svg";
-import formatNumberWithSpaces from "../../utils";
 import { Link } from "react-router-dom";
+import { formatNumberWithSpaces } from "../../utils";
 
 interface SponsorCardProps {
   order: number;
