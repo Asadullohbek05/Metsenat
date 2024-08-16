@@ -7,16 +7,24 @@ import { AuthContext } from "../../context/AuthContext";
 import arrow from "../../assets/images/svg/arrow-left.svg";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import saveIcon from "../../assets/images/svg/save-icon.svg";
+import request from "../../server/request";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "../../components/Dropdown";
 import { formatSum } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { fetchSponsorData } from "../../redux/singleSponsorSlice";
-import request from "../../server/request";
+
+interface SponsorData {
+  id: string;
+  full_name: string;
+  phone: string;
+  sum: string;
+  firm?: string;
+  get_status_display: string;
+}
 
 const SingleSponsor: React.FC = () => {
+  const [singleSponsorData, setSingleSponsorData] =
+    useState<SponsorData | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -37,25 +45,27 @@ const SingleSponsor: React.FC = () => {
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { sponsorDetails, status } = useSelector(
-    (state: RootState) => state.sponsorDetails
-  );
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(fetchSponsorData(Number(id)));
-  }, [dispatch, id]);
+    const getData = async () => {
+      try {
+        const { data } = await request.get<SponsorData>(
+          `/sponsor-detail/${id}`
+        );
+        setFullName(data.full_name);
+        setPhoneNumber(data.phone);
+        setSponsorSum(data.sum);
+        setFirm(data.firm || "");
+        setSingleSponsorData(data);
+      } catch (err) {
+        console.error("Error fetching sponsor data:", err);
+      }
+    };
 
-  useEffect(() => {
-    if (sponsorDetails) {
-      setFullName(sponsorDetails.full_name);
-      setPhoneNumber(sponsorDetails.phone);
-      setSponsorSum(sponsorDetails.sum);
-      setFirm(sponsorDetails.firm || "");
-    }
-  }, [sponsorDetails]);
+    getData();
+  }, [id, refresh]);
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -78,8 +88,8 @@ const SingleSponsor: React.FC = () => {
     };
     try {
       await request.put(`/sponsor-update/${id}/`, updatedSponsor);
+      setRefresh(!refresh);
       toast.success("Sponsor Updated Successfully");
-      dispatch(fetchSponsorData(Number(id)));
     } catch (err) {
       console.error("Error updating sponsor:", err);
     }
@@ -89,7 +99,7 @@ const SingleSponsor: React.FC = () => {
     setIsVisible(tab === "yuridik");
   };
 
-  if (status === "loading" || !sponsorDetails) {
+  if (!singleSponsorData) {
     return <Loading />;
   }
 
@@ -122,20 +132,20 @@ const SingleSponsor: React.FC = () => {
             <img src={arrow} alt="Back" />
           </Link>
           <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
-            {sponsorDetails?.full_name || "Loading..."}
+            {singleSponsorData?.full_name || "Loading..."}
           </h3>
           <span
             className={`${
-              sponsorDetails?.get_status_display === "Yangi"
+              singleSponsorData?.get_status_display === "Yangi"
                 ? "text-[#5BABF2]"
-                : sponsorDetails?.get_status_display === "Moderatsiyada"
+                : singleSponsorData?.get_status_display === "Moderatsiyada"
                 ? "text-[#FFA445]"
-                : sponsorDetails?.get_status_display === "Tasdiqlangan"
+                : singleSponsorData?.get_status_display === "Tasdiqlangan"
                 ? "text-[#00CF83]"
                 : ""
             } flex items-center justify-center font-normal font-SfProDisplay w-24 h-6 bg-[#DDFFF2] rounded-md text-xs`}
           >
-            {sponsorDetails?.get_status_display || ""}
+            {singleSponsorData?.get_status_display || ""}
           </span>
         </div>
       </div>
@@ -158,7 +168,7 @@ const SingleSponsor: React.FC = () => {
               <img src={sponsorIcon} alt="Sponsor Icon" />
             </div>
             <h2 className="max-w-40 font-SfProDisplay text-[#212121] font-semibold text-[16px] tracking-[-1%]">
-              {sponsorDetails?.full_name || ""}
+              {singleSponsorData?.full_name || ""}
             </h2>
           </div>
           <div className="flex gap-56">
@@ -167,7 +177,7 @@ const SingleSponsor: React.FC = () => {
                 {t("phoneNumber")}
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
-                {sponsorDetails?.phone || ""}
+                {singleSponsorData?.phone || ""}
               </h3>
             </div>
             <div className="mt-6">
@@ -175,7 +185,7 @@ const SingleSponsor: React.FC = () => {
                 {t("SponsorshipAmount")}
               </p>
               <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
-                {sponsorDetails ? formatSum(sponsorDetails.sum) : ""} UZS
+                {singleSponsorData ? formatSum(singleSponsorData.sum) : ""} UZS
               </h3>
             </div>
           </div>

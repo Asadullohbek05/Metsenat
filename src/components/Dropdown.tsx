@@ -51,7 +51,6 @@ function LanguageDropdown() {
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
-    // Set the language initially
     i18n.changeLanguage(selectedLanguage.locale);
 
     return () => {

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sponsorReducer from "./sponsorsSlice";
 import studentsReducer from "./studentsSlice";
+import sponsorDetailReducer from "./singleSponsorSlice";
 
 export const store = configureStore({
   reducer: {
     sponsors: sponsorReducer,
     students: studentsReducer,
+    sponsorDetails: sponsorDetailReducer,
   },
 });
 
