@@ -17,8 +17,30 @@ export const fetchSponsorData = createAsyncThunk(
   }
 );
 
+export const updateSponsorData = createAsyncThunk(
+  "sponsorDetail/updateSponsorData",
+  async (
+    {
+      id,
+      updatedSponsor,
+    }: { id: number; updatedSponsor: Partial<SponsorDetails> },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await request.put<SponsorDetails>(
+        `/sponsor-update/${id}/`,
+        updatedSponsor
+      );
+      return data;
+    } catch (error) {
+      console.error("Error updating sponsor:", error);
+      return rejectWithValue("Failed to update sponsor details");
+    }
+  }
+);
+
 interface SponsorDetailsState {
-  sponsorDetails: SponsorDetails | null; // Use the correct type
+  sponsorDetails: SponsorDetails | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -43,6 +65,17 @@ const singleSponsorSlice = createSlice({
         state.sponsorDetails = action.payload;
       })
       .addCase(fetchSponsorData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      })
+      .addCase(updateSponsorData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateSponsorData.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.sponsorDetails = action.payload;
+      })
+      .addCase(updateSponsorData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       });

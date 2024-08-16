@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-import arrow from "../../assets/images/svg/arrow-left.svg";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import saveIcon from "../../assets/images/svg/save-icon.svg";
 import Loading from "../../components/Loading";
@@ -13,8 +12,11 @@ import LanguageDropdown from "../../components/Dropdown";
 import { formatSum } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { fetchSponsorData } from "../../redux/singleSponsorSlice";
-import request from "../../server/request";
+import { SponsorDetails } from "../../types/sponsor";
+import {
+  fetchSponsorData,
+  updateSponsorData,
+} from "../../redux/singleSponsorSlice";
 
 const SingleSponsor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,16 +72,18 @@ const SingleSponsor: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const updatedSponsor = {
+    const updatedSponsor: Partial<SponsorDetails> = {
       full_name: fullName,
       phone: phoneNumber,
       sum: sponsorSum,
       firm: firm,
     };
+
     try {
-      await request.put(`/sponsor-update/${id}/`, updatedSponsor);
+      await dispatch(
+        updateSponsorData({ id: Number(id), updatedSponsor })
+      ).unwrap();
       toast.success("Sponsor Updated Successfully");
-      dispatch(fetchSponsorData(Number(id)));
     } catch (err) {
       console.error("Error updating sponsor:", err);
     }
@@ -118,8 +122,8 @@ const SingleSponsor: React.FC = () => {
           </div>
         </div>
         <div className="h-20 max-w-7xl mx-auto py-4 px-10 flex items-center">
-          <Link to="/sponsors">
-            <img src={arrow} alt="Back" />
+          <Link className="flex items-center" to="/sponsors">
+            <i className="icon-arrow-big-left text-[28px]"></i>
           </Link>
           <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
             {sponsorDetails?.full_name || "Loading..."}

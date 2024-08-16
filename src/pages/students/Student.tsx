@@ -3,15 +3,13 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import LanguageDropdown from "../../components/Dropdown";
-
-import arrow from "../../assets/images/svg/arrow-left.svg";
-import logo from "../../assets/images/svg/admin-page-logo.svg";
-import editIcon from "../../assets/images/svg/edit-icon.svg";
-import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
-import request from "../../server/request";
 import { formatNumberWithSpaces } from "../../utils";
 import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
+import LanguageDropdown from "../../components/Dropdown";
+import request from "../../server/request";
+
+import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
+import logo from "../../assets/images/svg/admin-page-logo.svg";
 
 interface Institute {
   name: string;
@@ -183,8 +181,8 @@ const SingleStudent = () => {
         </div>
         <div className="h-20 max-w-7xl mx-auto py-4 px-10 flex justify-between  items-center">
           <div className="flex items-center">
-            <Link to="/students">
-              <img src={arrow} alt="Back" />
+            <Link to="/students" className="flex">
+              <i className="icon-arrow-big-left text-[28px]"></i>
             </Link>
             <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
               {studentDetails?.full_name}
@@ -209,7 +207,8 @@ const SingleStudent = () => {
               onClick={editStudent}
               className="flex justify-center items-center gap-[10px] px-8 h-11 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-semibold tracking-[1px] rounded-md"
             >
-              <img src={editIcon} alt="Edit Icon" /> {t("edit")}
+              <i className="icon-edit text-2xl"></i>
+              {t("edit")}
             </button>
           </div>
           <div className="flex items-center">
