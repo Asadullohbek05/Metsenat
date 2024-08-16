@@ -8,9 +8,21 @@ import Loading from "../../components/Loading";
 import { fetchStudents } from "../../redux/studentsSlice";
 import StudentCard from "../../components/Cards/StudentCard";
 import { Student } from "../../types/students";
+import HeaderTitle from "../../components/HeaderTitle";
 
 const Students = () => {
   const showSelect = ["10", "12", "14", "16", "18", "20"];
+  const [headerTitleProps] = useState<
+    { content: string; marginLeft?: string; width?: string }[]
+  >([
+    { content: "#", marginLeft: "24px", width: "" },
+    { content: "f.i.sh.", marginLeft: "50px", width: "" },
+    { content: "StudentType", marginLeft: "130px", width: "150px" },
+    { content: "otm", marginLeft: "18px", width: "315px" },
+    { content: "AllocatedAmount", marginLeft: "20px", width: "160px" },
+    { content: "ContractAmount", marginLeft: "32px", width: "" },
+    { content: "Actions", marginLeft: "24px", width: "70px" },
+  ]);
   const { t, i18n } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,27 +81,9 @@ const Students = () => {
         </Link>
       </div>
       <div className="mb-3 flex items-center">
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-6">
-          #
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[50px]">
-          f.i.sh.
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[130px] w-[150px] text-center">
-          {t("StudentType")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[18px] w-[315px] text-center">
-          {t("otm")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase ml-5 text-xs w-[160px] text-center">
-          {t("AllocatedAmount")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8 text-center">
-          {t("ContractAmount")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-6 w-[70px] text-center">
-          {t("Actions")}
-        </span>
+        {headerTitleProps.map((obj, index) => {
+          return <HeaderTitle config={obj} key={index} />;
+        })}
       </div>
       <div className="mb-6">
         {students?.results.map((item: Student, i: number) => (

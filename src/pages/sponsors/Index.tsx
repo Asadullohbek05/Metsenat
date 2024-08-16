@@ -8,9 +8,23 @@ import { RootState, AppDispatch } from "../../redux/store";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import { Sponsor } from "../../types/sponsors";
+import HeaderTitle from "../../components/HeaderTitle";
 
 const SponsorsPage: React.FC = () => {
   const [showSelect] = useState<string[]>(["10", "12", "14", "16", "18", "20"]);
+  const [headerTitleProps] = useState<
+    { content: string; marginLeft?: string; width?: string }[]
+  >([
+    { content: "#", marginLeft: "24px", width: "" },
+    { content: "f.i.sh.", marginLeft: "50px", width: "" },
+    { content: "phoneNumber", marginLeft: "212px", width: "150px" },
+    { content: "SponsorshipAmount", marginLeft: "15px", width: "170px" },
+    { content: "AmountSpent", marginLeft: "", width: "160px" },
+    { content: "date", marginLeft: "36px", width: "" },
+    { content: "Status", marginLeft: "95px", width: "" },
+    { content: "Actions", marginLeft: "65px", width: "70px" },
+  ]);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const [itemsPerPage, setItemsPerPage] = useState<number>(
@@ -60,30 +74,9 @@ const SponsorsPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-10 mt-12 pb-28">
       <div className="mb-3 flex items-center">
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-6">
-          #
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[50px]">
-          f.i.sh.
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[212px] w-[150px] text-center">
-          {t("phoneNumber")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[15px] w-[170px] text-center">
-          {t("SponsorshipAmount")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs w-[160px] text-center">
-          {t("AmountSpent")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-9">
-          {t("date")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[95px]">
-          {t("Status")}
-        </span>
-        <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-[65px] w-[70px] text-center">
-          {t("Actions")}
-        </span>
+        {headerTitleProps.map((obj, index) => (
+          <HeaderTitle key={index} config={obj} />
+        ))}
       </div>
       <div className="mb-6">
         {sponsors?.results.map((item: Sponsor, i: number) => (
