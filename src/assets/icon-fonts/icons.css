@@ -85,6 +85,7 @@
 }
 .icon-search:before {
   content: "\e910";
+  color: #b1b1b8;
 }
 .icon-sponsor .path1:before {
   content: "\e911";
