@@ -82,7 +82,6 @@ const SingleStudent = () => {
     const getStudentDetails = async () => {
       try {
         const { data } = await request.get(`/student-detail/${id}`);
-        console.log(data);
         setStudentDetails(data);
         setFullName(data.full_name);
         setPhoneNumber(data.phone);
@@ -435,10 +434,56 @@ const SingleStudent = () => {
               <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
-              Tahrirlash
+              {t("addSponsor")}
             </h3>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none mt-7" />
-            <h1>Second Modal</h1>
+            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <div className="mb-6">
+              <label
+                htmlFor="fullName"
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+              >
+                {t("fullName")}
+              </label>
+              <select
+                required
+                defaultValue={"default"}
+                // value={"default"}
+                // onChange={(e) => setOtm(parseInt(e.target.value))}
+                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+              >
+                <option disabled value="default">
+                  Homiyni Tanglang
+                </option>
+                <option value="">Homiy 1</option>
+                <option value="">Homiy 2</option>
+                <option value="">Homiy 3</option>
+                <option value="">Homiy 4</option>
+                <option value="">Homiy 5</option>
+              </select>
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="contract"
+                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+              >
+                {t("AllocatedAmount")}
+              </label>
+              <input
+                // value={contract}
+                // onChange={(e) => setContract(e.target.value)}
+                placeholder="Summani kiriting"
+                type="text"
+                id="contract"
+                className="border pl-4 outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+              />
+            </div>
+            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <div className="flex justify-end">
+              <button className="bg-[#3366FF] flex items-center gap-[10px] px-8 py-[9px] rounded-md text-white">
+                <i className="icon-plus text-2xl"></i>
+                {t("add")}
+              </button>
+            </div>
           </form>
         </div>
       </dialog>
