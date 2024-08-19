@@ -40,37 +40,39 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
   };
 
   return (
-    <Link
-      to={`/sponsors-single/${sponsor.id}`}
-      className="w-full bg-white h-16 flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200"
-    >
-      <span className="Rubik font-medium text-[#1D1D1F] w-[34px] text-center">
+    <div className="w-full bg-white h-16 flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200">
+      <span className="font-normal text-[15px] text-[#1D1D1F] w-[24px] text-center">
         {order}
       </span>
-      <h3 className="font-SfProDisplay text-[#1D1D1F] font-medium ml-[33px] text-[16px] w-[222px]">
+      <h3 className="text-[#1D1D1F] font-medium ml-[33px] text-[15px] w-[222px]">
         {sponsor.full_name}
       </h3>
-      <h3 className="mx-8 w-[150px] text-[#1D1D1F] text-center">
+      <h3 className="mx-8 font-normal text-[14px] w-[150px] text-[#1D1D1F] text-center">
         {sponsor.phone}
       </h3>
-      <h3 className="font-SfProDisplay font-medium w-[132px] text-center">
+      <h3 className="font-medium text-[14px] w-[132px] text-center">
         {formatNumberWithSpaces(sponsor.sum)}
         <span className="text-[#b2b7c1]"> UZS</span>
       </h3>
-      <h3 className="font-SfProDisplay font-medium ml-8 w-[140px] text-center">
+      <h3 className="text-[14px] font-medium ml-8 w-[140px] text-center">
         {formatNumberWithSpaces(sponsor.spent)}
         <span className="text-[#b2b7c1]"> UZS</span>
       </h3>
-      <h3 className="ml-5 font-SfProDisplay font-medium w-20">
+      <h3 className="ml-[26px] text-[#1D1D1F] font-normal text-[14px] w-20">
         {formatDate(sponsor.created_at)}
       </h3>
-      <h3 className={`ml-9 w-[140px] text-center ${statusClassName()}`}>
+      <h3
+        className={`ml-8 w-[140px] text-[15px] font-normal text-center ${statusClassName()}`}
+      >
         {sponsor.get_status_display}
       </h3>
-      <button className="ml-9 w-8 flex justify-center">
+      <Link
+        to={`/sponsors-single/${sponsor.id}`}
+        className="ml-9 w-8 flex justify-center"
+      >
         <img src={eye} alt="View" />
-      </button>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

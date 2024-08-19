@@ -4,10 +4,13 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
+import request from "../server/request";
+import Button from "../components/Button/Button";
+import { logOut } from "../utils";
 import arrow from "../assets/images/svg/arrow-left.svg";
 import logo from "../assets/images/svg/admin-page-logo.svg";
-import request from "../server/request";
+import FormGroup from "../components/Form/FormGroup";
+import FormInput from "../components/Form/FormInput";
 
 interface Institute {
   id: number;
@@ -22,27 +25,11 @@ const AddStudentPage = () => {
   const [studentType, setStudentType] = useState("");
   const [contract, setContract] = useState("");
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
-
-  const logOut = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    setIsAuthenticated(false);
-    toast.info("Logged Out Successfully");
-  };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
-  }, [i18n]);
 
   const getInstitutes = async () => {
     try {
@@ -54,6 +41,7 @@ const AddStudentPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getInstitutes();
   }, []);
 
@@ -82,23 +70,27 @@ const AddStudentPage = () => {
     <div>
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
-          <div className="max-w-7xl mx-auto py-4 px-10 flex justify-between items-center">
+          <div className="max-w-7xl mx-auto py-3 px-10 flex justify-between items-center">
             <Link to={"/"}>
-              <img src={logo} alt="Logo image" />
+              <img src={logo} className="h-6" alt="Logo image" />
             </Link>
-            <div className="flex gap-10">
+            <div className="flex gap-10 items-center">
               <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
+                <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
                   <i className="icon-user-icon text-2xl leading-none"></i>
                 </div>
               </div>
-              <button className="flex items-center" onClick={logOut}>
-                <i className="icon-log-out text-[32px]"></i>
-              </button>
+              <Button
+                onClick={() => logOut(navigate, setIsAuthenticated)}
+                iconLeft={true}
+                text=""
+                icon="icon-log-out text-[30px]"
+                variant="outline"
+              />
             </div>
           </div>
         </div>
@@ -117,69 +109,56 @@ const AddStudentPage = () => {
           className="bg-white h-auto w-[790px] mt-10 mx-auto border-1 rounded-xl border-[#EBEEFC] shadow-[0_5px_40px_0_#00000008] p-7"
         >
           <div className="flex items-center justify-between mb-7">
-            <div className="w-[353px]">
-              <label
-                htmlFor="fullName"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("fullName")}
-              </label>
-              <input
-                required
+            <FormGroup
+              id="fullName"
+              label={t("fullName")}
+              parentClass="w-[353px]"
+            >
+              <FormInput
+                id="fullName"
+                type="text"
+                placeholder="Abdullayev Abdulla Abdulla o'g'li"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                type="text"
-                id="fullName"
-                placeholder="Abdullayev Abdulla Abdulla o'g'li"
-                className="border pl-4 font-SfProDisplay font-normal outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+                inputClass="w-full"
+                before=""
               />
-            </div>
-            <div className="w-[353px]">
-              <label
-                htmlFor="number"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("phoneNumber")}
-              </label>
-
-              <div className="border flex items-center  text-[#2E384D] pl-4 outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2">
-                <label
-                  htmlFor="number"
-                  className="text-[16px] font-SfProDisplay font-medium"
-                >
-                  +998
-                </label>
-                <input
-                  required
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  maxLength={12}
-                  id="number"
-                  placeholder="00 000-00-00"
-                  className="pl-1 outline-none font-SfProDisplay  bg-transparent rounded-md w-full h-full"
-                />
-              </div>
-            </div>
+            </FormGroup>
+            <FormGroup
+              id="phoneNumber"
+              label={t("phoneNumber")}
+              parentClass="w-[353px]"
+            >
+              <FormInput
+                id="phoneNumber"
+                inputClass="w-full pl-14 text-[#2E384D] font-normal"
+                placeholder="00 000-00-00"
+                type="text"
+                value={phoneNumber}
+                before="+998"
+                parentClass="relative"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </FormGroup>
           </div>
           <div className="flex flex-col gap-2 mb-7">
             <label
               htmlFor="otm"
-              className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+              className="text-[#1D1D1F] text-xs uppercase tracking-[1.13px]"
             >
-              OTM
+              {t("OTM")}
             </label>
             <select
               required
               value={otm || "default"}
               onChange={(e) => setOtm(parseInt(e.target.value))}
-              className="select select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+              className="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
             >
               <option disabled value="default">
                 {t("chooseOtm")}
               </option>
               {institutes.map((item) => (
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id} className="font-normal">
                   {item.name}
                 </option>
               ))}
@@ -189,7 +168,7 @@ const AddStudentPage = () => {
             <div className="w-[353px] flex flex-col">
               <label
                 htmlFor="studentType"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px] my-2"
+                className="text-[#1D1D1F] text-xs  uppercase  tracking-[1.13px] mb-2"
               >
                 {t("StudentType")}
               </label>
@@ -197,39 +176,48 @@ const AddStudentPage = () => {
                 required
                 value={studentType}
                 onChange={(e) => setStudentType(e.target.value)}
-                className="select select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+                className="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
               >
-                <option value="All">{t("all")}</option>
-                <option value="1">{t("bachelor")}</option>
-                <option value="2">{t("masterDegree")}</option>
-                <option value="3">{t("phd")}</option>
+                <option className="font-normal" value="All">
+                  {t("all")}
+                </option>
+                <option className="font-normal" value="1">
+                  {t("bachelor")}
+                </option>
+                <option className="font-normal" value="2">
+                  {t("masterDegree")}
+                </option>
+                <option className="font-normal" value="3">
+                  {t("phd")}
+                </option>
               </select>
             </div>
-            <div className="w-[353px]">
-              <label
-                htmlFor="contract_sum"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("ContractAmount")}
-              </label>
-
-              <input
-                required
+            <FormGroup
+              id="contract"
+              label={t("ContractAmount")}
+              parentClass="w-[353px]"
+            >
+              <FormInput
+                id="contract"
+                type="text"
+                placeholder="Summani kiriting"
                 value={contract}
                 onChange={(e) => setContract(e.target.value)}
-                type="text"
-                id="contract_sum"
-                placeholder={t("enterAmount")}
-                className="border pl-4 font-SfProDisplay outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+                inputClass="w-full"
+                before=""
               />
-            </div>
+            </FormGroup>
           </div>
           <hr className="h-0.5 bg-[#F5F5F7] border-none mb-7" />
           <div className="flex justify-end items-center">
-            <button className="bg-[#3366FF] flex items-center gap-[10px] px-8 py-[9px] rounded-md text-white">
-              <i className="icon-plus text-2xl"></i>
-              {t("add")}
-            </button>
+            <Button
+              variant="primary"
+              text={t("add")}
+              iconLeft={true}
+              icon="icon-plus text-2xl"
+              type="submit"
+              customClass="h-[42px] px-8 gap-[10px]"
+            />
           </div>
         </form>
       </div>

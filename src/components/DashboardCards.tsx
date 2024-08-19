@@ -4,7 +4,7 @@ import DashboardCard from "./Cards/DashboardCard";
 import { useTranslation } from "react-i18next";
 
 const DashboardCards = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [dashboardData, setDashboardData] = useState({
     total_paid: 0,
     total_need: 0,
@@ -26,14 +26,6 @@ const DashboardCards = () => {
     getData();
   }, []);
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
-  }, [i18n]);
-
   const { total_paid, total_need, total_must_pay } = dashboardData;
 
   if (error) {
@@ -46,19 +38,19 @@ const DashboardCards = () => {
         iconClass="icon-flag-icon-2"
         title={t("total_paid")}
         value={total_paid}
-        currency="UZS"
+        bgColor="#4C6FFF1A"
       />
       <DashboardCard
         iconClass="icon-flag-icon-1"
         title={t("total_need")}
         value={total_need}
-        currency="UZS"
+        bgColor="#EDC7001A"
       />
       <DashboardCard
         iconClass="icon-flag-icon-3"
         title={t("total_must_pay")}
         value={total_must_pay}
-        currency="UZS"
+        bgColor="#ED72001A"
       />
     </div>
   );

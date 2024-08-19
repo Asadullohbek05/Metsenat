@@ -3,13 +3,17 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { formatNumberWithSpaces } from "../../utils";
+import { formatNumberWithSpaces, logOut } from "../../utils";
 import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
 import LanguageDropdown from "../../components/Dropdown";
 import request from "../../server/request";
 
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import logo from "../../assets/images/svg/admin-page-logo.svg";
+import Button from "../../components/Button/Button";
+import Loading from "../../components/Loading";
+import FormGroup from "../../components/Form/FormGroup";
+import FormInput from "../../components/Form/FormInput";
 
 interface Institute {
   name: string;
@@ -47,6 +51,9 @@ const SingleStudent = () => {
   const [refresh, SetRefresh] = useState(true);
 
   const [institutes, setInstitutes] = useState<Institute[]>([]);
+  const [allocatedAmount, setAllocatedAmount] = useState("");
+
+  // User Edit Data
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otm, setOtm] = useState<number | null>(null);
@@ -54,31 +61,17 @@ const SingleStudent = () => {
 
   const [error, setError] = useState<string | null>(null);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
+
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
 
-  const logOut = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    setIsAuthenticated(false);
-    toast.info("Logged Out Successfully");
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
-  }, [i18n]);
-
-  const { id } = useParams<{ id: string }>();
-
-  useEffect(() => {
     const getStudentDetails = async () => {
       try {
         const { data } = await request.get(`/student-detail/${id}`);
@@ -119,7 +112,6 @@ const SingleStudent = () => {
   }, [id]);
 
   const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
-
   const editStudent = () => {
     modal.showModal();
   };
@@ -151,49 +143,60 @@ const SingleStudent = () => {
   };
 
   if (error) {
-    return <div>{error}</div>;
+    console.log(error);
+  }
+
+  if (!studentDetails) {
+    return <Loading />;
   }
 
   return (
     <div>
+      {/* Navbar */}
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
-          <div className="max-w-7xl mx-auto py-4 px-10 flex justify-between items-center">
+          <div className="max-w-7xl mx-auto py-3 px-10 flex justify-between items-center">
             <Link to={"/"}>
-              <img src={logo} alt="Logo image" />
+              <img src={logo} className="h-6" alt="Logo image" />
             </Link>
-            <div className="flex gap-10">
+            <div className="flex gap-10 items-center">
               <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
+                <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
                   <i className="icon-user-icon text-2xl leading-none"></i>
                 </div>
               </div>
-              <button className="flex items-center" onClick={logOut}>
-                <i className="icon-log-out text-[32px]"></i>
-              </button>
+              <Button
+                onClick={() => logOut(navigate, setIsAuthenticated)}
+                iconLeft={true}
+                text=""
+                icon="icon-log-out text-[30px]"
+                variant="outline"
+              />
             </div>
           </div>
         </div>
         <div className="h-20 max-w-7xl mx-auto py-4 px-10 flex justify-between  items-center">
           <div className="flex items-center">
-            <Link to="/students" className="flex">
+            <Link to="/students" className="flex items-center">
               <i className="icon-arrow-big-left text-[28px]"></i>
             </Link>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
+            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4">
               {studentDetails?.full_name}
             </h3>
           </div>
-          <button
+          <Button
+            variant="secondary"
+            text={t("addSponsor")}
+            customClass="h-[42px] px-8 gap-[10px]"
+            iconLeft={true}
+            icon="icon-plus text-2xl"
+            type="button"
             onClick={addSponsor}
-            className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md my-7 flex items-center gap-[10px]"
-          >
-            <i className="icon-plus text-2xl"></i>
-            {t("addSponsor")}
-          </button>
+          />
         </div>
       </div>
       <div className="max-w-7xl mx-auto  px-10 pb-[443px] bg-[url('../src/assets/images/png/sponsor-single-bg.png')] bg-no-repeat bg-bottom">
@@ -202,16 +205,17 @@ const SingleStudent = () => {
             <h1 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
               {t("aboutStudent")}
             </h1>
-            <button
+            <Button
+              variant="secondary"
+              text={t("edit")}
+              customClass="h-[42px] px-8 gap-[10px]"
+              iconLeft={true}
+              icon="icon-edit text-2xl"
               onClick={editStudent}
-              className="flex justify-center items-center gap-[10px] px-8 h-11 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-semibold tracking-[1px] rounded-md"
-            >
-              <i className="icon-edit text-2xl"></i>
-              {t("edit")}
-            </button>
+            />
           </div>
           <div className="flex items-center">
-            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-SfProDisplay font-medium text-[#3366FF]">
+            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-[#3366FF]">
               {t("mainInfo")}
             </span>
             <hr className="flex-1 bg-[#E4E8F0]" />
@@ -220,40 +224,40 @@ const SingleStudent = () => {
             <div className="w-16 h-16 flex items-center justify-center bg-[#E0E7FF] rounded-md">
               <img src={sponsorIcon} alt="Sponsor Icon" />
             </div>
-            <h2 className="max-w-40 font-SfProDisplay text-[#212121] font-semibold text-[16px] tracking-[-1%]">
+            <h2 className="max-w-40 text-[#212121] font-medium text-[16px] tracking-[-1%]">
               {studentDetails?.full_name}
             </h2>
           </div>
           <div className="flex gap-56">
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
+              <p className="text-[#B5B5C3] uppercase font-medium tracking-[1.13px] text-xs">
                 {t("phoneNumber")}
               </p>
-              <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
+              <h3 className="text-[#212121]  text-[16px] font-medium mt-2">
                 {studentDetails?.phone}
               </h3>
             </div>
           </div>
           <div className="flex items-center mt-8">
-            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-SfProDisplay font-medium text-[#3366FF]">
+            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-[#3366FF]">
               {t("infoAboutOTM")}
             </span>
             <hr className="flex-1 bg-[#E4E8F0]" />
           </div>
           <div className="flex gap-10">
             <div className="mt-6 w-[349px]">
-              <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
+              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
                 {t("otm")}
               </p>
-              <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
+              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
                 {studentDetails?.institute?.name}
               </h3>
             </div>
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
+              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
                 {t("StudentType")}
               </p>
-              <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
+              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
                 {studentDetails?.type === 1
                   ? t("bachelor")
                   : studentDetails?.type === 2
@@ -266,18 +270,18 @@ const SingleStudent = () => {
           </div>
           <div className="flex gap-10">
             <div className="mt-6">
-              <p className="text-[#B5B5C3] w-[350px] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
+              <p className="text-[#B5B5C3] w-[350px] uppercase  tracking-[1.13px] text-xs">
                 {t("AllocatedAmount")}
               </p>
-              <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
+              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
                 {formatNumberWithSpaces(studentDetails?.given || 0)} UZS
               </h3>
             </div>
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-SfProDisplay tracking-[1.13px] text-xs">
+              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
                 {t("ContractAmount")}
               </p>
-              <h3 className="text-[#212121] font-SfProDisplay text-[16px] font-semibold mt-3">
+              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
                 {formatNumberWithSpaces(studentDetails?.contract || 0)} UZS
               </h3>
             </div>
@@ -288,13 +292,15 @@ const SingleStudent = () => {
             <h2 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
               {t("StudentSponsors")}
             </h2>
-            <button
+            <Button
+              variant="secondary"
+              text={t("addSponsor")}
+              customClass="h-[42px] px-8 gap-[10px]"
+              iconLeft={true}
+              icon="icon-plus text-2xl"
+              type="button"
               onClick={addSponsor}
-              className="px-8 py-2 bg-[#EDF1FD] text-[#3365FC] font-SfProDisplay font-medium rounded-md  flex items-center gap-[10px]"
-            >
-              <i className="icon-plus text-2xl"></i>
-              {t("addSponsor")}
-            </button>
+            />
           </div>
           {studentSponsors?.length !== 0 ? (
             <div className="flex items-center mt-[26px] mb-3">
@@ -317,6 +323,7 @@ const SingleStudent = () => {
           })}
         </div>
       </div>
+      {/* Edit Student */}
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
           <form method="dialog" onSubmit={handleEditStudent}>
@@ -332,44 +339,41 @@ const SingleStudent = () => {
             >
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
+            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("edit")}
             </h3>
             <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
-            <div className="mb-6">
-              <label
-                htmlFor="fullName"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("fullName")}
-              </label>
-              <input
+            <FormGroup id="fullName" label={t("fullName")} parentClass="mb-7">
+              <FormInput
+                id="fullName"
+                type="text"
+                inputClass="w-full"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                type="text"
-                id="fullName"
-                className="border bg-[#E0E7FF33] pl-4 outline-none border-[#E0E7FF] rounded-md w-full h-12 mt-2"
+                before=""
+                placeholder=""
               />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="phoneNumber"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("phoneNumber")}
-              </label>
-              <input
+            </FormGroup>
+            <FormGroup
+              id="phoneNumber"
+              label={t("phoneNumber")}
+              parentClass="mb-7"
+            >
+              <FormInput
+                id="phoneNumber"
+                type="text"
+                inputClass="w-full"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                type="text"
-                id="phoneNumber"
-                className="border pl-4 outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+                before=""
+                placeholder=""
               />
-            </div>
-            <div className="flex flex-col gap-2 mb-6">
+            </FormGroup>
+
+            <div className="flex flex-col gap-2 mb-7">
               <label
                 htmlFor="otm"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
               >
                 {t("otm")}
               </label>
@@ -377,47 +381,49 @@ const SingleStudent = () => {
                 required
                 value={otm || "default"}
                 onChange={(e) => setOtm(parseInt(e.target.value))}
-                className="select select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+                className="select select-sm bg-[#E0E7FF33] h-[45px] text-[#1D1D1F] font-normal border border-[#DFE3E8]"
               >
                 <option disabled value="default">
                   {t("chooseOtm")}
                 </option>
                 {institutes.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.id} className="font-normal">
                     {item.name}
                   </option>
                 ))}
               </select>
             </div>
-            <div className="mb-6">
-              <label
-                htmlFor="contract"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("ContractAmount")}
-              </label>
-              <input
+            <FormGroup
+              id="contract"
+              label={t("ContractAmount")}
+              parentClass="mb-7"
+            >
+              <FormInput
+                id="contract"
+                type="text"
+                inputClass="w-full"
                 value={contract}
                 onChange={(e) => setContract(e.target.value)}
-                type="text"
-                id="contract"
-                className="border pl-4 outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+                before=""
+                placeholder=""
               />
-            </div>
+            </FormGroup>
             <hr className="h-0.5 bg-[#F5F5F7] border-none" />
 
             <div className="flex justify-end mt-5">
-              <button
+              <Button
                 type="submit"
-                className="flex items-center  gap-[10px] justify-center w-36 h-11 bg-[#3365FC] text-white font-SfProDisplay text-[14px] font-semibold tracking-[1px] rounded-md"
-              >
-                <i className="icon-save text-2xl"></i>
-                {t("Save")}
-              </button>
+                text={t("Save")}
+                customClass="h-[42px] px-8 gap-[10px]"
+                iconLeft={true}
+                icon="icon-save text-2xl"
+              />
             </div>
           </form>
         </div>
       </dialog>
+
+      {/* Add Sponsor */}
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -433,56 +439,67 @@ const SingleStudent = () => {
             >
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay text-2xl">
+            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("addSponsor")}
             </h3>
             <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
-            <div className="mb-6">
+            <div className="mb-7">
               <label
                 htmlFor="fullName"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
+                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
               >
                 {t("fullName")}
               </label>
               <select
                 required
                 defaultValue={"default"}
-                // value={"default"}
-                // onChange={(e) => setOtm(parseInt(e.target.value))}
-                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
               >
                 <option disabled value="default">
                   Homiyni Tanglang
                 </option>
-                <option value="">Homiy 1</option>
-                <option value="">Homiy 2</option>
-                <option value="">Homiy 3</option>
-                <option value="">Homiy 4</option>
-                <option value="">Homiy 5</option>
+                <option value="" className="font-normal">
+                  Homiy 1
+                </option>
+                <option value="" className="font-normal">
+                  Homiy 2
+                </option>
+                <option value="" className="font-normal">
+                  Homiy 3
+                </option>
+                <option value="" className="font-normal">
+                  Homiy 4
+                </option>
+                <option value="" className="font-normal">
+                  Homiy 5
+                </option>
               </select>
             </div>
-            <div className="mb-6">
-              <label
-                htmlFor="contract"
-                className="text-[#1D1D1F] text-xs font-SfProDisplay uppercase font-semibold tracking-[1.13px]"
-              >
-                {t("AllocatedAmount")}
-              </label>
-              <input
-                // value={contract}
-                // onChange={(e) => setContract(e.target.value)}
-                placeholder="Summani kiriting"
-                type="text"
+            <FormGroup
+              id="contract"
+              label={t("AllocatedAmount")}
+              parentClass="mb-7"
+            >
+              <FormInput
                 id="contract"
-                className="border pl-4 outline-none border-[#E0E7FF] bg-[#E0E7FF33] rounded-md w-full h-12 mt-2"
+                type="number"
+                inputClass="w-full"
+                value={allocatedAmount}
+                onChange={(e) => setAllocatedAmount(e.target.value)}
+                before=""
+                placeholder={t("enterAmount")}
               />
-            </div>
+            </FormGroup>
             <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
             <div className="flex justify-end">
-              <button className="bg-[#3366FF] flex items-center gap-[10px] px-8 py-[9px] rounded-md text-white">
-                <i className="icon-plus text-2xl"></i>
-                {t("add")}
-              </button>
+              <Button
+                type="submit"
+                variant="primary"
+                customClass="h-[42px] px-8 gap-[10px]"
+                text={t("add")}
+                iconLeft={true}
+                icon="icon-plus text-2xl"
+              />
             </div>
           </form>
         </div>

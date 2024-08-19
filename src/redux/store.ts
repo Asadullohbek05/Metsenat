@@ -6,8 +6,8 @@ import sponsorDetailReducer from "./singleSponsorSlice";
 export const store = configureStore({
   reducer: {
     sponsors: sponsorReducer,
-    students: studentsReducer,
     sponsorDetails: sponsorDetailReducer,
+    students: studentsReducer,
   },
 });
 

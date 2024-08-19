@@ -16,12 +16,12 @@ const SponsorsPage: React.FC = () => {
     { content: string; marginLeft?: string; width?: string }[]
   >([
     { content: "#", marginLeft: "24px", width: "" },
-    { content: "f.i.sh.", marginLeft: "50px", width: "" },
-    { content: "phoneNumber", marginLeft: "212px", width: "150px" },
+    { content: "f.i.sh.", marginLeft: "40px", width: "" },
+    { content: "phoneNumber", marginLeft: "208px", width: "150px" },
     { content: "SponsorshipAmount", marginLeft: "15px", width: "170px" },
     { content: "AmountSpent", marginLeft: "", width: "160px" },
     { content: "date", marginLeft: "36px", width: "" },
-    { content: "Status", marginLeft: "95px", width: "" },
+    { content: "Status", marginLeft: "97px", width: "" },
     { content: "Actions", marginLeft: "65px", width: "70px" },
   ]);
 
@@ -36,17 +36,12 @@ const SponsorsPage: React.FC = () => {
     (state: RootState) => state.sponsors
   );
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
     dispatch(fetchSponsors({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
-  }, [dispatch, page, itemsPerPage, searchParams, i18n]);
+  }, [dispatch, page, itemsPerPage, searchParams]);
 
   const handlePageClick = (event: { selected: number }) => {
     const newPage = event.selected + 1;
@@ -87,23 +82,21 @@ const SponsorsPage: React.FC = () => {
           />
         ))}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center font-normal text-[15px]">
         {t("ShowDetail", {
           all: total,
           first: 1 + (page - 1) * itemsPerPage,
           latest: displayedItemsCount,
         })}
         <div className="flex items-center">
-          <span className="text-[#1D1D1F] font-Rubik font-normal">
-            {t("Show")}
-          </span>
+          <span className="text-[#1D1D1F]  font-normal">{t("Show")}</span>
           <select
-            className="select select-sm mx-3 text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+            className="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
           >
             {showSelect.map((option, i) => (
-              <option key={i} value={option}>
+              <option key={i} value={option} className="font-normal">
                 {option}
               </option>
             ))}

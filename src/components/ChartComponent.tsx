@@ -1,36 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { useTranslation } from "react-i18next";
 
 const ChartComponent = () => {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
-  }, [i18n]);
 
-  const [series] = useState([
+  const [series, setSeries] = useState([
     {
       name: t("students"),
-      data: [303, 403, 4500, 30000, 40000, 45000, 40000, 30000],
+      data: [10000, 20000, 8000, 30000, 15000, 20000, 25000, 35000],
     },
     {
       name: t("sponsors"),
-      data: [22000, 30, 35000, 20000, 18000, 17000, 60, 40000],
+      data: [5000, 2000, 20000, 15000, 25000, 40000, 22000, 10000],
     },
   ]);
 
-  const [options] = useState<ApexOptions>({
+  const [options, setOptions] = useState<ApexOptions>({
     chart: {
       id: "basic-bar",
       height: 402,
       type: "line",
       dropShadow: {
-        enabled: true,
+        enabled: false,
         color: "#000",
         top: 18,
         left: 7,
@@ -44,26 +37,21 @@ const ChartComponent = () => {
         show: false,
       },
     },
-    colors: ["#4C6FFF", "#FF92AE"],
+    colors: ["#FF92AE", "#4C6FFF"],
     dataLabels: {
-      enabled: true,
+      enabled: false,
     },
     stroke: {
       curve: "smooth",
     },
-    title: {
-      text: t("NumberOfStudentsAndSponsors"),
-      align: "left",
-    },
     grid: {
       borderColor: "#e7e7e7",
       row: {
-        colors: ["#f3f3f3", "transparent"],
         opacity: 0.5,
       },
     },
     markers: {
-      size: 1,
+      size: 0,
     },
     xaxis: {
       categories: [
@@ -80,37 +68,91 @@ const ChartComponent = () => {
         "Noyabr",
         "Dekabr",
       ],
-      title: {
-        text: "Oylar",
-      },
     },
     yaxis: {
-      title: {
-        text: "Soni",
-      },
-      min: 100,
+      min: 1,
       max: 50000,
     },
     legend: {
       position: "top",
       horizontalAlign: "right",
-      floating: true,
+      floating: false,
       offsetY: -25,
       offsetX: -5,
     },
+    tooltip: {
+      theme: "light",
+      x: {
+        show: true,
+        format: "MMM dd",
+      },
+      y: {
+        formatter: (value) => `${value}`,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+      marker: {
+        show: true,
+      },
+      style: {
+        fontSize: "12px",
+        fontFamily: "Rubik, sans-serif",
+      },
+    },
   });
 
+  useEffect(() => {
+    setSeries([
+      {
+        name: t("students"),
+        data: [10000, 20000, 8000, 30000, 15000, 20000, 25000, 35000],
+      },
+      {
+        name: t("sponsors"),
+        data: [5000, 2000, 20000, 15000, 25000, 40000, 22000, 10000],
+      },
+    ]);
+
+    setOptions((prevOptions) => ({
+      ...prevOptions,
+      tooltip: {
+        ...prevOptions.tooltip,
+        title: {
+          formatter: (seriesName: string) => `${t(seriesName)}:`,
+        },
+      },
+    }));
+  }, [i18n.language, t]);
+
   return (
-    <div className="max-w-7xl mx-auto px-10">
-      <div className="row">
-        <div className="mixed-chart bg-white">
-          <Chart
-            options={options}
-            series={series}
-            type="line"
-            width="100%"
-            height={402}
-          />
+    <div className="max-w-7xl mx-auto px-10 ">
+      <div className="bg-white rounded-lg">
+        <div className="pl-6 pt-6">
+          <h1 className="text-2xl mb-2 font-medium">
+            {t("numbersOfStudentsAndSponsors")}
+          </h1>
+          <div className="flex gap-5 items-center">
+            <h5 className="font-rubik font-normal text-xs flex items-center gap-2 text-[#7A7A9D]">
+              <span className="w-2 h-2  rounded-full bg-[#4C6FFF]"></span>
+              {t("sponsors")}
+            </h5>
+            <h5 className="font-rubik font-normal text-xs flex items-center gap-2 text-[#7A7A9D]">
+              <span className="w-2 h-2  rounded-full bg-[#FF92AE]"></span>
+              {t("students")}
+            </h5>
+          </div>
+        </div>
+        <div className="row bg-white rounded-lg">
+          <div className="mixed-chart bg-white rounded-lg">
+            <Chart
+              options={options}
+              series={series}
+              type="line"
+              width="100%"
+              height={402}
+            />
+          </div>
         </div>
       </div>
     </div>

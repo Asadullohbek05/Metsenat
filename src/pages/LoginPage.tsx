@@ -1,13 +1,15 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import logo from "../assets/images/svg/logo.svg";
 import LanguageDropdown from "../components/Dropdown";
 import request from "../server/request";
 import { AuthContext } from "../context/AuthContext";
+import FormGroup from "../components/Form/FormGroup";
+import FormInput from "../components/Form/FormInput";
+import Button from "../components/Button/Button";
+import logo from "../assets/images/svg/logo.svg";
 
 const LoginPage: React.FC = () => {
   const authContext = useContext(AuthContext);
@@ -16,25 +18,19 @@ const LoginPage: React.FC = () => {
   }
   const { setIsAuthenticated } = authContext;
 
-  const [captchaVal, setCaptchaVal] = useState<string | null>(null);
-  const { t, i18n } = useTranslation();
-  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? "";
-  const [login, setLogin] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? "";
   if (!siteKey) {
     console.warn("ReCAPTCHA site key is not set.");
   }
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
-  }, [i18n]);
+  // States
+  const [captchaVal, setCaptchaVal] = useState<string | null>(null);
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const handleCaptchaChange = (value: string | null) => {
     setCaptchaVal(value);
@@ -46,6 +42,7 @@ const LoginPage: React.FC = () => {
       password: password,
     };
     try {
+      setLoading(true);
       const { data } = await request.post("/auth/login/", user);
       localStorage.setItem("token", JSON.stringify(data));
       setIsAuthenticated(true);
@@ -53,7 +50,10 @@ const LoginPage: React.FC = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
+      setError("login_failed");
       toast.error(t("login_failed"));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,65 +68,63 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center w-full h-screen">
-      <div className="flex flex-col items-center gap-5 sm:gap-12">
-        <img className="h-[28px] sm:w-auto" src={logo} alt="Logo" />
+      <div className="flex flex-col items-center gap-12">
+        {/* Logo Image */}
+        <img className="h-[33px]" src={logo} alt="Logo" />
+
+        {/* Form */}
         <form
-          className="bg-white p-5 sm:p-8 rounded-xl flex flex-col"
+          className="bg-white p-8 rounded-xl flex flex-col shadow-[0px_5px_40px_0px_rgba(0,0,0,0.03)]"
           onSubmit={handleSubmit}
         >
-          <h1 className="font-bold text-2xl leading-7 mb-11 font-SfProDisplay">
+          <h1 className="font-bold text-[#28293D] text-2xl leading-7 mb-11">
             {t("enter")}
           </h1>
-          <div className="flex flex-col gap-2 mb-6">
-            <label
-              htmlFor="login"
-              className="text-xs tracking-wide text-[#1D1D1F] font-bold font-Rubik"
-            >
-              {t("login")}
-            </label>
-            <input
+          <FormGroup id="loginLabel" label={t("login")} parentClass="mb-[22px]">
+            <FormInput
+              id="login"
+              type="text"
+              placeholder="metsenatadmin"
+              inputClass="w-full"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
-              id="login"
-              required
-              type="text"
-              className="h-10 border rounded-md border-[#E0E7FF] outline-none px-4 bg-[#E0E7FF33]"
+              error={error}
             />
-          </div>
-          <div className="flex flex-col gap-2 mb-6">
-            <label
-              htmlFor="password"
-              className="text-xs tracking-wide text-[#1D1D1F] font-bold font-Rubik"
-            >
-              {t("password")}
-            </label>
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+          </FormGroup>
+          <FormGroup
+            id="passwordLabel"
+            label={t("password")}
+            parentClass="mb-[22px]"
+          >
+            <FormInput
               id="password"
               type="password"
-              className="h-10 border rounded-md border-[#E0E7FF] outline-none px-4 bg-[#E0E7FF33]"
+              inputClass="w-full"
+              placeholder=""
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={error}
             />
-          </div>
+          </FormGroup>
+
+          {/* RECAPTCHA */}
           <ReCAPTCHA
-            className="w-full"
+            className="w-full mb-[22px]"
             sitekey={siteKey}
             onChange={handleCaptchaChange}
           />
-          <button
-            aria-label={t("submit")}
-            className={`bg-[#2E5BFF] w-full h-[50px] mt-6 rounded-md font-medium text-white ${
-              !login || !password || !captchaVal
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            } `}
-            disabled={!login || !password || !captchaVal}
-          >
-            {t("submit")}
-          </button>
+          <Button
+            variant="primary"
+            text={t("submit")}
+            disabled={!login || !password || !captchaVal || loading}
+            customClass="py-[14px]"
+            type="submit"
+            loading={loading}
+          />
         </form>
       </div>
+
+      {/* Language Dropdown */}
       <div className="fixed top-5 right-5">
         <LanguageDropdown />
       </div>

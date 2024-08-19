@@ -1,5 +1,5 @@
 {
-  "enter": "ВОЙТИ",
+  "enter": "Войти",
   "login": "ЛОГИН",
   "password": "ПАРОЛЬ",
   "submit": "Войти",
@@ -8,6 +8,7 @@
   "total_paid": "Общая сумма выплачена",
   "total_need": "Общая запрошенная сумма",
   "total_must_pay": "Сумма к оплате",
+  "numbersOfStudentsAndSponsors": "Количество спонсоры и студентов",
   "search": "поиск",
   "filter": "Фильтр",
   "phoneNumber": "номер телефона",

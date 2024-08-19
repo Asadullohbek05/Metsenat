@@ -1,0 +1,58 @@
+/* rubik-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Rubik/Rubik-Regular.ttf") format("truetype");
+}
+/* rubik-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/Rubik/Rubik-Medium.ttf") format("truetype");
+}
+
+/* SF Pro Display 500 */
+@font-face {
+  font-display: swap;
+  font-family: "SfProDisplay";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/Sf-Pro-Display/Sf-pro-display-medium.OTF") format(".OTF");
+}
+/* SF Pro Display 400 */
+@font-face {
+  font-display: swap;
+  font-family: "SfProDisplay";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Sf-Pro-Display/Sf-pro-display-regular.OTF") format(".OTF");
+}
+
+/* SF Pro Text 700 */
+@font-face {
+  font-display: swap;
+  font-family: "SfProText";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/Sf-Pro-Text/SF-Pro-Text-Bold.otf") format(".OTF");
+}
+/* SF Pro Text 500 */
+@font-face {
+  font-display: swap;
+  font-family: "SfProText";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/Sf-Pro-Text/SF-Pro-Text-Medium.otf") format(".OTF");
+}
+/* SF Pro Text 400 */
+@font-face {
+  font-display: swap;
+  font-family: "SfProText";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Sf-Pro-Text/SF-Pro-Text-Regular.otf") format(".OTF");
+}

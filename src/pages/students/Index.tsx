@@ -17,13 +17,13 @@ const Students = () => {
   >([
     { content: "#", marginLeft: "24px", width: "" },
     { content: "f.i.sh.", marginLeft: "50px", width: "" },
-    { content: "StudentType", marginLeft: "130px", width: "150px" },
+    { content: "StudentType", marginLeft: "125px", width: "150px" },
     { content: "otm", marginLeft: "18px", width: "315px" },
     { content: "AllocatedAmount", marginLeft: "20px", width: "160px" },
     { content: "ContractAmount", marginLeft: "32px", width: "" },
     { content: "Actions", marginLeft: "24px", width: "70px" },
   ]);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -53,14 +53,9 @@ const Students = () => {
   };
 
   useEffect(() => {
-    const storedLang = localStorage.getItem("selectedLanguage");
-    if (storedLang) {
-      const { locale } = JSON.parse(storedLang);
-      i18n.changeLanguage(locale);
-    }
     dispatch(fetchStudents({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
-  }, [searchParams, dispatch, page, itemsPerPage, i18n]);
+  }, [searchParams, dispatch, page, itemsPerPage]);
 
   if (status === "loading") return <Loading />;
   if (status === "failed") return <p>{t("ErrorLoadingStudents")}</p>;
@@ -74,7 +69,7 @@ const Students = () => {
       <div className="flex justify-end w-full">
         <Link
           to="/add-student"
-          className="px-8 py-2 bg-[#3366FF] text-white rounded-md my-7 flex items-center gap-[10px]"
+          className="px-8 py-2 bg-[#3366FF] font-SfProText text-[15px] text-white rounded-md my-7 flex items-center gap-[10px]"
         >
           <i className="icon-plus text-2xl"></i>
           {t("addStudent")}
@@ -94,7 +89,7 @@ const Students = () => {
           />
         ))}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center font-normal">
         {t("ShowDetail", {
           all: total,
           first: 1 + (page - 1) * itemsPerPage,
@@ -105,12 +100,12 @@ const Students = () => {
             {t("Show")}
           </span>
           <select
-            className="select select-sm mx-3 text-[#1D1D1F] font-SfProDisplay border border-[#DFE3E8]"
+            className="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
           >
             {showSelect.map((option, i) => (
-              <option key={i} value={option}>
+              <option key={i} value={option} className="font-normal">
                 {option}
               </option>
             ))}

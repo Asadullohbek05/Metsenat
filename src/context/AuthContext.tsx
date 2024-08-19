@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode, FC } from "react";
 
-interface AuthContextProps {
+export interface AuthContextProps {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }

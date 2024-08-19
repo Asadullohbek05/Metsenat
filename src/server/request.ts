@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const request = axios.create({
-  baseURL: "https://metsenatclub.xn--h28h.uz/api/v1/",
+  baseURL: import.meta.env.VITE_BASE_API_URL,
   timeout: 10000,
 });
 
