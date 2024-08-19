@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
-import saveIcon from "../../assets/images/svg/save-icon.svg";
 import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "../../components/Dropdown";
@@ -28,18 +27,22 @@ const SingleSponsor: React.FC = () => {
   const [sponsorSum, setSponsorSum] = useState("");
   const [firm, setFirm] = useState("");
 
+  // Translate
   const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+
+  // Auth
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
 
+  // Fetch SponsorDetails
   const dispatch = useDispatch<AppDispatch>();
   const { sponsorDetails, status } = useSelector(
     (state: RootState) => state.sponsorDetails
   );
-
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(fetchSponsorData(Number(id)));
@@ -89,14 +92,14 @@ const SingleSponsor: React.FC = () => {
     <div>
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
-          <div className="max-w-7xl mx-auto py-3 px-10 flex justify-between items-center">
-            <Link to={"/"}>
-              <img src={logo} className="h-6" alt="Logo image" />
+          <div className="max-w-7xl mx-auto py-4 px-10 flex justify-between items-center">
+            <Link to="/">
+              <img src={adminLogo} alt="Logo" />
             </Link>
-            <div className="flex gap-10 items-center">
+            <div className="flex gap-10">
               <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
+                <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
@@ -178,6 +181,8 @@ const SingleSponsor: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Sponsor Edit Modal */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -221,6 +226,7 @@ const SingleSponsor: React.FC = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 parentClass="mb-7"
+                before=""
               />
             </FormGroup>
             <FormGroup id="phoneNumber" label={t("phoneNumber")}>
@@ -232,6 +238,7 @@ const SingleSponsor: React.FC = () => {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 parentClass="mb-7"
+                before=""
               />
             </FormGroup>
             <FormGroup id="SponsorshipAmount" label={t("SponsorshipAmount")}>
@@ -243,6 +250,7 @@ const SingleSponsor: React.FC = () => {
                 value={sponsorSum}
                 onChange={(e) => setSponsorSum(e.target.value)}
                 parentClass="mb-7"
+                before=""
               />
             </FormGroup>
             {isVisible && (
@@ -255,6 +263,7 @@ const SingleSponsor: React.FC = () => {
                   value={firm}
                   onChange={(e) => setFirm(e.target.value)}
                   parentClass="mb-7"
+                  before=""
                 />
               </FormGroup>
             )}

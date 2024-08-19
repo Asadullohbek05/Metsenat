@@ -43,5 +43,8 @@
   "Save": "Saqlash",
   "NameOrganization": "Tashkilot nomi",
   "LegalEntity": "Yuridik shaxs",
-  "physicalPerson": "Jismoniy Shaxs"
+  "physicalPerson": "Jismoniy Shaxs",
+  "applicationStatus": "Ariza holati",
+  "clean": "Tozalash",
+  "SeeResults": "Natijalarni ko'rish"
 }

@@ -9,7 +9,7 @@ interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   customClass?: string;
-  type?: "button" | "submit";
+  type?: "button" | "submit" | "reset";
   onClick?: () => void;
 }
 

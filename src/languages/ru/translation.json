@@ -43,5 +43,8 @@
   "Save": "Сохранить",
   "NameOrganization": "Название организации",
   "LegalEntity": "Юридическое лицо",
-  "physicalPerson": "физическое лицо"
+  "physicalPerson": "физическое лицо",
+  "applicationStatus": "статус заявки",
+  "clean": "Очистить",
+  "SeeResults": "Посмотреть результаты"
 }

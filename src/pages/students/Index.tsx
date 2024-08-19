@@ -9,9 +9,19 @@ import { fetchStudents } from "../../redux/studentsSlice";
 import StudentCard from "../../components/Cards/StudentCard";
 import { Student } from "../../types/students";
 import HeaderTitle from "../../components/HeaderTitle";
+import request from "../../server/request";
+import FormGroup from "../../components/Form/FormGroup";
+import Button from "../../components/Button/Button";
+
+interface Institute {
+  id: number;
+  name: string;
+}
 
 const Students = () => {
   const showSelect = ["10", "12", "14", "16", "18", "20"];
+  const [institutes, setInstitutes] = useState<Institute[]>([]);
+
   const [headerTitleProps] = useState<
     { content: string; marginLeft?: string; width?: string }[]
   >([
@@ -30,6 +40,15 @@ const Students = () => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(
     parseInt(searchParams.get("page_size") || "10", 10)
   );
+
+  const getInstitutes = async () => {
+    try {
+      const { data } = await request.get<Institute[]>("/institute-list/");
+      setInstitutes(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const dispatch = useDispatch<AppDispatch>();
   const { students, status } = useSelector(
@@ -55,6 +74,7 @@ const Students = () => {
   useEffect(() => {
     dispatch(fetchStudents({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
+    getInstitutes();
   }, [searchParams, dispatch, page, itemsPerPage]);
 
   if (status === "loading") return <Loading />;
@@ -110,6 +130,8 @@ const Students = () => {
               </option>
             ))}
           </select>
+
+          {/* Students Pagination */}
           <ReactPaginate
             breakLabel="..."
             nextLabel={<i className="icon-arrow-right text-xs"></i>}
@@ -123,15 +145,77 @@ const Students = () => {
           />
         </div>
       </div>
+
+      {/* Students Filter Modal */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
             <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="font-SfProDisplay text-2xl">Filter</h3>
-            <hr className="my-7" />
-            <h1 className="text-3xl">Coming Soon...</h1>
+            <h3 className="font-SfProDisplay font-bold text-2xl">
+              {t("filter")}
+            </h3>
+            <hr className="my-7 h-[2px] border-none bg-[#F5F5F7]" />
+            <FormGroup
+              id="studentType"
+              label={t("StudentType")}
+              parentClass="mb-7"
+            >
+              <select
+                required
+                className="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
+              >
+                <option className="font-normal" value="All">
+                  {t("all")}
+                </option>
+                <option className="font-normal" value="1">
+                  {t("bachelor")}
+                </option>
+                <option className="font-normal" value="2">
+                  {t("masterDegree")}
+                </option>
+                <option className="font-normal" value="3">
+                  {t("phd")}
+                </option>
+              </select>
+            </FormGroup>
+
+            <FormGroup id="otm" label={t("OTM")} parentClass="mb-7">
+              <select
+                required
+                defaultValue={"default"}
+                className="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+              >
+                <option disabled value="default">
+                  {t("all")}
+                </option>
+                {institutes.map((item) => (
+                  <option key={item.id} value={item.id} className="font-normal">
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </FormGroup>
+
+            <div className="flex justify-end gap-4 items-center">
+              <Button
+                type="reset"
+                variant="outline"
+                text={t("clean")}
+                iconLeft={true}
+                icon="icon-clean text-2xl"
+                customClass="h-[42px] px-8 gap-[10px] text-[#3366FF] border border-[#3366FF]"
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                text={t("SeeResults")}
+                iconLeft={true}
+                icon="icon-eye2 text-2xl"
+                customClass="h-[42px] px-8 gap-[10px]"
+              />
+            </div>
           </form>
         </div>
       </dialog>

@@ -9,9 +9,15 @@ import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import { Sponsor } from "../../types/sponsors";
 import HeaderTitle from "../../components/HeaderTitle";
+import FormGroup from "../../components/Form/FormGroup";
+import Check from "../../components/Form/FormCheck";
+import DateRangePicker from "../../components/Form/FormDatePicker";
+import Button from "../../components/Button/Button";
 
 const SponsorsPage: React.FC = () => {
+  // Select Valuse
   const [showSelect] = useState<string[]>(["10", "12", "14", "16", "18", "20"]);
+  // HeaderTitle Values
   const [headerTitleProps] = useState<
     { content: string; marginLeft?: string; width?: string }[]
   >([
@@ -24,25 +30,39 @@ const SponsorsPage: React.FC = () => {
     { content: "Status", marginLeft: "97px", width: "" },
     { content: "Actions", marginLeft: "65px", width: "70px" },
   ]);
+  // Checkbox Values
+  const [checkboxValues] = useState<{ text: string; id: string }[]>([
+    { text: "Barchasi", id: "1" },
+    { text: "1 000 000 UZS", id: "2" },
+    { text: "5 000 000 UZS", id: "3" },
+    { text: "7 000 000 UZS", id: "4" },
+    { text: "10 000 000 UZS", id: "5" },
+    { text: "30 000 000 UZS", id: "6" },
+    { text: "50 000 000 UZS", id: "7" },
+  ]);
 
+  // Params Items
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const [itemsPerPage, setItemsPerPage] = useState<number>(
     parseInt(searchParams.get("page_size") || "10", 10)
   );
+  const [activeCheckbox, setActiveCheckbox] = useState<string>("1");
 
+  // Translate
+  const { t } = useTranslation();
+
+  // Fetch Sponsors
   const dispatch = useDispatch<AppDispatch>();
   const { sponsors, status } = useSelector(
     (state: RootState) => state.sponsors
   );
-
-  const { t } = useTranslation();
-
   useEffect(() => {
     dispatch(fetchSponsors({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
   }, [dispatch, page, itemsPerPage, searchParams]);
 
+  // Pagination Buttons Handling
   const handlePageClick = (event: { selected: number }) => {
     const newPage = event.selected + 1;
     setSearchParams({
@@ -51,6 +71,7 @@ const SponsorsPage: React.FC = () => {
     });
   };
 
+  // Pagination Page Items Handling
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -58,21 +79,29 @@ const SponsorsPage: React.FC = () => {
     setItemsPerPage(newItemsPerPage);
     setSearchParams({ page: "1", page_size: newItemsPerPage.toString() });
   };
-
-  if (status === "loading") return <Loading />;
-  if (status === "failed") return <p>{t("ErrorLoadingSponsors")}</p>;
-
   const total = sponsors?.count || 0;
   const pageCount = Math.ceil(total / itemsPerPage);
   const displayedItemsCount = Math.min(page * itemsPerPage, total);
 
+  // Handle Checkbox Values
+  const handleCheckboxClick = (id: string) => {
+    setActiveCheckbox(id);
+  };
+
+  // Loading and Errors
+  if (status === "loading") return <Loading />;
+  if (status === "failed") return <p>{t("ErrorLoadingSponsors")}</p>;
+
   return (
     <div className="max-w-7xl mx-auto px-10 mt-12 pb-28">
+      {/* Sponsors Header */}
       <div className="mb-3 flex items-center">
         {headerTitleProps.map((obj, index) => (
           <HeaderTitle key={index} config={obj} />
         ))}
       </div>
+
+      {/* Sponsors Body */}
       <div className="mb-6">
         {sponsors?.results.map((item: Sponsor, i: number) => (
           <SponsorCard
@@ -82,6 +111,8 @@ const SponsorsPage: React.FC = () => {
           />
         ))}
       </div>
+
+      {/* Sponsors Footer */}
       <div className="flex justify-between items-center font-normal text-[15px]">
         {t("ShowDetail", {
           all: total,
@@ -115,15 +146,69 @@ const SponsorsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Filter Modal */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
+            <button className="btn text-[#B2B7C1] btn-md btn-circle btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="font-SfProDisplay text-2xl">Filter</h3>
-            <hr className="my-7" />
-            <h1 className="text-3xl">Coming Soon...</h1>
+            <h3 className="font-SfProDisplay text-2xl font-bold text-[#28293D]">
+              {t("filter")}
+            </h3>
+            <hr className="my-6 h-[2px] bg-[#F5F5F7] border-none" />
+            <FormGroup
+              id="action"
+              label={t("applicationStatus")}
+              parentClass="mb-7"
+            >
+              <select className="select select-sm bg-[#E0E7FF33] h-[42px] font-normal text-[#1D1D1F] border border-[#DFE3E8]">
+                <option value="">Barchasi</option>
+                <option value="">Yangi</option>
+                <option value="">Moderatsiyada</option>
+                <option value="">Tasdiqlangan</option>
+                <option value="">Bekor qilingan</option>
+              </select>
+            </FormGroup>
+            <FormGroup
+              id="sponsorshipAmount"
+              label={t("SponsorshipAmount")}
+              parentClass="mb-3"
+            >
+              <div className="flex flex-wrap items-center">
+                {checkboxValues.map((checkbox) => (
+                  <Check
+                    key={checkbox.id}
+                    text={checkbox.text}
+                    id={checkbox.id}
+                    isActive={checkbox.id === activeCheckbox}
+                    onClick={() => handleCheckboxClick(checkbox.id)}
+                  />
+                ))}
+              </div>
+            </FormGroup>
+            <FormGroup id="date" label={t("date")}>
+              <DateRangePicker />
+            </FormGroup>
+            <hr className="my-6 h-[2px] bg-[#F5F5F7] border-none" />
+            <div className="flex justify-end gap-4 items-center">
+              <Button
+                type="reset"
+                variant="outline"
+                text={t("clean")}
+                iconLeft={true}
+                icon="icon-clean text-2xl"
+                customClass="h-[42px] px-8 gap-[10px] text-[#3366FF] border border-[#3366FF]"
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                text={t("SeeResults")}
+                iconLeft={true}
+                icon="icon-eye2 text-2xl"
+                customClass="h-[42px] px-8 gap-[10px]"
+              />
+            </div>
           </form>
         </div>
       </dialog>

@@ -43,5 +43,8 @@
   "Save": "Save",
   "NameOrganization": "Name of the organization",
   "LegalEntity": "Legal entity",
-  "physicalPerson": "Physical Person"
+  "physicalPerson": "Physical Person",
+  "applicationStatus": "Application Status",
+  "clean": "Clean",
+  "SeeResults": "See Results"
 }

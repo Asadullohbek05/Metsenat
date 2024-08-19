@@ -2,7 +2,7 @@ import React from "react";
 
 interface FormInputProps {
   id: string;
-  type: "text" | "password" | "number";
+  type: "text" | "password" | "number" | "date";
   placeholder: string;
   parentClass?: string;
   inputClass?: string;
