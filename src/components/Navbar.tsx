@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import logo from "../assets/images/svg/admin-page-logo.svg";
 import LanguageDropdown from "./Dropdown";
 import { useTranslation } from "react-i18next";
-import Button from "./Button/Button";
+import Button from "./Base/Button";
 import { logOut } from "../utils";
 
 const Navbar = () => {

@@ -7,14 +7,16 @@ import { formatNumberWithSpaces, logOut } from "../../utils";
 import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
 import LanguageDropdown from "../../components/Dropdown";
 import request from "../../server/request";
-
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import logo from "../../assets/images/svg/admin-page-logo.svg";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Base/Button";
 import Loading from "../../components/Loading";
 import FormGroup from "../../components/Form/FormGroup";
 import FormInput from "../../components/Form/FormInput";
+import FormSelect from "../../components/Form/FormSelect";
+import Hr from "../../components/Base/Hr";
 
+// Types
 interface Institute {
   name: string;
   id: number;
@@ -43,14 +45,12 @@ interface StudentSponsors {
 }
 
 const SingleStudent = () => {
+  // States
   const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(
     null
   );
   const [studentSponsors, setStudentSponsors] = useState<StudentSponsors[]>([]);
-
   const [refresh, SetRefresh] = useState(true);
-
-  const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [allocatedAmount, setAllocatedAmount] = useState("");
 
   // User Edit Data
@@ -58,18 +58,19 @@ const SingleStudent = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otm, setOtm] = useState<number | null>(null);
   const [contract, setContract] = useState("");
-
   const [error, setError] = useState<string | null>(null);
 
+  // Translate
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-
   const navigate = useNavigate();
 
+  // Auth
   const { setIsAuthenticated } = useContext(AuthContext) || {
     setIsAuthenticated: () => {},
   };
 
+  // Fetch Student Details and Sponsors
   useEffect(() => {
     window.scrollTo(0, 0);
     const getStudentDetails = async () => {
@@ -85,10 +86,7 @@ const SingleStudent = () => {
         console.log(err);
       }
     };
-    getStudentDetails();
-  }, [id, refresh]);
 
-  useEffect(() => {
     const getStudentSponsors = async () => {
       try {
         const { data } = await request.get(`/student-sponsor/${id}/`);
@@ -98,18 +96,9 @@ const SingleStudent = () => {
         console.log(err);
       }
     };
-    const getInstitutes = async () => {
-      try {
-        const { data } = await request.get<Institute[]>("/institute-list/");
-        setInstitutes(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
+    getStudentDetails();
     getStudentSponsors();
-    getInstitutes();
-  }, [id]);
+  }, [id, refresh]);
 
   const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
   const editStudent = () => {
@@ -128,6 +117,7 @@ const SingleStudent = () => {
     modal.showModal();
   };
 
+  // Edit Student
   const handleEditStudent = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -149,10 +139,12 @@ const SingleStudent = () => {
     }
   };
 
+  // Handle Errors
   if (error) {
     console.log(error);
   }
 
+  // Loading
   if (!studentDetails) {
     return <Loading />;
   }
@@ -206,6 +198,7 @@ const SingleStudent = () => {
           />
         </div>
       </div>
+      {/* Student Header */}
       <div className="max-w-7xl mx-auto  px-10 pb-[443px] bg-[url('../src/assets/images/png/sponsor-single-bg.png')] bg-no-repeat bg-bottom">
         <div className="my-10 bg-white w-[793px] mx-auto rounded-xl p-8">
           <div className="flex justify-between items-center mb-[26px]">
@@ -309,6 +302,7 @@ const SingleStudent = () => {
               onClick={addSponsor}
             />
           </div>
+          {/* Student Sponsors */}
           {studentSponsors?.length !== 0 ? (
             <div className="flex items-center mt-[26px] mb-3">
               <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-4">
@@ -356,7 +350,7 @@ const SingleStudent = () => {
             <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("edit")}
             </h3>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <Hr margin="my-7" />
             <FormGroup id="fullName" label={t("fullName")} parentClass="mb-7">
               <FormInput
                 id="fullName"
@@ -383,30 +377,15 @@ const SingleStudent = () => {
                 placeholder=""
               />
             </FormGroup>
-
-            <div className="flex flex-col gap-2 mb-7">
-              <label
-                htmlFor="otm"
-                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
-              >
-                {t("otm")}
-              </label>
-              <select
-                required
-                value={otm || "default"}
+            <FormGroup id="otm" label={t("otm")} parentClass="mb-7">
+              <FormSelect
+                id="intitutes"
                 onChange={(e) => setOtm(parseInt(e.target.value))}
-                className="select select-sm bg-[#E0E7FF33] h-[45px] text-[#1D1D1F] font-normal border border-[#DFE3E8]"
-              >
-                <option disabled value="default">
-                  {t("chooseOtm")}
-                </option>
-                {institutes.map((item) => (
-                  <option key={item.id} value={item.id} className="font-normal">
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+                value={otm || "default"}
+                selectClass="select select-sm bg-[#E0E7FF33] h-[45px] text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                fetchOptionsUrl="/institute-list/"
+              />
+            </FormGroup>
             <FormGroup
               id="contract"
               label={t("ContractAmount")}
@@ -422,8 +401,7 @@ const SingleStudent = () => {
                 placeholder=""
               />
             </FormGroup>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none" />
-
+            <Hr margin="" />
             <div className="flex justify-end mt-5">
               <Button
                 type="submit"
@@ -437,7 +415,7 @@ const SingleStudent = () => {
         </div>
       </dialog>
 
-      {/* Add Sponsor */}
+      {/* Add Sponsor Modal*/}
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -456,7 +434,7 @@ const SingleStudent = () => {
             <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("addSponsor")}
             </h3>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <Hr margin="my-7" />
             <div className="mb-7">
               <label
                 htmlFor="fullName"
@@ -504,7 +482,7 @@ const SingleStudent = () => {
                 placeholder={t("enterAmount")}
               />
             </FormGroup>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <Hr margin="my-7" />
             <div className="flex justify-end">
               <Button
                 type="submit"
@@ -519,7 +497,7 @@ const SingleStudent = () => {
         </div>
       </dialog>
 
-      {/* Edit Sponsor */}
+      {/* Edit Sponsor Modal*/}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -538,7 +516,7 @@ const SingleStudent = () => {
             <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("editSponsor")}
             </h3>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <Hr margin="my-7" />
             <div className="mb-7">
               <label
                 htmlFor="fullName"
@@ -580,7 +558,7 @@ const SingleStudent = () => {
                 placeholder={t("enterAmount")}
               />
             </FormGroup>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <Hr margin="my-7" />
             <div className="flex gap-4 justify-end">
               <Button
                 type="button"

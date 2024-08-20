@@ -12,8 +12,9 @@ import HeaderTitle from "../../components/HeaderTitle";
 import FormGroup from "../../components/Form/FormGroup";
 import Check from "../../components/Form/FormCheck";
 import DateRangePicker from "../../components/Form/FormDatePicker";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Base/Button";
 import FormSelect from "../../components/Form/FormSelect";
+import Hr from "../../components/Base/Hr";
 
 const SponsorsPage: React.FC = () => {
   // Translate
@@ -180,7 +181,7 @@ const SponsorsPage: React.FC = () => {
             <h3 className="font-SfProDisplay text-2xl font-bold text-[#28293D]">
               {t("filter")}
             </h3>
-            <hr className="my-6 h-[2px] bg-[#F5F5F7] border-none" />
+            <Hr margin="my-6" />
             <FormGroup
               id="action"
               label={t("applicationStatus")}
@@ -214,7 +215,7 @@ const SponsorsPage: React.FC = () => {
             <FormGroup id="date" label={t("date")}>
               <DateRangePicker ref={datePickerRef} />
             </FormGroup>
-            <hr className="my-6 h-[2px] bg-[#F5F5F7] border-none" />
+            <Hr margin="my-6" />
             <div className="flex justify-end gap-4 items-center">
               <Button
                 type="button"

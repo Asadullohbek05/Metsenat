@@ -8,7 +8,7 @@ import request from "../server/request";
 import { AuthContext } from "../context/AuthContext";
 import FormGroup from "../components/Form/FormGroup";
 import FormInput from "../components/Form/FormInput";
-import Button from "../components/Button/Button";
+import Button from "../components/Base/Button";
 import logo from "../assets/images/svg/logo.svg";
 
 const LoginPage: React.FC = () => {
@@ -88,7 +88,8 @@ const LoginPage: React.FC = () => {
               inputClass="w-full"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
-              error={error}
+              error={Boolean(error)}
+              before=""
             />
           </FormGroup>
           <FormGroup
@@ -103,7 +104,8 @@ const LoginPage: React.FC = () => {
               placeholder=""
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={error}
+              error={Boolean(error)}
+              before=""
             />
           </FormGroup>
 

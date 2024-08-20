@@ -5,13 +5,14 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import request from "../server/request";
-import Button from "../components/Button/Button";
+import Button from "../components/Base/Button";
 import { logOut } from "../utils";
 import arrow from "../assets/images/svg/arrow-left.svg";
 import logo from "../assets/images/svg/admin-page-logo.svg";
 import FormGroup from "../components/Form/FormGroup";
 import FormInput from "../components/Form/FormInput";
 import FormSelect from "../components/Form/FormSelect";
+import Hr from "../components/Base/Hr";
 
 const AddStudentPage = () => {
   const [fullName, setFullName] = useState("");
@@ -181,7 +182,7 @@ const AddStudentPage = () => {
               />
             </FormGroup>
           </div>
-          <hr className="h-0.5 bg-[#F5F5F7] border-none mb-7" />
+          <Hr margin="mb-7" />
           <div className="flex justify-end items-center">
             <Button
               variant="primary"

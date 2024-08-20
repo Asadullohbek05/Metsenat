@@ -16,9 +16,10 @@ import {
   fetchSponsorData,
   updateSponsorData,
 } from "../../redux/singleSponsorSlice";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Base/Button";
 import FormGroup from "../../components/Form/FormGroup";
 import FormInput from "../../components/Form/FormInput";
+import Hr from "../../components/Base/Hr";
 
 const SingleSponsor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -192,7 +193,7 @@ const SingleSponsor: React.FC = () => {
             <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
               {t("edit")}
             </h3>
-            <hr className="h-0.5 bg-[#F5F5F7] border-none mt-7" />
+            <Hr margin="mt-7" />
             <div className="mt-7 mb-8">
               <button
                 onClick={() => handleTab("jismoniy")}
@@ -267,8 +268,7 @@ const SingleSponsor: React.FC = () => {
                 />
               </FormGroup>
             )}
-            <hr className="h-0.5 bg-[#F5F5F7] border-none mb-7" />
-
+            <Hr margin="mb-7" />
             <div className="flex justify-end">
               <Button
                 variant="primary"

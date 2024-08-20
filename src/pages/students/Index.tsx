@@ -10,8 +10,9 @@ import StudentCard from "../../components/Cards/StudentCard";
 import { Student } from "../../types/students";
 import HeaderTitle from "../../components/HeaderTitle";
 import FormGroup from "../../components/Form/FormGroup";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Base/Button";
 import FormSelect from "../../components/Form/FormSelect";
+import Hr from "../../components/Base/Hr";
 
 const Students = () => {
   // Language
@@ -156,7 +157,7 @@ const Students = () => {
             <h3 className="font-SfProDisplay font-bold text-2xl">
               {t("filter")}
             </h3>
-            <hr className="my-7 h-[2px] border-none bg-[#F5F5F7]" />
+            <Hr margin="my-7" />
             <FormGroup
               id="studentType"
               label={t("StudentType")}
