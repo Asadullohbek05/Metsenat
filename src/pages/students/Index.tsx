@@ -93,7 +93,7 @@ const Students = () => {
       <div className="flex justify-end w-full">
         <Link
           to="/add-student"
-          className="px-8 py-2 bg-[#3366FF] font-SfProText text-[15px] text-white rounded-md my-7 flex items-center gap-[10px]"
+          className="px-8 py-2 bg-blueSecondary font-SfProText text-[15px] text-white rounded-md my-7 flex items-center gap-[10px]"
         >
           <i className="icon-plus text-2xl"></i>
           {t("addStudent")}
@@ -120,7 +120,7 @@ const Students = () => {
           latest: displayedItemsCount,
         })}
         <div className="flex items-center">
-          <span className="text-[#1D1D1F] font-Rubik font-normal">
+          <span className="text-blackThird font-Rubik font-normal">
             {t("Show")}
           </span>
           {/* Pagination Select */}
@@ -129,7 +129,7 @@ const Students = () => {
             onChange={handleItemsPerPageChange}
             value={itemsPerPage}
             options={showSelect}
-            selectClass="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+            selectClass="select select-sm mx-3 text-blackThird font-normal border border-[#DFE3E8]"
           />
 
           {/* Students Pagination */}
@@ -151,7 +151,7 @@ const Students = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
+            <button className="btn text-pinkPrimary  btn-md btn-circle  btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
             <h3 className="font-SfProDisplay font-bold text-2xl">
@@ -168,7 +168,7 @@ const Students = () => {
                 onChange={(e) => setStudentType(e.target.value)}
                 options={studentTypeValues}
                 value={studentType}
-                selectClass="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
+                selectClass="select select-sm bg-brownPrimary h-[44px] font-normal  text-blackThird border border-[#DFE3E8]"
               />
             </FormGroup>
 
@@ -178,7 +178,7 @@ const Students = () => {
                 onChange={(e) => setInstitute(e.target.value)}
                 fetchOptionsUrl="/institute-list/"
                 value={institute}
-                selectClass="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                selectClass="select select-sm h-[44px] bg-brownPrimary  text-blackThird font-normal border border-[#DFE3E8]"
                 defaultValue="default"
               />
             </FormGroup>
@@ -190,7 +190,7 @@ const Students = () => {
                 text={t("clean")}
                 iconLeft={true}
                 icon="icon-clean text-2xl"
-                customClass="h-[42px] px-8 gap-[10px] text-[#3366FF] border border-[#3366FF]"
+                customClass="h-[42px] px-8 gap-[10px] text-blueSecondary border border-blueSecondary"
               />
               <Button
                 type="submit"

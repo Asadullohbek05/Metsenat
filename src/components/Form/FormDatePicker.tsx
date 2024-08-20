@@ -27,7 +27,7 @@ const DateRangePicker = forwardRef((_, ref) => {
   }));
 
   return (
-    <div className="flex items-center border w-[253px] rounded-md bg-[#E0E7FF33]">
+    <div className="flex items-center border w-[253px] rounded-md bg-brownPrimary">
       <DatePicker
         selected={startDate}
         onChange={handleChange}
@@ -36,7 +36,7 @@ const DateRangePicker = forwardRef((_, ref) => {
         selectsRange
         dateFormat="dd.MM.yyyy"
         placeholderText={`${formatDate(startDate)} - ${formatDate(endDate)}`}
-        className="date-input outline-none w-full font-rubik font-normal text-[15px] bg-[#E0E7FF33] rounded-md h-10 px-4"
+        className="date-input outline-none w-full font-rubik font-normal text-[15px] bg-brownPrimary rounded-md h-10 px-4"
       />
       <i className="icon-calendar text-[22px]"></i>
     </div>

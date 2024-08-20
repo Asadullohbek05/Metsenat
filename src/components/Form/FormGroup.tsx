@@ -20,7 +20,7 @@ const FormGroup: React.FC<FormGroupProps> = ({
       <label
         htmlFor={id}
         id={id}
-        className={`text-xs text-[#1D1D1F] font-medium tracking-[1.13px] uppercase ${customClass}`}
+        className={`text-xs text-blackThird font-medium tracking-[1.13px] uppercase ${customClass}`}
       >
         {label}
       </label>

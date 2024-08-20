@@ -14,7 +14,7 @@ interface ButtonProps {
 }
 
 const variants = {
-  primary: "bg-[#2E5BFF] text-white hover:bg-[#2e5bffd0]",
+  primary: "bg-bluePrimary text-white hover:bg-[#2e5bffd0]",
   secondary: "bg-[#EDF1FD] text-[#3365FC] hover:bg-[#d2d7e6af]",
   outline: "bg-transparent",
 };

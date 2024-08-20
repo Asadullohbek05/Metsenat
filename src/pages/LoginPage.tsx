@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
           className="bg-white p-8 rounded-xl flex flex-col shadow-[0px_5px_40px_0px_rgba(0,0,0,0.03)]"
           onSubmit={handleSubmit}
         >
-          <h1 className="font-bold text-[#28293D] text-2xl leading-7 mb-11">
+          <h1 className="font-bold text-blackPrimary text-2xl leading-7 mb-11">
             {t("enter")}
           </h1>
           <FormGroup id="loginLabel" label={t("login")} parentClass="mb-[22px]">

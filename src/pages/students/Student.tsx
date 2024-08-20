@@ -161,7 +161,7 @@ const SingleStudent = () => {
             <div className="flex gap-10 items-center">
               <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
+                <span className="ml-5 font-SfProText text-[13px] font-bold text-blackPrimary tracking-[-0.35px] leading-[19.5px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
@@ -183,7 +183,7 @@ const SingleStudent = () => {
             <Link to="/students" className="flex items-center">
               <i className="icon-arrow-big-left text-[28px]"></i>
             </Link>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4">
+            <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl ml-4">
               {studentDetails?.full_name}
             </h3>
           </div>
@@ -202,7 +202,7 @@ const SingleStudent = () => {
       <div className="max-w-7xl mx-auto  px-10 pb-[443px] bg-[url('../src/assets/images/png/sponsor-single-bg.png')] bg-no-repeat bg-bottom">
         <div className="my-10 bg-white w-[793px] mx-auto rounded-xl p-8">
           <div className="flex justify-between items-center mb-[26px]">
-            <h1 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
+            <h1 className="text-blackPrimary font-SfProDisplay text-2xl font-bold">
               {t("aboutStudent")}
             </h1>
             <Button
@@ -215,49 +215,49 @@ const SingleStudent = () => {
             />
           </div>
           <div className="flex items-center">
-            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-[#3366FF]">
+            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-blueSecondary">
               {t("mainInfo")}
             </span>
             <hr className="flex-1 bg-[#E4E8F0]" />
           </div>
           <div className="mt-8 flex gap-5 items-center">
-            <div className="w-16 h-16 flex items-center justify-center bg-[#E0E7FF] rounded-md">
+            <div className="w-16 h-16 flex items-center justify-center bg-grayPrimary rounded-md">
               <img src={sponsorIcon} alt="Sponsor Icon" />
             </div>
-            <h2 className="max-w-40 text-[#212121] font-medium text-[16px] tracking-[-1%]">
+            <h2 className="max-w-40 text-blackSecondary font-medium text-[16px] tracking-[-1%]">
               {studentDetails?.full_name}
             </h2>
           </div>
           <div className="flex gap-56">
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-medium tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase font-medium tracking-[1.13px] text-xs">
                 {t("phoneNumber")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-2">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-2">
                 {studentDetails?.phone}
               </h3>
             </div>
           </div>
           <div className="flex items-center mt-8">
-            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-[#3366FF]">
+            <span className="px-3 py-0.5 bg-[#E5EBFF] uppercase tracking-[1.13px] text-xs font-medium text-blueSecondary">
               {t("infoAboutOTM")}
             </span>
             <hr className="flex-1 bg-[#E4E8F0]" />
           </div>
           <div className="flex gap-10">
             <div className="mt-6 w-[349px]">
-              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase  tracking-[1.13px] text-xs">
                 {t("otm")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-3">
                 {studentDetails?.institute?.name}
               </h3>
             </div>
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase  tracking-[1.13px] text-xs">
                 {t("StudentType")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-3">
                 {studentDetails?.type === 1
                   ? t("bachelor")
                   : studentDetails?.type === 2
@@ -270,18 +270,18 @@ const SingleStudent = () => {
           </div>
           <div className="flex gap-10">
             <div className="mt-6">
-              <p className="text-[#B5B5C3] w-[350px] uppercase  tracking-[1.13px] text-xs">
+              <p className="text-grayThird w-[350px] uppercase  tracking-[1.13px] text-xs">
                 {t("AllocatedAmount")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-3">
                 {formatNumberWithSpaces(studentDetails?.given || 0)} UZS
               </h3>
             </div>
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase  tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase  tracking-[1.13px] text-xs">
                 {t("ContractAmount")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-3">
                 {formatNumberWithSpaces(studentDetails?.contract || 0)} UZS
               </h3>
             </div>
@@ -289,7 +289,7 @@ const SingleStudent = () => {
         </div>
         <div className="bg-white w-[793px] mx-auto rounded-xl px-8 py-6">
           <div className="w-full flex justify-between items-center">
-            <h2 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
+            <h2 className="text-blackPrimary font-SfProDisplay text-2xl font-bold">
               {t("StudentSponsors")}
             </h2>
             <Button
@@ -305,16 +305,16 @@ const SingleStudent = () => {
           {/* Student Sponsors */}
           {studentSponsors?.length !== 0 ? (
             <div className="flex items-center mt-[26px] mb-3">
-              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-4">
+              <span className="tracking-[1.13px] text-graySecondary font-medium uppercase text-xs ml-4">
                 #
               </span>
-              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
+              <span className="tracking-[1.13px] text-graySecondary font-medium uppercase text-xs ml-8">
                 f.i.sh
               </span>
-              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs w-[200px] ml-[300px] text-center">
+              <span className="tracking-[1.13px] text-graySecondary font-medium uppercase text-xs w-[200px] ml-[300px] text-center">
                 {t("AllocatedAmount")}
               </span>
-              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
+              <span className="tracking-[1.13px] text-graySecondary font-medium uppercase text-xs ml-8">
                 {t("Actions")}
               </span>
             </div>
@@ -343,11 +343,11 @@ const SingleStudent = () => {
                 ) as HTMLDialogElement;
                 modal.close();
               }}
-              className="btn text-[#B2B7C1] hover:text-black btn-md btn-circle text-2xl btn-ghost absolute right-3 top-3"
+              className="btn text-pinkPrimary hover:text-black btn-md btn-circle text-2xl btn-ghost absolute right-3 top-3"
             >
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
+            <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl">
               {t("edit")}
             </h3>
             <Hr margin="my-7" />
@@ -382,7 +382,7 @@ const SingleStudent = () => {
                 id="intitutes"
                 onChange={(e) => setOtm(parseInt(e.target.value))}
                 value={otm || "default"}
-                selectClass="select select-sm bg-[#E0E7FF33] h-[45px] text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                selectClass="select select-sm bg-brownPrimary h-[45px] text-blackThird font-normal border border-[#DFE3E8]"
                 fetchOptionsUrl="/institute-list/"
               />
             </FormGroup>
@@ -427,25 +427,25 @@ const SingleStudent = () => {
                 ) as HTMLDialogElement;
                 modal.close();
               }}
-              className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3"
+              className="btn text-pinkPrimary  btn-md btn-circle  btn-ghost absolute right-3 top-3"
             >
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
+            <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl">
               {t("addSponsor")}
             </h3>
             <Hr margin="my-7" />
             <div className="mb-7">
               <label
                 htmlFor="fullName"
-                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
+                className="text-blackThird text-xs  uppercase font-medium tracking-[1.13px]"
               >
                 {t("fullName")}
               </label>
               <select
                 required
                 defaultValue={"default"}
-                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                className="select w-full mt-2 select-md bg-brownPrimary  text-blackThird font-normal border border-[#DFE3E8]"
               >
                 <option disabled value="default">
                   Homiyni Tanglang
@@ -509,25 +509,25 @@ const SingleStudent = () => {
                 ) as HTMLDialogElement;
                 modal.close();
               }}
-              className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3"
+              className="btn text-pinkPrimary  btn-md btn-circle  btn-ghost absolute right-3 top-3"
             >
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
+            <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl">
               {t("editSponsor")}
             </h3>
             <Hr margin="my-7" />
             <div className="mb-7">
               <label
                 htmlFor="fullName"
-                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
+                className="text-blackThird text-xs  uppercase font-medium tracking-[1.13px]"
               >
                 {t("fullName")}
               </label>
               <select
                 required
                 defaultValue={"default"}
-                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                className="select w-full mt-2 select-md bg-brownPrimary  text-blackThird font-normal border border-[#DFE3E8]"
               >
                 <option disabled value="default">
                   Ishmuhammedov Aziz Ishqobilovich

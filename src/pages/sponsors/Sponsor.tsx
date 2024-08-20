@@ -99,8 +99,8 @@ const SingleSponsor: React.FC = () => {
             </Link>
             <div className="flex gap-10">
               <LanguageDropdown />
-              <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-4 font-SfProDisplay font-bold text-[#28293D] tracking-[0.35px]">
+              <div className="flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
+                <span className="ml-4 font-SfProDisplay font-bold text-blackPrimary tracking-[0.35px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
@@ -121,7 +121,7 @@ const SingleSponsor: React.FC = () => {
           <Link className="flex items-center" to="/sponsors">
             <i className="icon-arrow-big-left text-[28px]"></i>
           </Link>
-          <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
+          <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl ml-4 mr-3">
             {sponsorDetails?.full_name}
           </h3>
           <span
@@ -142,7 +142,7 @@ const SingleSponsor: React.FC = () => {
       <div className="max-w-7xl mx-auto  px-10 h-screen bg-[url('../src/assets/images/png/sponsor-single-bg.png')] bg-no-repeat bg-bottom">
         <div className="mt-10 bg-white w-[793px] mx-auto rounded-xl p-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-[#28293D] font-SfProDisplay text-2xl font-bold">
+            <h1 className="text-blackPrimary font-SfProDisplay text-2xl font-bold">
               {t("aboutSponsor")}
             </h1>
             <Button
@@ -155,27 +155,27 @@ const SingleSponsor: React.FC = () => {
             />
           </div>
           <div className="mt-8 flex gap-5 items-center">
-            <div className="w-16 h-16 flex items-center justify-center bg-[#E0E7FF] rounded-md">
+            <div className="w-16 h-16 flex items-center justify-center bg-grayPrimary rounded-md">
               <img src={sponsorIcon} alt="Sponsor Icon" />
             </div>
-            <h2 className="max-w-40 text-[#212121] font-medium text-[16px] tracking-[-1%] leading-5">
+            <h2 className="max-w-40 text-blackSecondary font-medium text-[16px] tracking-[-1%] leading-5">
               {sponsorDetails?.full_name}
             </h2>
           </div>
           <div className="flex gap-56">
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-medium  tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase font-medium  tracking-[1.13px] text-xs">
                 {t("phoneNumber")}
               </p>
-              <h3 className="text-[#212121] text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary text-[16px] font-medium mt-3">
                 {sponsorDetails?.phone}
               </h3>
             </div>
             <div className="mt-6">
-              <p className="text-[#B5B5C3] uppercase font-medium tracking-[1.13px] text-xs">
+              <p className="text-grayThird uppercase font-medium tracking-[1.13px] text-xs">
                 {t("SponsorshipAmount")}
               </p>
-              <h3 className="text-[#212121]  text-[16px] font-medium mt-3">
+              <h3 className="text-blackSecondary  text-[16px] font-medium mt-3">
                 {sponsorDetails ? formatSum(sponsorDetails.sum) : ""} UZS
               </h3>
             </div>
@@ -187,10 +187,10 @@ const SingleSponsor: React.FC = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3">
+            <button className="btn text-pinkPrimary  btn-md btn-circle  btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
+            <h3 className="text-blackPrimary font-SfProDisplay font-bold text-2xl">
               {t("edit")}
             </h3>
             <Hr margin="mt-7" />
@@ -201,7 +201,7 @@ const SingleSponsor: React.FC = () => {
                 className={`text-xs uppercase font-medium  tracking-[1.13px] border-2 rounded-l-md w-1/2 h-10 ${
                   !isVisible
                     ? "border-[#3365FC] bg-[#3365FC] text-white"
-                    : "border-[#E5E9FF] text-[#3366FF99]"
+                    : "border-[#E5E9FF] text-blueThird"
                 }`}
               >
                 {t("physicalPerson")}
@@ -212,7 +212,7 @@ const SingleSponsor: React.FC = () => {
                 className={`text-xs uppercase font-medium tracking-[1.13px] border-2 rounded-r-md w-1/2 h-10 ${
                   isVisible
                     ? "border-[#3365FC] bg-[#3365FC] text-white"
-                    : "border-[#E5E9FF] text-[#3366FF99]"
+                    : "border-[#E5E9FF] text-blueThird"
                 }`}
               >
                 {t("LegalEntity")}

@@ -18,7 +18,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
 
   return (
     <span
-      className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs text-center"
+      className="tracking-[1.13px] text-graySecondary font-medium uppercase text-xs text-center"
       style={{ marginLeft: marginLeft, width: width || undefined }}
     >
       {t(content)}

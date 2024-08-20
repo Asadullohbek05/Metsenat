@@ -63,8 +63,8 @@ const AddStudentPage = () => {
             </Link>
             <div className="flex gap-10 items-center">
               <LanguageDropdown />
-              <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-                <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
+              <div className="flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
+                <span className="ml-5 font-SfProText text-[13px] font-bold text-blackPrimary tracking-[-0.35px] leading-[19.5px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
@@ -85,7 +85,7 @@ const AddStudentPage = () => {
           <Link to="/students">
             <img src={arrow} alt="Back" />
           </Link>
-          <h1 className="text-[#28293D] font-SfProDisplay font-bold text-2xl ml-4 mr-3">
+          <h1 className="text-blackPrimary font-SfProDisplay font-bold text-2xl ml-4 mr-3">
             {t("addStudent")}
           </h1>
         </div>
@@ -135,14 +135,14 @@ const AddStudentPage = () => {
               onChange={(e) => setOtm(parseInt(e.target.value))}
               value={otm || "default"}
               fetchOptionsUrl="/institute-list/"
-              selectClass="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+              selectClass="select select-sm h-[44px] bg-brownPrimary  text-blackThird font-normal border border-[#DFE3E8]"
             />
           </FormGroup>
           <div className="flex items-center justify-between mb-7">
             <div className="w-[353px] flex flex-col">
               <label
                 htmlFor="studentType"
-                className="text-[#1D1D1F] text-xs  uppercase  tracking-[1.13px] mb-2"
+                className="text-blackThird text-xs  uppercase  tracking-[1.13px] mb-2"
               >
                 {t("StudentType")}
               </label>
@@ -150,7 +150,7 @@ const AddStudentPage = () => {
                 required
                 value={studentType}
                 onChange={(e) => setStudentType(e.target.value)}
-                className="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
+                className="select select-sm bg-brownPrimary h-[44px] font-normal  text-blackThird border border-[#DFE3E8]"
               >
                 <option className="font-normal" value="All">
                   {t("all")}

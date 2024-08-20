@@ -60,7 +60,7 @@ function LanguageDropdown() {
 
   return (
     <div
-      className="language-dropdown h-10 flex relative bg-[#F1F1F3] rounded-md"
+      className="language-dropdown h-10 flex relative bg-whiteSecondary rounded-md"
       ref={dropdownRef}
     >
       <button

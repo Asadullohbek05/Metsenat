@@ -147,14 +147,14 @@ const SponsorsPage: React.FC = () => {
           latest: displayedItemsCount,
         })}
         <div className="flex items-center">
-          <span className="text-[#1D1D1F]  font-normal">{t("Show")}</span>
+          <span className="text-blackThird  font-normal">{t("Show")}</span>
           {/* Pagination Select */}
           <FormSelect
             id="pagination-select"
             onChange={handleItemsPerPageChange}
             value={itemsPerPage}
             options={showSelect}
-            selectClass="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+            selectClass="select select-sm mx-3 text-blackThird font-normal border border-[#DFE3E8]"
           />
           {/* Pagination */}
           <ReactPaginate
@@ -175,10 +175,10 @@ const SponsorsPage: React.FC = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn text-[#B2B7C1] btn-md btn-circle btn-ghost absolute right-3 top-3">
+            <button className="btn text-pinkPrimary btn-md btn-circle btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="font-SfProDisplay text-2xl font-bold text-[#28293D]">
+            <h3 className="font-SfProDisplay text-2xl font-bold text-blackPrimary">
               {t("filter")}
             </h3>
             <Hr margin="my-6" />
@@ -192,7 +192,7 @@ const SponsorsPage: React.FC = () => {
                 onChange={(e) => setStatusApplication(e.target.value)}
                 value={statusApplication}
                 options={AllStatus}
-                selectClass="select select-sm bg-[#E0E7FF33] h-[42px] font-normal text-[#1D1D1F] border border-[#DFE3E8]"
+                selectClass="select select-sm bg-brownPrimary h-[42px] font-normal text-blackThird border border-[#DFE3E8]"
               />
             </FormGroup>
             <FormGroup
@@ -224,7 +224,7 @@ const SponsorsPage: React.FC = () => {
                 text={t("clean")}
                 iconLeft={true}
                 icon="icon-clean text-2xl"
-                customClass="h-[42px] px-8 gap-[10px] text-[#3366FF] border border-[#3366FF]"
+                customClass="h-[42px] px-8 gap-[10px] text-blueSecondary border border-blueSecondary"
               />
               <Button
                 type="submit"

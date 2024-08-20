@@ -32,26 +32,38 @@ const DashboardCards = () => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
+  const cardsData = [
+    {
+      iconClass: "icon-flag-icon-2",
+      title: t("total_paid"),
+      value: total_paid,
+      status: "#4C6FFF1A",
+    },
+    {
+      iconClass: "icon-flag-icon-1",
+      title: t("total_need"),
+      value: total_need,
+      status: "#EDC7001A",
+    },
+    {
+      iconClass: "icon-flag-icon-3",
+      title: t("total_must_pay"),
+      value: total_must_pay,
+      status: "#ED72001A",
+    },
+  ];
+
   return (
     <div className="max-w-7xl mx-auto px-10 mt-12 mb-7 flex justify-between">
-      <DashboardCard
-        iconClass="icon-flag-icon-2"
-        title={t("total_paid")}
-        value={total_paid}
-        bgColor="#4C6FFF1A"
-      />
-      <DashboardCard
-        iconClass="icon-flag-icon-1"
-        title={t("total_need")}
-        value={total_need}
-        bgColor="#EDC7001A"
-      />
-      <DashboardCard
-        iconClass="icon-flag-icon-3"
-        title={t("total_must_pay")}
-        value={total_must_pay}
-        bgColor="#ED72001A"
-      />
+      {cardsData.map((card, index) => (
+        <DashboardCard
+          key={index}
+          iconClass={card.iconClass}
+          title={card.title}
+          value={card.value}
+          status={card.status}
+        />
+      ))}
     </div>
   );
 };

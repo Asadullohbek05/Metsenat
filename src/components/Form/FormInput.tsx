@@ -35,8 +35,8 @@ const FormInput: React.FC<FormInputProps> = ({
         value={value}
         onChange={onChange}
         required
-        className={`border transition-[1s] text-[15px] font-normal bg-[#E0E7FF33] px-4 focus:border-[#2E5BFF] ${
-          error ? "border-red-500" : "border-[#E0E7FF]"
+        className={`border transition-[1s] text-[15px] font-normal bg-brownPrimary px-4 focus:border-bluePrimary ${
+          error ? "border-red-500" : "border-grayPrimary"
         } h-[42px] outline-none text-[#2E384D] placeholder:text-blue ${inputClass} rounded-md`}
       />
     </div>

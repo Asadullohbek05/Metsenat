@@ -28,8 +28,8 @@ const Navbar = () => {
           </Link>
           <div className="flex gap-10 items-center">
             <LanguageDropdown />
-            <div className="flex gap-6 justify-between items-center bg-[#F1F1F3] p-1 rounded">
-              <span className="ml-5 font-SfProText text-[13px] font-bold text-[#28293D] tracking-[-0.35px] leading-[19.5px]">
+            <div className="flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
+              <span className="ml-5 font-SfProText text-[13px] font-bold text-blackPrimary tracking-[-0.35px] leading-[19.5px]">
                 Shohrux
               </span>
               <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
@@ -50,19 +50,19 @@ const Navbar = () => {
         <div>
           <NavLink
             to={"/dashboard"}
-            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-[#3366FF99] border-[#E0E7FF] border-r-0 rounded-l-md`}
+            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-blueThird border-grayPrimary border-r-0 rounded-l-md`}
           >
             Dashboard
           </NavLink>
           <NavLink
             to={"/sponsors"}
-            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-[#3366FF99] border-[#E0E7FF] `}
+            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-blueThird border-grayPrimary `}
           >
             {t("sponsors")}
           </NavLink>
           <NavLink
             to={"/students"}
-            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-[#3366FF99] border-[#E0E7FF] border-l-0 rounded-r-md`}
+            className={`font-medium uppercase leading-[1] tracking-[1.13px] text-xs py-[14px] px-[55px] border-2 text-blueThird border-grayPrimary border-l-0 rounded-r-md`}
           >
             {t("students")}
           </NavLink>
@@ -71,7 +71,7 @@ const Navbar = () => {
           <div className="w-[284px] border h-10 bg-[#E8E8E8] rounded-md flex items-center">
             <i className="icon-search ml-[10px] text-xl"></i>
             <input
-              className="outline-none w-full bg-transparent capitalize px-2  h-full border placeholder-shown:text-[15px] font-normal placeholder:text-[#B1B1B8]"
+              className="outline-none w-full bg-transparent capitalize px-2  h-full border placeholder-shown:text-[15px] font-normal placeholder:text-graySecondary"
               type="text"
               placeholder={t("search")}
             />
