@@ -11,14 +11,9 @@ import arrow from "../assets/images/svg/arrow-left.svg";
 import logo from "../assets/images/svg/admin-page-logo.svg";
 import FormGroup from "../components/Form/FormGroup";
 import FormInput from "../components/Form/FormInput";
-
-interface Institute {
-  id: number;
-  name: string;
-}
+import FormSelect from "../components/Form/FormSelect";
 
 const AddStudentPage = () => {
-  const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otm, setOtm] = useState<number | null>(null);
@@ -31,20 +26,11 @@ const AddStudentPage = () => {
     setIsAuthenticated: () => {},
   };
 
-  const getInstitutes = async () => {
-    try {
-      const { data } = await request.get<Institute[]>("/institute-list/");
-      setInstitutes(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    getInstitutes();
   }, []);
 
+  // Add Student
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -141,29 +127,16 @@ const AddStudentPage = () => {
               />
             </FormGroup>
           </div>
-          <div className="flex flex-col gap-2 mb-7">
-            <label
-              htmlFor="otm"
-              className="text-[#1D1D1F] text-xs uppercase tracking-[1.13px]"
-            >
-              {t("OTM")}
-            </label>
-            <select
-              required
-              value={otm || "default"}
+          {/* Intitutes Select */}
+          <FormGroup id="otm" label={t("OTM")} parentClass="mb-7">
+            <FormSelect
+              id="institutes"
               onChange={(e) => setOtm(parseInt(e.target.value))}
-              className="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
-            >
-              <option disabled value="default">
-                {t("chooseOtm")}
-              </option>
-              {institutes.map((item) => (
-                <option key={item.id} value={item.id} className="font-normal">
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
+              value={otm || "default"}
+              fetchOptionsUrl="/institute-list/"
+              selectClass="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+            />
+          </FormGroup>
           <div className="flex items-center justify-between mb-7">
             <div className="w-[353px] flex flex-col">
               <label

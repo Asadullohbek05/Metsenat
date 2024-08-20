@@ -46,5 +46,11 @@
   "physicalPerson": "Jismoniy Shaxs",
   "applicationStatus": "Ariza holati",
   "clean": "Tozalash",
-  "SeeResults": "Natijalarni ko'rish"
+  "SeeResults": "Natijalarni ko'rish",
+  "new": "Yangi",
+  "inModeration": "Moderatsiyada",
+  "approved": "Tasdiqlangan",
+  "canceled": "Bekor qilingan",
+  "editSponsor": "Homiylarni tahrirlash",
+  "deleteSponsor": "Homiyni o'chirish"
 }

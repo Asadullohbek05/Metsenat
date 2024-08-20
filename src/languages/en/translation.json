@@ -46,5 +46,11 @@
   "physicalPerson": "Physical Person",
   "applicationStatus": "Application Status",
   "clean": "Clean",
-  "SeeResults": "See Results"
+  "SeeResults": "See Results",
+  "new": "New",
+  "inModeration": "In Moderation",
+  "approved": "Approved",
+  "canceled": "Cancelled",
+  "editSponsor": "Edit Sponsors",
+  "deleteSponsor": "Delete Sponsor"
 }

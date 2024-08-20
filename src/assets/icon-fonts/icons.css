@@ -49,7 +49,7 @@
 }
 .icon-clean:before {
   content: "\e906";
-  color: #3366FF;
+  color: #3366ff;
 }
 .icon-close:before {
   content: "\e907";
@@ -57,6 +57,7 @@
 }
 .icon-edit:before {
   content: "\e908";
+  color: #3467ff;
 }
 .icon-eye .path1:before {
   content: "\e909";

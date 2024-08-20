@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SponsorCard from "../../components/Cards/SponsorCard";
@@ -13,10 +13,29 @@ import FormGroup from "../../components/Form/FormGroup";
 import Check from "../../components/Form/FormCheck";
 import DateRangePicker from "../../components/Form/FormDatePicker";
 import Button from "../../components/Button/Button";
+import FormSelect from "../../components/Form/FormSelect";
 
 const SponsorsPage: React.FC = () => {
-  // Select Valuse
-  const [showSelect] = useState<string[]>(["10", "12", "14", "16", "18", "20"]);
+  // Translate
+  const { t } = useTranslation();
+
+  //Pagination Select Valuse
+  const showSelect = [
+    { value: "10", label: "10" },
+    { value: "12", label: "12" },
+    { value: "14", label: "14" },
+    { value: "16", label: "16" },
+    { value: "18", label: "18" },
+    { value: "20", label: "20" },
+  ];
+  // Application Status Values
+  const AllStatus = [
+    { value: "Barchasi", label: t("all") },
+    { value: "Yangi", label: t("new") },
+    { value: "Moderatsiyada", label: t("inModeration") },
+    { value: "Tasdiqlangan", label: t("approved") },
+    { value: "Bekor qilingan", label: t("canceled") },
+  ];
   // HeaderTitle Values
   const [headerTitleProps] = useState<
     { content: string; marginLeft?: string; width?: string }[]
@@ -47,10 +66,17 @@ const SponsorsPage: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(
     parseInt(searchParams.get("page_size") || "10", 10)
   );
-  const [activeCheckbox, setActiveCheckbox] = useState<string>("1");
 
-  // Translate
-  const { t } = useTranslation();
+  const [statusApplication, setStatusApplication] = useState<string>("");
+  const [activeCheckbox, setActiveCheckbox] = useState<string>("1");
+  const datePickerRef = useRef<{ resetDateRange: () => void }>(null);
+
+  // Reset Filter
+  const resetFilter = () => {
+    setStatusApplication("");
+    setActiveCheckbox("1");
+    datePickerRef.current?.resetDateRange();
+  };
 
   // Fetch Sponsors
   const dispatch = useDispatch<AppDispatch>();
@@ -121,17 +147,15 @@ const SponsorsPage: React.FC = () => {
         })}
         <div className="flex items-center">
           <span className="text-[#1D1D1F]  font-normal">{t("Show")}</span>
-          <select
-            className="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
-            value={itemsPerPage}
+          {/* Pagination Select */}
+          <FormSelect
+            id="pagination-select"
             onChange={handleItemsPerPageChange}
-          >
-            {showSelect.map((option, i) => (
-              <option key={i} value={option} className="font-normal">
-                {option}
-              </option>
-            ))}
-          </select>
+            value={itemsPerPage}
+            options={showSelect}
+            selectClass="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+          />
+          {/* Pagination */}
           <ReactPaginate
             breakLabel="..."
             nextLabel={<i className="icon-arrow-right text-xs"></i>}
@@ -162,13 +186,13 @@ const SponsorsPage: React.FC = () => {
               label={t("applicationStatus")}
               parentClass="mb-7"
             >
-              <select className="select select-sm bg-[#E0E7FF33] h-[42px] font-normal text-[#1D1D1F] border border-[#DFE3E8]">
-                <option value="">Barchasi</option>
-                <option value="">Yangi</option>
-                <option value="">Moderatsiyada</option>
-                <option value="">Tasdiqlangan</option>
-                <option value="">Bekor qilingan</option>
-              </select>
+              <FormSelect
+                id="status"
+                onChange={(e) => setStatusApplication(e.target.value)}
+                value={statusApplication}
+                options={AllStatus}
+                selectClass="select select-sm bg-[#E0E7FF33] h-[42px] font-normal text-[#1D1D1F] border border-[#DFE3E8]"
+              />
             </FormGroup>
             <FormGroup
               id="sponsorshipAmount"
@@ -188,12 +212,13 @@ const SponsorsPage: React.FC = () => {
               </div>
             </FormGroup>
             <FormGroup id="date" label={t("date")}>
-              <DateRangePicker />
+              <DateRangePicker ref={datePickerRef} />
             </FormGroup>
             <hr className="my-6 h-[2px] bg-[#F5F5F7] border-none" />
             <div className="flex justify-end gap-4 items-center">
               <Button
-                type="reset"
+                type="button"
+                onClick={resetFilter}
                 variant="outline"
                 text={t("clean")}
                 iconLeft={true}

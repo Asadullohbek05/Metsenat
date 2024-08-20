@@ -116,6 +116,13 @@ const SingleStudent = () => {
     modal.showModal();
   };
 
+  const editSponsor = () => {
+    const sponsorModal = document.getElementById(
+      "my_modal_3"
+    ) as HTMLDialogElement;
+    sponsorModal.showModal();
+  };
+
   const addSponsor = () => {
     const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
     modal.showModal();
@@ -304,22 +311,29 @@ const SingleStudent = () => {
           </div>
           {studentSponsors?.length !== 0 ? (
             <div className="flex items-center mt-[26px] mb-3">
-              <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-4">
+              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-4">
                 #
               </span>
-              <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
+              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
                 f.i.sh
               </span>
-              <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs w-[200px] ml-[300px] text-center">
+              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs w-[200px] ml-[300px] text-center">
                 {t("AllocatedAmount")}
               </span>
-              <span className="font-SfProDisplay tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
+              <span className="tracking-[1.13px] text-[#B1B1B8] font-medium uppercase text-xs ml-8">
                 {t("Actions")}
               </span>
             </div>
           ) : null}
           {studentSponsors?.map((item, i: number) => {
-            return <StudentSponsorCard order={i + 1} key={i} sponsor={item} />;
+            return (
+              <StudentSponsorCard
+                editSponsor={editSponsor}
+                order={i + 1}
+                key={i}
+                sponsor={item}
+              />
+            );
           })}
         </div>
       </div>
@@ -499,6 +513,90 @@ const SingleStudent = () => {
                 text={t("add")}
                 iconLeft={true}
                 icon="icon-plus text-2xl"
+              />
+            </div>
+          </form>
+        </div>
+      </dialog>
+
+      {/* Edit Sponsor */}
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button
+              type="button"
+              onClick={() => {
+                const modal = document.getElementById(
+                  "my_modal_3"
+                ) as HTMLDialogElement;
+                modal.close();
+              }}
+              className="btn text-[#B2B7C1]  btn-md btn-circle  btn-ghost absolute right-3 top-3"
+            >
+              <i className="icon-close text-2xl"></i>
+            </button>
+            <h3 className="text-[#28293D] font-SfProDisplay font-bold text-2xl">
+              {t("editSponsor")}
+            </h3>
+            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <div className="mb-7">
+              <label
+                htmlFor="fullName"
+                className="text-[#1D1D1F] text-xs  uppercase font-medium tracking-[1.13px]"
+              >
+                {t("fullName")}
+              </label>
+              <select
+                required
+                defaultValue={"default"}
+                className="select w-full mt-2 select-md bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+              >
+                <option disabled value="default">
+                  Ishmuhammedov Aziz Ishqobilovich
+                </option>
+                <option value="" className="font-normal">
+                  Judith Armstrong
+                </option>
+                <option value="" className="font-normal">
+                  Muhammaddiyor Odiljonov
+                </option>
+                <option value="" className="font-normal">
+                  Sopoline Clayton
+                </option>
+              </select>
+            </div>
+            <FormGroup
+              id="contract"
+              label={t("AllocatedAmount")}
+              parentClass="mb-7"
+            >
+              <FormInput
+                id="allocatedAmount"
+                type="number"
+                inputClass="w-full"
+                value={allocatedAmount}
+                onChange={(e) => setAllocatedAmount(e.target.value)}
+                before=""
+                placeholder={t("enterAmount")}
+              />
+            </FormGroup>
+            <hr className="h-0.5 bg-[#F5F5F7] border-none my-7" />
+            <div className="flex gap-4 justify-end">
+              <Button
+                type="button"
+                variant="secondary"
+                customClass="h-[42px] px-8 gap-[10px] text-[#FF4945]"
+                text={t("deleteSponsor")}
+                iconLeft={true}
+                icon="icon-trash text-2xl"
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                customClass="h-[42px] px-8 gap-[10px]"
+                text={t("Save")}
+                iconLeft={true}
+                icon="icon-save text-2xl"
               />
             </div>
           </form>

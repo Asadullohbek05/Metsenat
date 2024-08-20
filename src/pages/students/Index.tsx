@@ -9,18 +9,32 @@ import { fetchStudents } from "../../redux/studentsSlice";
 import StudentCard from "../../components/Cards/StudentCard";
 import { Student } from "../../types/students";
 import HeaderTitle from "../../components/HeaderTitle";
-import request from "../../server/request";
 import FormGroup from "../../components/Form/FormGroup";
 import Button from "../../components/Button/Button";
-
-interface Institute {
-  id: number;
-  name: string;
-}
+import FormSelect from "../../components/Form/FormSelect";
 
 const Students = () => {
-  const showSelect = ["10", "12", "14", "16", "18", "20"];
-  const [institutes, setInstitutes] = useState<Institute[]>([]);
+  // Language
+  const { t } = useTranslation();
+
+  //Pagination Select Valuse
+  const showSelect = [
+    { value: "10", label: "10" },
+    { value: "12", label: "12" },
+    { value: "14", label: "14" },
+    { value: "16", label: "16" },
+    { value: "18", label: "18" },
+    { value: "20", label: "20" },
+  ];
+  const studentTypeValues = [
+    { value: "all", label: t("all") },
+    { value: "1", label: t("bachelor") },
+    { value: "2", label: t("masterDegree") },
+    { value: "3", label: t("phd") },
+  ];
+
+  const [studentType, setStudentType] = useState<string>("");
+  const [institute, setInstitute] = useState<string>("");
 
   const [headerTitleProps] = useState<
     { content: string; marginLeft?: string; width?: string }[]
@@ -33,22 +47,12 @@ const Students = () => {
     { content: "ContractAmount", marginLeft: "32px", width: "" },
     { content: "Actions", marginLeft: "24px", width: "70px" },
   ]);
-  const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const [itemsPerPage, setItemsPerPage] = useState<number>(
     parseInt(searchParams.get("page_size") || "10", 10)
   );
-
-  const getInstitutes = async () => {
-    try {
-      const { data } = await request.get<Institute[]>("/institute-list/");
-      setInstitutes(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const dispatch = useDispatch<AppDispatch>();
   const { students, status } = useSelector(
@@ -74,7 +78,6 @@ const Students = () => {
   useEffect(() => {
     dispatch(fetchStudents({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
-    getInstitutes();
   }, [searchParams, dispatch, page, itemsPerPage]);
 
   if (status === "loading") return <Loading />;
@@ -119,17 +122,14 @@ const Students = () => {
           <span className="text-[#1D1D1F] font-Rubik font-normal">
             {t("Show")}
           </span>
-          <select
-            className="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
-            value={itemsPerPage}
+          {/* Pagination Select */}
+          <FormSelect
+            id="pagination-select"
             onChange={handleItemsPerPageChange}
-          >
-            {showSelect.map((option, i) => (
-              <option key={i} value={option} className="font-normal">
-                {option}
-              </option>
-            ))}
-          </select>
+            value={itemsPerPage}
+            options={showSelect}
+            selectClass="select select-sm mx-3 text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+          />
 
           {/* Students Pagination */}
           <ReactPaginate
@@ -162,40 +162,24 @@ const Students = () => {
               label={t("StudentType")}
               parentClass="mb-7"
             >
-              <select
-                required
-                className="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
-              >
-                <option className="font-normal" value="All">
-                  {t("all")}
-                </option>
-                <option className="font-normal" value="1">
-                  {t("bachelor")}
-                </option>
-                <option className="font-normal" value="2">
-                  {t("masterDegree")}
-                </option>
-                <option className="font-normal" value="3">
-                  {t("phd")}
-                </option>
-              </select>
+              <FormSelect
+                id="studentType"
+                onChange={(e) => setStudentType(e.target.value)}
+                options={studentTypeValues}
+                value={studentType}
+                selectClass="select select-sm bg-[#E0E7FF33] h-[44px] font-normal  text-[#1D1D1F] border border-[#DFE3E8]"
+              />
             </FormGroup>
 
             <FormGroup id="otm" label={t("OTM")} parentClass="mb-7">
-              <select
-                required
-                defaultValue={"default"}
-                className="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
-              >
-                <option disabled value="default">
-                  {t("all")}
-                </option>
-                {institutes.map((item) => (
-                  <option key={item.id} value={item.id} className="font-normal">
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+              <FormSelect
+                id="intitutes"
+                onChange={(e) => setInstitute(e.target.value)}
+                fetchOptionsUrl="/institute-list/"
+                value={institute}
+                selectClass="select select-sm h-[44px] bg-[#E0E7FF33]  text-[#1D1D1F] font-normal border border-[#DFE3E8]"
+                defaultValue="default"
+              />
             </FormGroup>
 
             <div className="flex justify-end gap-4 items-center">
