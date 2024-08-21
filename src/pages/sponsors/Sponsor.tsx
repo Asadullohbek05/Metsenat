@@ -102,7 +102,7 @@ const SingleSponsor: React.FC = () => {
             <div className="flex gap-10">
               <LanguageDropdown />
               <div className="flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
-                <span className="ml-4 text-blackPrimary tracking-[0.35px]">
+                <span className="cursor-pointer ml-4 text-blackPrimary tracking-[0.35px]">
                   Shohrux
                 </span>
                 <div className="w-8 h-8 bg-[#00AE69] rounded flex justify-center items-end">
