@@ -110,11 +110,13 @@ const LoginPage: React.FC = () => {
           </FormGroup>
 
           {/* RECAPTCHA */}
-          <ReCAPTCHA
-            className="w-full mb-[22px]"
-            sitekey={siteKey}
-            onChange={handleCaptchaChange}
-          />
+          <div className="flex items-center justify-center w-[303px] h-[77px] mb-[22px]">
+            <ReCAPTCHA
+              className="w-full "
+              sitekey={siteKey}
+              onChange={handleCaptchaChange}
+            />
+          </div>
           <Button
             variant="primary"
             text={t("submit")}
