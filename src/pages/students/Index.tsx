@@ -156,9 +156,7 @@ const Students = () => {
             <button className="btn text-pinkPrimary  btn-md btn-circle  btn-ghost absolute right-3 top-3">
               <i className="icon-close text-2xl"></i>
             </button>
-            <h3 className="font-SfProDisplay font-bold text-2xl">
-              {t("filter")}
-            </h3>
+            <h3 className=" text-2xl">{t("filter")}</h3>
             <Hr margin="my-7" />
             <FormGroup
               id="studentType"

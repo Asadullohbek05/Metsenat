@@ -40,7 +40,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
   };
 
   return (
-    <div className="w-full bg-white h-16 flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200">
+    <div className="w-full transition-[1s] bg-white h-16 flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200">
       <span className="font-normal text-[15px] text-blackThird w-[24px] text-center">
         {order}
       </span>
@@ -68,7 +68,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, order }) => {
       </h3>
       <Link
         to={`/sponsors-single/${sponsor.id}`}
-        className="ml-9 w-8 flex justify-center"
+        className="ml-9 w-8 flex justify-center hover:scale-[1.15] transition-[1s]"
       >
         <img src={eye} alt="View" />
       </Link>

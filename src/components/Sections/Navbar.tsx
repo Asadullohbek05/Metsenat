@@ -21,6 +21,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white nav">
+      {/* Navbar Header */}
       <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
         <div className="max-w-7xl mx-auto py-3 px-10 flex justify-between items-center">
           <Link to={"/"}>
@@ -46,6 +47,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {/* Navbar body */}
       <div className="max-w-7xl mx-auto py-6 px-10 flex justify-between  items-center">
         <div>
           <NavLink

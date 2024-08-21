@@ -24,7 +24,7 @@ interface StudentCardProps {
 
 const StudentCard: React.FC<StudentCardProps> = ({ student, order }) => {
   return (
-    <div className="w-full bg-white h-[68px] flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200">
+    <div className="w-full transition-[1s] bg-white h-[68px] flex items-center rounded-lg mb-3 pl-4 hover:bg-slate-200">
       <span className="Rubik font-medium text-blackThird w-[34px] text-center">
         {order}
       </span>
@@ -54,7 +54,7 @@ const StudentCard: React.FC<StudentCardProps> = ({ student, order }) => {
       </h3>
       <Link
         to={`/student-single/${student.id}`}
-        className="ml-9 w-8 flex justify-center"
+        className="ml-9 w-8 flex justify-center transition-[1s] hover:scale-[1.15]"
       >
         <img src={eye} alt="View" />
       </Link>
