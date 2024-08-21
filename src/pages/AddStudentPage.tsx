@@ -65,7 +65,7 @@ const AddStudentPage = () => {
             </Link>
             <div className="flex gap-10 items-center">
               <LanguageDropdown />
-              <div className="flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
+              <div className="cursor-pointer flex gap-6 justify-between items-center bg-whiteSecondary p-1 rounded">
                 <span className="ml-5  text-[13px] text-blackPrimary tracking-[-0.35px] leading-[19.5px]">
                   Shohrux
                 </span>

@@ -183,6 +183,8 @@ const Students = () => {
               />
             </FormGroup>
 
+            <Hr margin="my-7" />
+
             <div className="flex justify-end gap-4 items-center">
               <Button
                 type="reset"
