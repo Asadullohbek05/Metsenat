@@ -52,5 +52,17 @@
   "approved": "Одобрено",
   "canceled": "Отменено",
   "editSponsor": "Изменить спонсоров",
-  "deleteSponsor": "Удалить спонсора"
+  "deleteSponsor": "Удалить спонсора",
+  "January": "Январ",
+  "February": "Февраль",
+  "March": "Март",
+  "April": "апрель",
+  "May": "май",
+  "June": "Июн",
+  "July": "Июль",
+  "August": "Август",
+  "September": "Сентябрь",
+  "October": "Октябрь",
+  "November": "Ноябрь",
+  "December": "Декабрь"
 }

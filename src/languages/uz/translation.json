@@ -52,5 +52,17 @@
   "approved": "Tasdiqlangan",
   "canceled": "Bekor qilingan",
   "editSponsor": "Homiylarni tahrirlash",
-  "deleteSponsor": "Homiyni o'chirish"
+  "deleteSponsor": "Homiyni o'chirish",
+  "January": "Yanvar",
+  "February": "Fevral",
+  "March": "Mart",
+  "April": "aprel",
+  "May": "may",
+  "June": "Iyun",
+  "July": "Iyul",
+  "August": "Avgust",
+  "September": "Sentabr",
+  "October": "Oktyabr",
+  "November": "Noyabr",
+  "December": "Dekabr"
 }
