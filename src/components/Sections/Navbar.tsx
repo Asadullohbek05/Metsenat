@@ -1,11 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import logo from "../assets/images/svg/admin-page-logo.svg";
-import LanguageDropdown from "./Dropdown";
+import { AuthContext } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
-import Button from "./Base/Button";
-import { logOut } from "../utils";
+import { logOut } from "../../utils";
+import logo from "../../assets/images/svg/admin-page-logo.svg";
+import LanguageDropdown from "./Dropdown";
+import Button from "../Base/Button";
 
 const Navbar = () => {
   const { t } = useTranslation();

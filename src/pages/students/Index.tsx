@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { useTranslation } from "react-i18next";
 import ReactPaginate from "react-paginate";
-import Loading from "../../components/Loading";
+import Loading from "../../components/Sections/Loading";
 import { fetchStudents } from "../../redux/studentsSlice";
 import StudentCard from "../../components/Cards/StudentCard";
 import { Student } from "../../types/students";
-import HeaderTitle from "../../components/HeaderTitle";
+import HeaderTitle from "../../components/Sections/HeaderTitle";
 import FormGroup from "../../components/Form/FormGroup";
 import Button from "../../components/Base/Button";
 import FormSelect from "../../components/Form/FormSelect";
@@ -76,6 +76,7 @@ const Students = () => {
     setSearchParams({ page: "1", page_size: newItemsPerPage.toString() });
   };
 
+  // Fetch Students
   useEffect(() => {
     dispatch(fetchStudents({ page, pageSize: itemsPerPage }));
     setItemsPerPage(parseInt(searchParams.get("page_size") || "10", 10));
@@ -84,7 +85,8 @@ const Students = () => {
   if (status === "loading") return <Loading />;
   if (status === "failed") return <p>{t("ErrorLoadingStudents")}</p>;
 
-  const total = students?.count || 0;
+  // Pagination Values
+  const total = students?.count || 1;
   const pageCount = Math.ceil(total / itemsPerPage);
   const displayedItemsCount = Math.min(page * itemsPerPage, total);
 

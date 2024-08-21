@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import LanguageDropdown from "../components/Dropdown";
+import LanguageDropdown from "../components/Sections/Dropdown";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import FormSelect from "../components/Form/FormSelect";
 import Hr from "../components/Base/Hr";
 
 const AddStudentPage = () => {
+  // Student Values
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otm, setOtm] = useState<number | null>(null);
@@ -54,7 +55,8 @@ const AddStudentPage = () => {
   };
 
   return (
-    <div>
+    <>
+      {/*AddStudentPage Header */}
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
           <div className="max-w-7xl mx-auto py-3 px-10 flex justify-between items-center">
@@ -90,6 +92,7 @@ const AddStudentPage = () => {
           </h1>
         </div>
       </div>
+      {/* AddStudentPage Body */}
       <div className="h-screen">
         <form
           onSubmit={handleAddStudent}
@@ -195,7 +198,7 @@ const AddStudentPage = () => {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,13 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import adminLogo from "../../assets/images/svg/admin-page-logo.svg";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-
-import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
-import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
-import LanguageDropdown from "../../components/Dropdown";
 import { formatSum, logOut } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -16,10 +11,14 @@ import {
   fetchSponsorData,
   updateSponsorData,
 } from "../../redux/singleSponsorSlice";
+import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
+import Loading from "../../components/Sections/Loading";
+import LanguageDropdown from "../../components/Sections/Dropdown";
 import Button from "../../components/Base/Button";
 import FormGroup from "../../components/Form/FormGroup";
 import FormInput from "../../components/Form/FormInput";
 import Hr from "../../components/Base/Hr";
+import adminLogo from "../../assets/images/svg/admin-page-logo.svg";
 
 const SingleSponsor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -58,11 +57,13 @@ const SingleSponsor: React.FC = () => {
     }
   }, [sponsorDetails]);
 
+  // Edit Sponsor
   const editSponsor = () => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
     modal.showModal();
   };
 
+  // Update Sponsor
   const handleSubmit = async () => {
     const updatedSponsor: Partial<SponsorDetails> = {
       full_name: fullName,
@@ -91,6 +92,7 @@ const SingleSponsor: React.FC = () => {
 
   return (
     <div>
+      {/* Sponsor Header */}
       <div className="bg-white">
         <div className="shadow-[0_35px_40px_0px_rgba(0,0,0,0.03)]">
           <div className="max-w-7xl mx-auto py-4 px-10 flex justify-between items-center">
@@ -139,6 +141,8 @@ const SingleSponsor: React.FC = () => {
           </span>
         </div>
       </div>
+
+      {/* Sponsor Body */}
       <div className="max-w-7xl mx-auto  px-10 h-screen bg-[url('../src/assets/images/png/sponsor-single-bg.png')] bg-no-repeat bg-bottom">
         <div className="mt-10 bg-white w-[793px] mx-auto rounded-xl p-8">
           <div className="flex justify-between items-center">

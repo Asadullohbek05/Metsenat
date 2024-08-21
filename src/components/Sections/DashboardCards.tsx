@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import request from "../server/request";
-import DashboardCard from "./Cards/DashboardCard";
+import request from "../../server/request";
+import DashboardCard from "../Cards/DashboardCard";
 import { useTranslation } from "react-i18next";
 
 const DashboardCards = () => {

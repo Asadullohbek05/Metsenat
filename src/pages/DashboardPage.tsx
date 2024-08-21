@@ -1,5 +1,5 @@
-import ChartComponent from "../components/ChartComponent";
-import DashboardCards from "../components/DashboardCards";
+import ChartComponent from "../components/Sections/ChartComponent";
+import DashboardCards from "../components/Sections/DashboardCards";
 
 const DashboardPage = () => {
   return (

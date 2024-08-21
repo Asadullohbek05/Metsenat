@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SponsorCard from "../../components/Cards/SponsorCard";
-import ReactPaginate from "react-paginate";
 import { fetchSponsors } from "../../redux/sponsorsSlice";
 import { RootState, AppDispatch } from "../../redux/store";
-import Loading from "../../components/Loading";
 import { useTranslation } from "react-i18next";
 import { Sponsor } from "../../types/sponsors";
-import HeaderTitle from "../../components/HeaderTitle";
+import SponsorCard from "../../components/Cards/SponsorCard";
+import ReactPaginate from "react-paginate";
+import Loading from "../../components/Sections/Loading";
+import HeaderTitle from "../../components/Sections/HeaderTitle";
 import FormGroup from "../../components/Form/FormGroup";
 import Check from "../../components/Form/FormCheck";
 import DateRangePicker from "../../components/Form/FormDatePicker";
@@ -106,7 +106,7 @@ const SponsorsPage: React.FC = () => {
     setItemsPerPage(newItemsPerPage);
     setSearchParams({ page: "1", page_size: newItemsPerPage.toString() });
   };
-  const total = sponsors?.count || 0;
+  const total = sponsors?.count || 1;
   const pageCount = Math.ceil(total / itemsPerPage);
   const displayedItemsCount = Math.min(page * itemsPerPage, total);
 

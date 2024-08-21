@@ -5,44 +5,17 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { formatNumberWithSpaces, logOut } from "../../utils";
 import StudentSponsorCard from "../../components/Cards/StudentSponsorCard";
-import LanguageDropdown from "../../components/Dropdown";
+import LanguageDropdown from "../../components/Sections/Dropdown";
 import request from "../../server/request";
 import sponsorIcon from "../../assets/images/svg/sponsor-icon.svg";
 import logo from "../../assets/images/svg/admin-page-logo.svg";
 import Button from "../../components/Base/Button";
-import Loading from "../../components/Loading";
+import Loading from "../../components/Sections/Loading";
 import FormGroup from "../../components/Form/FormGroup";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect from "../../components/Form/FormSelect";
+import { StudentDetails, StudentSponsors } from "../../types/student";
 import Hr from "../../components/Base/Hr";
-
-// Types
-interface Institute {
-  name: string;
-  id: number;
-}
-interface StudentDetails {
-  full_name: string;
-  phone: string;
-  institute?: Institute;
-  type?: number;
-  given: number;
-  contract: number;
-}
-interface StudentSponsors {
-  full_name: string;
-  phone: string;
-  institute?: Institute;
-  type?: number;
-  given: number;
-  contract: number;
-  length: number;
-  id: number;
-  sponsor: {
-    full_name: string;
-  };
-  summa: number;
-}
 
 const SingleStudent = () => {
   // States
@@ -105,6 +78,7 @@ const SingleStudent = () => {
     modal.showModal();
   };
 
+  // Edit Sponsor
   const editSponsor = () => {
     const sponsorModal = document.getElementById(
       "my_modal_3"
@@ -112,6 +86,7 @@ const SingleStudent = () => {
     sponsorModal.showModal();
   };
 
+  // Add Sponsor
   const addSponsor = () => {
     const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
     modal.showModal();

@@ -17,7 +17,6 @@ const StudentSponsorCard: React.FC<StudentSponsorCardProps> = ({
   order,
   editSponsor,
 }) => {
-  console.log(sponsor);
   return (
     <div className="w-full border border-[#2E5BFF14] rounded-lg bg-[#FBFBFC] h-[68px] flex items-center mt-3">
       <h3 className="font-normal text-blackThird text-[15px] w-[40px] text-center">

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import LanguageDropdown from "../components/Dropdown";
+import LanguageDropdown from "../components/Sections/Dropdown";
 import request from "../server/request";
 import { AuthContext } from "../context/AuthContext";
 import FormGroup from "../components/Form/FormGroup";
